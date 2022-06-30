@@ -1,10 +1,15 @@
 #pragma once
+
+#include "framework.h"
+
 class Game
 {
-private:
+public:
 	void ComposeFrame();
 	void UpdateModel();
-public:
+private:
 
+private:
+	HDC hdc;
 };
 

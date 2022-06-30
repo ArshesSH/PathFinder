@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "InhaWinAPIGame.h"
+#include "Game.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,6 +17,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -40,19 +42,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_INHAWINAPIGAME));
 
-    MSG msg;
+    // Window Process Message
+    
+    Game game;
 
-    // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    MSG msg;
+    while ( true )
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage( &msg );
+            DispatchMessage( &msg );
+            if ( msg.message == WM_QUIT )
+            {
+                return false;
+            }
+        }
+        else
+        {
+            game.UpdateModel();
         }
     }
-
-    return (int) msg.wParam;
+    return (int)msg.wParam;
 }
 
 
@@ -147,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
             EndPaint(hWnd, &ps);
         }
         break;
