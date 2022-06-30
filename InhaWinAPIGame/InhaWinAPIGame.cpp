@@ -18,6 +18,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+static Game game;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -44,8 +45,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Window Process Message
     
-    Game game;
-
     MSG msg;
     while ( true )
     {
@@ -158,6 +157,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            
+            game.ComposeFrame(hdc);
 
             EndPaint(hWnd, &ps);
         }

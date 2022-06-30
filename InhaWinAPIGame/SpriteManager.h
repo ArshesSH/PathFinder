@@ -1,26 +1,47 @@
 #pragma once
 
 #include <vector>
+#include "TemplateSingleton.h"
 #include "Sprite.h"
 
-class SpriteManager
+class SpriteManager : public TemplateSingleton<std::vector<Sprite>>
 {
 public:
-	SpriteManager() = default;
-	Sprite operator[]( size_t pos )
+	void AddSprite( const std::wstring& filename )
 	{
-		return spriteList[pos];
+		GetInstance()->emplace_back( filename );
 	}
-	
-	std::vector<Sprite> GetSpriteList()
+	void AddSprite( const Sprite& sprite )
 	{
-		return spriteList;
+		GetInstance()->push_back( sprite );
 	}
-	
-	void AddSprite()
+	void UpdateSpriteManager()
 	{
-	}
 
+	}
+	void DrawSprites( HDC hdc, int x, int y )
+	{
+		HDC hMemDC;
+		HBITMAP hOldBitmap;
+		HDC hMemDC2;
+		HBITMAP hOldBitmap2;
+
+		hMemDC = CreateCompatibleDC( hdc );
+		if ( hDoubleBufferImage == nullptr )
+		{
+			// Create Bitmap Image for Double buffering
+			hDoubleBufferImage = CreateCompatibleBitmap( hdc, clientRECT.right, clientRECT.bottom );
+		}
+		
+		hOldBitmap = (HBITMAP)SelectObject( hMemDC, hDoubleBufferImage );
+
+		auto pSpriteList = GetInstance();
+		for ( auto& s : *pSpriteList )
+		{
+
+		}
+	}
 private:
-	std::vector<Sprite> spriteList;
+	HBITMAP hDoubleBufferImage;
+	RECT clientRECT;
 };

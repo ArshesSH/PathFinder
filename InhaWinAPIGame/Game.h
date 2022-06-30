@@ -5,7 +5,7 @@
 class Game
 {
 public:
-	void ComposeFrame();
+	void ComposeFrame( HDC hdc );
 	void UpdateModel();
 private:
 

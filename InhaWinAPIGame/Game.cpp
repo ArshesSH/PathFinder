@@ -1,7 +1,6 @@
 #include "Game.h"
 
-
-void Game::ComposeFrame()
+void Game::ComposeFrame(HDC hdc)
 {
 
 }

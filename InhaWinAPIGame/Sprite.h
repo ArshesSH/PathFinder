@@ -12,19 +12,22 @@ public:
 		:
 		filename(filename)
 	{
-		CreateImage();
+		CreateSprite();
 	}
 	~Sprite()
 	{
 		DeleteObject( hBitmap );
 	}
-	void CreateImage()
+	void CreateSprite(int x = 0, int y = 0)
 	{
-		hBitmap = (HBITMAP)LoadImage( NULL, filename.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
+		hBitmap = (HBITMAP)LoadImage( NULL, filename.c_str(), IMAGE_BITMAP, x, y, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
 		GetObject( hBitmap, sizeof( BITMAP ), &bitmap );
 	}
+
 private:
 	std::wstring filename;
 	HBITMAP hBitmap;
 	BITMAP bitmap;
+
+
 };

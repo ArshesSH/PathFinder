@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Sprite">
+      <UniqueIdentifier>{deac2108-d83b-4c28-919d-d7bea61a1a74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{7f2187b2-87e7-4eac-b43b-c5744ca5873f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Vec">
+      <UniqueIdentifier>{a16b973c-07ac-4825-acbc-244efb021bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Mat">
+      <UniqueIdentifier>{4a5baa14-76d2-404a-9870-af20dcc1e555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -31,10 +43,28 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Sprite</Filter>
     </ClInclude>
     <ClInclude Include="SpriteManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateSingleton.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MathSH.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Utilities\Vec</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Utilities\Vec</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat2.h">
+      <Filter>Utilities\Mat</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat3.h">
+      <Filter>Utilities\Mat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
