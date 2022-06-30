@@ -3,28 +3,26 @@
 #include <vector>
 #include "TemplateSingleton.h"
 #include "Sprite.h"
+#include "DrawType.h"
 
 class SpriteManager : public TemplateSingleton<std::vector<Sprite>>
 {
 public:
-	void AddSprite( const std::wstring& filename )
+	void AddSprite( const std::wstring& filename, Sprite::Type type, COLORREF chroma = RGB( 255, 0, 255 ) )
 	{
-		GetInstance()->emplace_back( filename );
+		auto pSpriteList = GetInstance();
+		pSpriteList->emplace_back( filename, type, chroma );
 	}
 	void AddSprite( const Sprite& sprite )
 	{
 		GetInstance()->push_back( sprite );
 	}
-	void UpdateSpriteManager()
-	{
-
-	}
-	void DrawSprites( HDC hdc, int x, int y )
+	void DrawSprites( HDC hdc )
 	{
 		HDC hMemDC;
 		HBITMAP hOldBitmap;
-		HDC hMemDC2;
-		HBITMAP hOldBitmap2;
+		HDC hComponentDC;
+		HBITMAP hOldComponentBitmap;
 
 		hMemDC = CreateCompatibleDC( hdc );
 		if ( hDoubleBufferImage == nullptr )
@@ -38,8 +36,16 @@ public:
 		auto pSpriteList = GetInstance();
 		for ( auto& s : *pSpriteList )
 		{
-
+			hComponentDC = CreateCompatibleDC( hMemDC );
+			hOldComponentBitmap = (HBITMAP)SelectObject( hComponentDC, s.GetHBITMAP() );
+			s.DrawSprite( hMemDC, hComponentDC );
+			SelectObject( hComponentDC, hOldComponentBitmap );
+			DeleteObject( hComponentDC );
 		}
+
+		BitBlt( hdc, 0, 0, clientRECT.right, clientRECT.bottom, hMemDC, 0, 0, SRCCOPY );
+		SelectObject( hMemDC, hOldBitmap );
+		DeleteObject( hMemDC );
 	}
 private:
 	HBITMAP hDoubleBufferImage;

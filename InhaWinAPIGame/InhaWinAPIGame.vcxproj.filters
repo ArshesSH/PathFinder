@@ -66,6 +66,9 @@
     <ClInclude Include="Mat3.h">
       <Filter>Utilities\Mat</Filter>
     </ClInclude>
+    <ClInclude Include="DrawType.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhaWinAPIGame.cpp">
@@ -87,5 +90,8 @@
     <Image Include="InhaWinAPIGame.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
