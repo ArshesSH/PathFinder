@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InhaWinAPIGame.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="Mat3.h" />
     <ClInclude Include="MathSH.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shooter.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="targetver.h" />
@@ -155,8 +158,11 @@
     <ClInclude Include="DrawType.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InhaWinAPIGame.cpp" />
+    <ClCompile Include="Shooter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="InhaWinAPIGame.rc" />
