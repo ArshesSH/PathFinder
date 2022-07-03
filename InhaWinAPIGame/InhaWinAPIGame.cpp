@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "InhaWinAPIGame.h"
 #include "Game.h"
+#include "GDIPlusManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -17,6 +18,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+VOID    CALLBACK    TimerProc( HWND, UINT, WPARAM, DWORD );
 
 static Game game;
 
@@ -25,6 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    GDIPlusManager gdi;
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -135,6 +138,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+        GetClientRect( hWnd, &game.screenRect );
+        SetTimer( hWnd, 0, 0, TimerProc );
+        break;
+    case WM_SIZE:
+        GetClientRect( hWnd, &game.screenRect );
+        break;
+    case WM_TIMER:
+        break; 
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -190,4 +202,9 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+VOID CALLBACK TimerProc( HWND hWnd, UINT, WPARAM, DWORD )
+{
+    InvalidateRect( hWnd, nullptr, false );
 }

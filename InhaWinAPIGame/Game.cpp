@@ -1,13 +1,13 @@
 #include "Game.h"
 
+
 Game::Game()
 {
-	spriteManager.AddSprite( L"Images/awsom.bmp", Sprite::Type::Chroma );
 }
 
 void Game::ComposeFrame(HDC hdc)
 {
-
+	test.DrawDoubleBuffering( hdc, screenRect );
 }
 
 void Game::UpdateModel()

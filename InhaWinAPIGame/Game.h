@@ -1,7 +1,11 @@
 #pragma once
 
 #include "framework.h"
-#include "SpriteManager.h"
+
+#include <vector>
+#include "Codex.h"
+#include "Surface.h"
+#include "TestGDI.h"
 
 class Game
 {
@@ -12,9 +16,9 @@ public:
 	void UpdateModel();
 
 public:
-
-
+	RECT screenRect;
 private:
-	HDC hdc;
-	SpriteManager spriteManager;
+	TestGDI test;
+
+	// scene
 };

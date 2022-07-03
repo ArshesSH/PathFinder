@@ -140,7 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Codex.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InhaWinAPIGame.h" />
@@ -148,21 +150,31 @@
     <ClInclude Include="Mat3.h" />
     <ClInclude Include="MathSH.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shooter.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="Surface.h" />
+    <ClInclude Include="SurfaceManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TemplateSingleton.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="DrawType.h" />
+    <ClInclude Include="UtilSH.h" />
+    <ClInclude Include="DrawManager.h" />
+    <ClInclude Include="TestGDI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GDIPlusManager.cpp" />
     <ClCompile Include="InhaWinAPIGame.cpp" />
+    <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="Shooter.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="SurfaceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="InhaWinAPIGame.rc" />
