@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 #include <string>
 
 template<class T>
@@ -11,18 +10,18 @@ private:
 	class Entry
 	{
 	public:
-		Entry( const std::wstring& key, const std::shared_ptr<T>& pResource)
+		Entry( const std::wstring& key, const T* pResource)
 			:
 			key(key),
 			pResource(pResource)
 		{}
 		std::wstring key;
-		const std::shared_ptr<T> pResource;
+		const T* pResource;
 	};
 
 public:
 	// Retrive a ptr to resource based on string
-	static const std::shared_ptr<T> Retrieve( const std::wstring& key )
+	static const T* Retrieve( const std::wstring& key )
 	{
 		return Get()._Retrieve(key);
 	}
@@ -33,6 +32,14 @@ public:
 	}
 
 private:
+	Codex() = default;
+	~Codex()
+	{
+		for ( auto& e : entries )
+		{
+			delete e.pResource;
+		}
+	}
 	// find ptr to resoruce based on string
 	const T* _Retrieve( const std::wstring& key )
 	{
@@ -48,7 +55,7 @@ private:
 		if ( i == entries.end() || i->key != key )
 		{
 			// construct entry in i
-			i = entries.emplace_back( i, key, std::make_unique<T>(key) );
+			i = entries.emplace( i, key, new T(key.c_str()) );
 		}
 
 		// Return ptr to resource in codex
@@ -57,6 +64,10 @@ private:
 
 	void _RemoveAll()
 	{
+		for ( auto& e : entries )
+		{
+			delete e.pResource;
+		}
 		entries.clear();
 	}
 

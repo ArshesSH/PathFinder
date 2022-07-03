@@ -9,33 +9,33 @@ class TestGDI
 public:
     void DrawSprites( HDC hdc, RECT rcClient )
     {
-        HDC hMemDC;
-        HBITMAP hOldBitmap;
-        HDC hComponentDC;
-        HBITMAP hOldComponentBitmap;
+        //HDC hMemDC;
+        //HBITMAP hOldBitmap;
+        //HDC hComponentDC;
+        //HBITMAP hOldComponentBitmap;
 
-        hMemDC = CreateCompatibleDC( hdc );
-        if ( hDoubleBufferImage == nullptr )
-        {
-            // Create Bitmap Image for Double buffering
-            hDoubleBufferImage = CreateCompatibleBitmap( hdc, rcClient.right, rcClient.bottom );
-        }
+        //hMemDC = CreateCompatibleDC( hdc );
+        //if ( hDoubleBufferImage == nullptr )
+        //{
+        //    // Create Bitmap Image for Double buffering
+        //    hDoubleBufferImage = CreateCompatibleBitmap( hdc, rcClient.right, rcClient.bottom );
+        //}
 
-        hOldBitmap = (HBITMAP)SelectObject( hMemDC, hDoubleBufferImage );
+        //hOldBitmap = (HBITMAP)SelectObject( hMemDC, hDoubleBufferImage );
 
-        auto pSpriteList = GetInstance();
-        for ( auto& s : *pSpriteList )
-        {
-            hComponentDC = CreateCompatibleDC( hMemDC );
-            hOldComponentBitmap = (HBITMAP)SelectObject( hComponentDC, s.GetHBITMAP() );
-            s.DrawSprite( hMemDC, hComponentDC );
-            SelectObject( hComponentDC, hOldComponentBitmap );
-            DeleteObject( hComponentDC );
-        }
+        //auto pSpriteList = GetInstance();
+        //for ( auto& s : *pSpriteList )
+        //{
+        //    hComponentDC = CreateCompatibleDC( hMemDC );
+        //    hOldComponentBitmap = (HBITMAP)SelectObject( hComponentDC, s.GetHBITMAP() );
+        //    s.DrawSprite( hMemDC, hComponentDC );
+        //    SelectObject( hComponentDC, hOldComponentBitmap );
+        //    DeleteObject( hComponentDC );
+        //}
 
-        BitBlt( hdc, 0, 0, rcClient.right, clientRECT.bottom, hMemDC, 0, 0, SRCCOPY );
-        SelectObject( hMemDC, hOldBitmap );
-        DeleteObject( hMemDC );
+        //BitBlt( hdc, 0, 0, rcClient.right, clientRECT.bottom, hMemDC, 0, 0, SRCCOPY );
+        //SelectObject( hMemDC, hOldBitmap );
+        //DeleteObject( hMemDC );
     }
 
 private:
@@ -164,6 +164,5 @@ private:
 
 private:
     HBITMAP hDoubleBufferImage;
-    std::vector 
     int curFrame = 0;
 };

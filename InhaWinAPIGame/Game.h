@@ -2,10 +2,9 @@
 
 #include "framework.h"
 
-#include <vector>
-#include "Codex.h"
-#include "Surface.h"
-#include "TestGDI.h"
+#include "Bullet.h"
+#include "FrameTimer.h"
+#include "DrawManager.h"
 
 class Game
 {
@@ -18,7 +17,7 @@ public:
 public:
 	RECT screenRect;
 private:
-	TestGDI test;
-
-	// scene
+	FrameTimer ft;
+	Bullet testBullet;
+	DrawManager dm;
 };

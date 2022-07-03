@@ -1,0 +1,114 @@
+#pragma once
+
+#include "GeometricObject.h"
+#include "Mat3.h"
+#include <memory>
+#include <random>
+#include "MathSH.h"
+
+class PhysicsEntity
+{
+public:
+	enum class Type
+	{
+		Circle,
+		Rect,
+		Star
+	};
+
+	class TypeTrait
+	{
+	public:
+		virtual ~TypeTrait() = default;
+		virtual Type GetType() const = 0;
+		virtual std::unique_ptr<TypeTrait> Clone() const = 0;
+	};
+
+public:
+	enum class State
+	{
+		Normal,
+		Collided,
+		ShouldSplit,
+		ShouldScaleUP,
+		ShouldDestroy
+	};
+
+public:
+	PhysicsEntity( Type type, const Vec2<float>& pos, int id );
+	PhysicsEntity( Type type, const Vec2<float>& pos, int id, int size_in, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares );
+
+	bool operator==( const PhysicsEntity& rhs ) const;
+	bool operator!=( const PhysicsEntity& rhs ) const;
+
+	void Update( float dt );
+	void Draw( HDC hdc ) const;
+
+	Vec2<float> GetCenter() const;
+	float GetCenterX() const;
+	float GetCenterY() const;
+	float GetSize() const;
+	float GetOuterRadius() const;
+	float GetAngle() const;
+	Type GetType() const;
+	RECT GetRECT() const;
+	const TypeTrait& GetEntityType() const;
+	Vec2<float> GetVelocity() const;
+	std::vector<Vec2<float>> GetVertices() const;
+	bool GetStateShouldSplit() const;
+	bool GetStateShouldScaleUp() const;
+	bool GetStateShouldDestroy() const;
+	bool WasCollided() const;
+	float GetSizeForAdd() const;
+	int GetFlareCount() const;
+	float GetSpinFreq() const;
+
+	void AddSize( float size );
+	void SetSizeForAdd( float size );
+	void SetCenter( const Vec2<float>& c );
+	void SetCenterX( float x );
+	void SetCenterY( float y );
+	void SetAngle( float angle_in );
+	void SetVelocity( const Vec2<float>& v );
+	void SetState( const State& s );
+	void SetStateToNormal();
+	void SetStateToCollide();
+	void SetStateShouldSplit();
+	void SetStateShouldScaleUP();
+	void SetStateShouldDestroy();
+	void ReboundX();
+	void ReboundY();
+
+	void DoEntityCollisionWith( PhysicsEntity& other, class PatternMatchingListener& listener );
+
+private:
+	void ApplyTransformation( const Mat3<float>& transformation_in );
+
+	void MovePos( float dt )
+	{
+		const Vec2<float> curPos = pObj->GetCenter() + (vel * dt);
+		pObj->SetCenter( curPos );
+	}
+
+	void DoWallCollision( const RECT& walls );
+	bool CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight );
+
+private:
+	static constexpr int minSize = 30;
+	static constexpr int maxSize = 50;
+	static constexpr float minSpeed = 100;
+	static constexpr float maxSpeed = 400;
+	static constexpr int roatateAmount = 2;
+
+	std::unique_ptr<GeometricObject<float>> pObj;
+	std::unique_ptr<TypeTrait> pType;
+	Vec2<float> vel;
+	Mat3<float> transform = Mat3<float>::Identity();
+	State objState = State::Normal;
+	float sizeForAdd = 0.0f;
+	float angle = 0.0f;
+	float spinFreq = 0.0f;
+	float time = 0.0f;
+	float collideTime = 0.0f;
+	int id;
+};
