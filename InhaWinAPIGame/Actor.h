@@ -20,7 +20,7 @@ public:
 	Actor( const Actor& ) = default;
 	Actor( Actor&& ) = default;
 	Actor& operator=( const Actor& ) = default;
-	Actor& operator=( Actor&& ) = default;
+	Actor& operator=( Actor&& ) noexcept = default;
 	virtual void Update( float dt, RECT screenRect ) = 0;
 	virtual void Draw( HDC hdc ) = 0;
 	bool ShouldDestroy() const

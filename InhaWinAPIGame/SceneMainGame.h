@@ -21,7 +21,7 @@ public:
 			std::mt19937 rng( rd() );
 			std::uniform_real_distribution<float> arrowXGen( arrowGenXPadding, (float)screenRect.right - arrowGenXPadding );
 			arrows.emplace_back(
-				Arrow(L"Images/awsom.bmp", Vec2<float>{ arrowXGen(rng), 0.0f }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size())
+				Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), 0.0f }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
 			);
 			time = 0.0f;
 		}
@@ -31,13 +31,12 @@ public:
 			arrow.Update( dt, screenRect );
 		}
 
-		const auto new_end = std::remove_if( arrows.begin(), arrows.end(),
+		UtilSH::remove_erase_if( arrows,
 			[]( const Arrow& arrow )
 			{
 				return arrow.ShouldDestroy();
 			}
 		);
-		arrows.erase( new_end, arrows.end() );
 	}
 	void Draw( HDC hdc ) override
 	{
@@ -45,6 +44,11 @@ public:
 		{
 			arrow.Draw( hdc );
 		}
+
+		// debug
+		std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring(arrows.size());
+		Surface a;
+		a.DrawString( hdc, curArrowCountStr, { 300.0f,300.0f }, Gdiplus::Color(255,255,0,0) );
 	}
 private:
 	static constexpr float arrowGenXPadding = 10.0f;

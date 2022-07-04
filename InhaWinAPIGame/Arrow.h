@@ -13,7 +13,7 @@ public:
 	Arrow( const Arrow& ) = default;
 	Arrow( Arrow&& ) = default;
 	Arrow& operator=( const Arrow& ) = default;
-	Arrow& operator=( Arrow&& ) = default;
+	Arrow& operator=( Arrow&& ) noexcept = default;
 
 	void Update( float dt, RECT screenRect ) override
 	{
@@ -25,7 +25,7 @@ public:
 	}
 	void Draw( HDC hdc ) override
 	{
-		surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
+		surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, {20,20} );
 	}
 
 private:
@@ -84,5 +84,5 @@ private:
 	}
 
 private:
-	const Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
+	 Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 };
