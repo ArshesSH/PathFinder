@@ -9,7 +9,7 @@ Bullet::Bullet( const std::wstring& imagename, const Vec2<float>& pos, const Vec
 {
 }
 
-void Bullet::Update( float dt, const Scene& scene )
+void Bullet::Update( float dt, Scene& scene )
 {
 	rigidBody.Update( dt );
 

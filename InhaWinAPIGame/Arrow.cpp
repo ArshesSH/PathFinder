@@ -8,13 +8,14 @@ Arrow::Arrow( const std::wstring& imagename, const Vec2<float>& pos, const Vec2<
 	rigidBody( PhysicsEntity::Type::Rect, pos, id, width, height, vel, 0.0f, 0.0f, 0 )
 {}
 
-void Arrow::Update( float dt, const Scene& scene )
+void Arrow::Update( float dt, Scene& scene )
 {
 	rigidBody.Update( dt );
 	RECT r = scene.GetSceneRECT();
 	if ( CheckFloor( r ) )
 	{
 		shouldDestroy = true;
+		scene.FinishScene();
 	}
 }
 

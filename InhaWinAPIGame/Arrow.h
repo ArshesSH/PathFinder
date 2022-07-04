@@ -15,7 +15,7 @@ public:
 	Arrow& operator=( const Arrow& ) = default;
 	Arrow& operator=( Arrow&& ) noexcept = default;
 
-	void Update( float dt, const class Scene& scene ) override;
+	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
 	bool isOverlapWith( RECT other );
 private:

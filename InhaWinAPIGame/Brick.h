@@ -14,7 +14,7 @@ public:
 	Brick& operator=( const Brick& ) = default;
 	Brick& operator=( Brick&& ) noexcept = default;
 
-	void Update( float dt, const class Scene& scene ) override;
+	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetRECT() const
 	{

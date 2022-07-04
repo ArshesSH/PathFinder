@@ -19,7 +19,7 @@ Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& center, cons
 
 }
 
-void Shooter::Update( float dt, const Scene& scene )
+void Shooter::Update( float dt, Scene& scene )
 {
 	angle = MathSH::WrapAngle( angle );
 	

@@ -14,7 +14,7 @@ public:
 	Bullet& operator=( const Bullet& ) = default;
 	Bullet& operator=( Bullet&& ) noexcept = default;
 
-	void Update( float dt, const class Scene& scene ) override;
+	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetRECT() const;
 

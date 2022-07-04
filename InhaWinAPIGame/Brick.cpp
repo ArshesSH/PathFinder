@@ -7,7 +7,7 @@ Brick::Brick( const Vec2<float>& pos, float width, float height, int id )
 {
 }
 
-void Brick::Update( float dt, const Scene& scene )
+void Brick::Update( float dt, Scene& scene )
 {
 	switch ( health )
 	{

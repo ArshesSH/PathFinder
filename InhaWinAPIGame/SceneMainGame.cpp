@@ -17,6 +17,11 @@ SceneMainGame::SceneMainGame()
 
 void SceneMainGame::Update( float dt, const Game& game )
 {
+	if ( bricks.size() == 0 )
+	{
+		isSceneFinish = true;
+	}
+
 	time += dt;
 	bulletGenTime += dt;
 
