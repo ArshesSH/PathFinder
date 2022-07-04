@@ -8,18 +8,19 @@ SceneMainGame::SceneMainGame()
 	:
 	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight } )
 {
-	for ( int i = 0; i < 6; ++i )
+	for ( int i = 1; i <= 6; ++i )
 	{
-		bricks.emplace_back()
+		const float brickPosX = worldRect.X + (i * brickWidth) - brickHalfWidth;
+		bricks.emplace_back( Vec2<float>{brickPosX, brickPosY}, brickWidth - 1, brickheight, bricks.size() );
 	}
 }
 
-void SceneMainGame::Update( float dt, RECT screenRect )
+void SceneMainGame::Update( float dt, const Game& game )
 {
 	time += dt;
 	bulletGenTime += dt;
 
-	const Gdiplus::PointF topLeft = { (screenRect.right - worldWidth) / 2.0f, (screenRect.bottom - worldHeight) / 2.0f };
+	const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
 	worldRect = { topLeft,{worldWidth, worldHeight}};
 
 	const Vec2<float> shooterPos = { worldRect.X + halfWidth, worldRect.Y + worldHeight - shooterImageHeight - shooterImageDistFromRotate };
@@ -77,6 +78,10 @@ void SceneMainGame::Update( float dt, RECT screenRect )
 		}
 	}
 
+	for ( auto& brick : bricks )
+	{
+		brick.Update( dt, *this );
+	}
 
 	// Destroy Objects
 
@@ -92,7 +97,12 @@ void SceneMainGame::Update( float dt, RECT screenRect )
 			return bullet.ShouldDestroy();
 		}
 	);
-
+	UtilSH::remove_erase_if( bricks,
+		[]( const Brick& brick )
+		{
+			return brick.ShouldDestroy();
+		}
+	);
 }
 
 void SceneMainGame::Draw( HDC hdc )
@@ -106,6 +116,10 @@ void SceneMainGame::Draw( HDC hdc )
 	{
 		arrow.Draw( hdc );
 	}
+	for ( auto& brick : bricks )
+	{
+		brick.Draw( hdc );
+	}
 	
 
 	// debug
@@ -117,8 +131,11 @@ void SceneMainGame::Draw( HDC hdc )
 		+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
 	a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 
+	a.DrawFillRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), Gdiplus::RectF( { 0,20 }, { 20,20 } ) );
+
 	// DrawRect
 	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
+
 }
 
 RECT SceneMainGame::GetSceneRECT() const

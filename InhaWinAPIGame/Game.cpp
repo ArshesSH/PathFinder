@@ -38,7 +38,7 @@ void Game::UpdateModel()
 		oldScreenSize.right = screenRect.right;
 		oldScreenSize.bottom = screenRect.bottom;
 	}
-	mainGame.Update(dt, screenRect);
+	mainGame.Update(dt, *this);
 }
 
 Vec2<int> Game::GetMousePos()

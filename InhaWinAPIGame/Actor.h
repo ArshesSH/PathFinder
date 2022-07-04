@@ -7,11 +7,7 @@
 class Actor
 {
 public:
-	Actor( const std::wstring& imagename)
-		:
-		pImage( ImageCodex::Retrieve( imagename ) )
-	{
-	}
+	Actor() {}
 	virtual ~Actor() {}
 	Actor( const Actor& ) = default;
 	Actor( Actor&& ) = default;
@@ -28,7 +24,6 @@ public:
 		return shouldDestroy;
 	}
 protected:
-	std::shared_ptr<Gdiplus::Image> pImage;
 	Surface surface;
 	bool shouldDestroy = false;
 };

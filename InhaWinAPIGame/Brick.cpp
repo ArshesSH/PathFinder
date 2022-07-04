@@ -1,8 +1,8 @@
 #include "Brick.h"
 
-Brick::Brick( const Vec2<float>& pos, const Vec2<float>& vel, float width, float height, int id )
+Brick::Brick( const Vec2<float>& pos, float width, float height, int id )
 	:
-	rigidBody( PhysicsEntity::Type::Rect, pos, id, width, height, vel, 0.0f, 0.0f, 0 )
+	rigidBody( PhysicsEntity::Type::Rect, pos, id, width, height, {0.0f,0.0f}, 0.0f, 0.0f, 0 )
 {
 }
 
@@ -22,7 +22,7 @@ void Brick::Update( float dt, const Scene& scene )
 		break;
 	case 2:
 		{
-			color = Gdiplus::Color( 255, 10, 144, 10 );
+			color = Gdiplus::Color( 255, 10, 255, 10 );
 		}
 		break;
 	}

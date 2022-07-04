@@ -6,7 +6,7 @@
 class Brick : public Actor
 {
 public:
-	Brick( const Vec2<float>& pos, const Vec2<float>& vel, float width, float height, int id );
+	Brick( const Vec2<float>& pos, float width, float height, int id );
 
 	~Brick() {}
 	Brick( const Brick& ) = default;
@@ -24,11 +24,14 @@ public:
 	{
 		health = --health;
 	}
+	void SetCenterX(float p)
+	{
+		rigidBody.SetCenterX( p );
+	}
 private:
 	static constexpr int maxHealth = 2;
 
 	PhysicsEntity rigidBody;
-	Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 	
 	Gdiplus::Color color;
 	int health = maxHealth;

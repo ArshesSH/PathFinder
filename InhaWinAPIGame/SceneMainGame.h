@@ -12,7 +12,7 @@ class SceneMainGame : public Scene
 public:
 	SceneMainGame();
 
-	void Update( float dt, RECT screenRect ) override;
+	void Update( float dt, const class Game& game ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetSceneRECT() const override;
 private:
@@ -36,9 +36,17 @@ private:
 	// World
 	static constexpr float worldWidth = 1280.0f;
 	static constexpr float worldHeight = 720.0f;
-	static constexpr float halfWidth = worldWidth / 2.0f;
-	static constexpr float halfHeight = worldHeight / 2.0f;
+	static constexpr float halfWidth = worldWidth * 0.5f;
+	static constexpr float halfHeight = worldHeight * 0.5f;
+
+	// Brick Setting
+	static constexpr float brickWidth = worldWidth / 6.0f;
+	static constexpr float brickHalfWidth = brickWidth * 0.5f;
+	static constexpr float brickheight = 20.0f;
+	static constexpr float brickPosY = worldHeight - 50.0f;
+
 	Gdiplus::RectF worldRect;
+	RECT lastScreenRect;
 
 	// Objects
 	Shooter shooter;

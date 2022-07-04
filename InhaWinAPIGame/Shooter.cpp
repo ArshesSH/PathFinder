@@ -2,16 +2,16 @@
 
 #include "MathSH.h"
 
-Shooter::Shooter( const std::wstring& imageName, const Vec2<float>& size )
+Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& size )
 	:
-	Actor( imageName ),
+	pImage( ImageCodex::Retrieve( imagename ) ),
 	size( size )
 {
 }
 
-Shooter::Shooter( const std::wstring& imageName, const Vec2<float>& center, const Vec2<float>& size, const Vec2<float> rotateCenter )
+Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size, const Vec2<float> rotateCenter )
 	:
-	Actor( imageName ),
+	pImage( ImageCodex::Retrieve( imagename ) ),
 	center(center),
 	size(size),
 	rotateCenter(rotateCenter)
