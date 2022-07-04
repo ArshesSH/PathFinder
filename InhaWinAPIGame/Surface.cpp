@@ -13,6 +13,25 @@ void Surface::DrawString( HDC hdc, const std::wstring& str, const Vec2<float> po
 	graphics.DrawString( str.c_str(), str.size(), &font, pointF, &brush );
 }
 
+void Surface::DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height)
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	Pen pen( color, penWidth );
+	Gdiplus::RectF r( { topLeft.x, topLeft.y }, { width, height } );
+	graphics.DrawRectangle( &pen, r );
+}
+
+void Surface::DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	Pen pen( color, penWidth );
+	graphics.DrawRectangle( &pen, rectF );
+}
+
 void Surface::DrawImageNonChroma( HDC hdc, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
 {
 	using namespace Gdiplus;

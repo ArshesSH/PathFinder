@@ -13,10 +13,17 @@ public:
 	}
 
 	template <typename T>
-	inline static T WrapAngle( T theta )
+	inline static T WrapRadian( T theta )
 	{
 		const T modded = fmod( theta, (T)2.0 * (T)PI );
 		return (modded > (T)PI) ? (modded - (T)2.0 * (T)PI) : modded;
+	}
+
+	template <typename T>
+	inline static T WrapAngle( T theta )
+	{
+		const T modded = fmod( theta, (T)360 );
+		return (modded > (T)360) ? (modded - (T)360) : modded;
 	}
 
 private:

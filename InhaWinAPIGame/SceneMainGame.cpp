@@ -4,16 +4,31 @@
 #include "UtilSH.h"
 #include <random>
 
+SceneMainGame::SceneMainGame()
+	:
+	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight } )
+{}
+
 void SceneMainGame::Update( float dt, const Game& game )
 {
 	time += dt;
+
+	const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
+	worldRect = { topLeft,{worldWidth, worldHeight}};
+
+	const Vec2<float> shooterPos = { worldRect.X + halfWidth, worldRect.Y + worldHeight - shooterImageHeight - shooterImageDistFromRotate };
+	shooter.SetCenter( shooterPos );
+	shooter.SetRotateCenter( shooterPos + Vec2<float>{0.0f, shooterImageHeight} );
+
+	shooter.Update( dt, game );
+
 	if ( time >= arrowGenTime )
 	{
 		std::random_device rd;
 		std::mt19937 rng( rd() );
-		std::uniform_real_distribution<float> arrowXGen( arrowGenXPadding, (float)game.screenRect.right - arrowGenXPadding );
+		std::uniform_real_distribution<float> arrowXGen( worldRect.X + arrowGenXPadding, worldRect.X + worldWidth - arrowGenXPadding );
 		arrows.emplace_back(
-			Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), 0.0f }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
+			Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), worldRect.Y }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
 		);
 		time = 0.0f;
 	}
@@ -33,6 +48,7 @@ void SceneMainGame::Update( float dt, const Game& game )
 
 void SceneMainGame::Draw( HDC hdc )
 {
+	shooter.Draw( hdc );
 	for ( auto& arrow : arrows )
 	{
 		arrow.Draw( hdc );
@@ -41,5 +57,7 @@ void SceneMainGame::Draw( HDC hdc )
 	// debug
 	std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
 	Surface a;
-	a.DrawString( hdc, curArrowCountStr, { 300.0f,300.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+	a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+
+	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
 }
