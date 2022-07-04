@@ -1,15 +1,11 @@
 #pragma once
 
 #include "framework.h"
+#include "Vec2.h"
 #include <vector>
 #include <ObjIdl.h>
 #include <gdiplus.h>
 #pragma comment(lib, "Gdiplus.lib")
-
-//#include <functional>
-#include "Bullet.h"
-#include "Surface.h"
-
 
 class DrawManager
 {
@@ -47,6 +43,6 @@ public:
 
 
 private:
-	Vec2<float> pos = {0,0};
+	Vec2<float> pos{ 0.0f,0.0f };
 	HBITMAP hDoubleBufferImage = nullptr;
 };

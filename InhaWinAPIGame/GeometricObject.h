@@ -35,6 +35,8 @@ public:
 	virtual T GetRadius() const = 0;
 	virtual RECT GetRECT() const { return { 0,0,0,0 }; }
 	virtual T GetSize() const = 0;
+	virtual T GetWidth() const = 0;
+	virtual T GetHeight() const = 0;
 	virtual void AddSize( T size_in ) = 0;
 	virtual void Draw( HDC hdc ) const = 0;
 	virtual void DrawDebug( HDC hdc ) const = 0;
@@ -56,6 +58,22 @@ public:
 	{
 		return center.y;
 	}
+	virtual Vec2<T> GetLeftTop() const = 0;
+	virtual Vec2<T> GetRightBottom() const = 0;
+
+	std::vector<Vec2<T>> GetVertices() const
+	{
+		return vertices;
+	}
+	POINT Vec2ToPoint( const Vec2<T>& v ) const
+	{
+		return POINT( (int)v.x, (int)v.y );
+	}
+	Vec2<T> PointToVec2( const POINT& p ) const
+	{
+		return Vec2<T>( (T)p.x, (T)p.y );
+	}
+
 	virtual void SetCenter( const Vec2<T>& p )
 	{
 		center = p;
@@ -72,33 +90,6 @@ public:
 	{
 		center.y = y;
 	}
-	std::vector<Vec2<T>> GetVertices() const
-	{
-		return vertices;
-	}
-	POINT Vec2ToPoint( const Vec2<T>& v ) const
-	{
-		return POINT( (int)v.x, (int)v.y );
-	}
-	Vec2<T> PointToVec2( const POINT& p ) const
-	{
-		return Vec2<T>( (T)p.x, (T)p.y );
-	}
-	bool GetSelected() const
-	{
-		return isSelected;
-	}
-	void SetSelected( bool parm = true )
-	{
-		isSelected = parm;
-	}
-	void TransformVertices( const Mat3<T>& transform )
-	{
-		for ( auto& v : vertices )
-		{
-			v = transform * (this->center - v) + this->center;
-		}
-	}
 	void ApplyTransformation( const Mat3<T>& transform_in )
 	{
 		transform = transform_in;
@@ -108,8 +99,6 @@ protected:
 	Vec2<T> center;
 	std::vector<Vec2<T>> vertices;
 	Mat3<T> transform = Mat3<T>::Identity();
-	COLORREF color = 0xFFFFFF;
-	bool isSelected = false;
 };
 
 template<typename T>
@@ -150,7 +139,23 @@ public:
 	{
 		radius = r;
 	}
+	Vec2<T> GetLeftTop() const override
+	{
+		return { this->center.x - radius, this->center.y - radius };
+	}
+	Vec2<T> GetRightBottom() const override
+	{
+		return { this->center.x + radius, this->center.y + radius };
+	}
 	T GetRadius() const override
+	{
+		return radius;
+	}
+	T GetWidth() const override
+	{
+		return radius;
+	}
+	T GetHeight() const override
 	{
 		return radius;
 	}
@@ -197,23 +202,6 @@ public:
 		Ellipse( hdc, left, top, right, bottom );
 		SelectObject( hdc, oldBrush );
 		DeleteObject( hBrush );
-	}
-	void DrawSelected( HDC hdc, COLORREF color = 0x0000FF ) const
-	{
-		const int left = (int)(GeometricObject<T>::center.x - radius);
-		const int top = (int)(GeometricObject<T>::center.y - radius);
-		const int right = (int)(GeometricObject<T>::center.x + radius);
-		const int bottom = (int)(GeometricObject<T>::center.y + radius);
-
-		if ( GeometricObject<T>::isSelected )
-		{
-			Rectangle( hdc, left, top, right, bottom );
-			DrawColor( hdc, color );
-		}
-		else
-		{
-			Draw( hdc );
-		}
 	}
 private:
 	T radius;
@@ -267,13 +255,21 @@ public:
 		const float halfWidth = width * 0.5f;
 		return (T)std::sqrt( halfWidth * halfWidth + halfWidth * halfWidth );
 	}
-	T GetWidth() const
+	T GetWidth() const override
 	{
 		return width;
 	}
-	T GetHeight() const
+	T GetHeight() const override
 	{
 		return height;
+	}
+	Vec2<T> GetLeftTop() const override
+	{
+		return { this->center.x - width, this->center.y - height };
+	}
+	Vec2<T> GetRightBottom() const override
+	{
+		return { this->center.x + width, this->center.y + height };
 	}
 	void SetWidth( T width_in )
 	{
@@ -297,7 +293,7 @@ public:
 	}
 	T GetSize() const override
 	{
-		return width;
+		return (std::max)(width, height);
 	}
 	void AddSize( T size_in ) override
 	{
@@ -391,6 +387,22 @@ public:
 	void GetRaidus() const
 	{
 		return outerRadius;
+	}
+	T GetWidth() const override
+	{
+		return outerRadius;
+	}
+	T GetHeight() const override
+	{
+		return outerRadius;
+	}
+	Vec2<T> GetLeftTop() const override
+	{
+		return { this->center.x - outerRadius, this->center.y - outerRadius };
+	}
+	Vec2<T> GetRightBottom() const override
+	{
+		return { this->center.x + outerRadius, this->center.y + outerRadius };
 	}
 	void SetCenter( const Vec2<T>& center_in ) override
 	{

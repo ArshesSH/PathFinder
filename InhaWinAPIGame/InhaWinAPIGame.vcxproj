@@ -139,7 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="FrameTimer.h" />
@@ -155,7 +156,8 @@
     <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="PhysicsEntityTypeTraits.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneMainGame.h" />
     <ClInclude Include="Shooter.h" />
     <ClInclude Include="ImageCodex.h" />
     <ClInclude Include="Surface.h" />
@@ -168,7 +170,6 @@
     <ClInclude Include="DrawManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />

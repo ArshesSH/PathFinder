@@ -3,42 +3,7 @@
 #include "PhysicsEntityTypeTraits.h"
 #include "PatternMatchingListener.h"
 
-PhysicsEntity::PhysicsEntity( Type type, const Vec2<float>& pos, int id )
-	:
-	id( id )
-{
-	std::random_device rd;
-	std::mt19937 rng( rd() );
-	std::uniform_int_distribution<int> sizeGen( minSize, maxSize );
-	std::uniform_real_distribution<float> speedGen( minSpeed, maxSpeed );
-	std::uniform_real_distribution<float> dirXGen( -1, 1 );
-	std::uniform_real_distribution<float> dirYGen( -1, 1 );
-	std::uniform_real_distribution<float> rotateGen( -roatateAmount, roatateAmount );
-
-	vel = Vec2<float>{ dirXGen( rng ), dirYGen( rng ) } * speedGen( rng );
-	spinFreq = (float)(rotateGen( rng ) * MathSH::PI);
-
-	if ( type == Type::Rect )
-	{
-		const int size = sizeGen( rng ) * 2;
-		pObj = std::make_unique<Rect<float>>( (float)pos.x, (float)pos.y, size, size );
-		pType = std::make_unique<TypeRect>();
-	}
-	else if ( type == Type::Circle )
-	{
-		pObj = std::make_unique<Circle<float>>( (float)pos.x, (float)pos.y, sizeGen( rng ) );
-		pType = std::make_unique<TypeCircle>();
-	}
-	else if ( type == Type::Star )
-	{
-		std::uniform_int_distribution<int> flareGen( 5, 9 );
-		const Vec2<float> posStar{ (float)pos.x, (float)pos.y };
-		pObj = std::make_unique<Star<float>>( posStar, sizeGen( rng ), flareGen( rng ) );
-		pType = std::make_unique<TypeStar>();
-	}
-}
-
-PhysicsEntity::PhysicsEntity( Type type, const Vec2<float>& pos, int id, int size_in, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares )
+PhysicsEntity::PhysicsEntity( Type type, const Vec2<float>& pos, int id, float size_in, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares )
 	:
 	id( id ),
 	vel( vel ),
@@ -65,6 +30,33 @@ PhysicsEntity::PhysicsEntity( Type type, const Vec2<float>& pos, int id, int siz
 	}
 }
 
+PhysicsEntity::PhysicsEntity( Type type, const Vec2<float>& pos, int id, float width, float height, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares )
+	:
+	id( id ),
+	vel( vel ),
+	spinFreq( spinFreq )
+{
+	if ( type == Type::Rect )
+	{
+		pObj = std::make_unique<Rect<float>>( (float)pos.x, (float)pos.y, width, height );
+		SetAngle( angle_in );
+		pType = std::make_unique<TypeRect>();
+	}
+	else if ( type == Type::Circle )
+	{
+		pObj = std::make_unique<Circle<float>>( (float)pos.x, (float)pos.y, (std::min)(width, height) );
+		SetAngle( angle_in );
+		pType = std::make_unique<TypeCircle>();
+	}
+	else if ( type == Type::Star )
+	{
+		const Vec2<float> posStar{ (float)pos.x, (float)pos.y };
+		pObj = std::make_unique<Star<float>>( posStar, (std::min)(width, height), nFlares );
+		SetAngle( angle_in );
+		pType = std::make_unique<TypeStar>();
+	}
+}
+
 bool PhysicsEntity::operator==( const PhysicsEntity& rhs ) const
 {
 	return id == rhs.id;
@@ -85,7 +77,7 @@ void PhysicsEntity::Update( float dt )
 		pObj->ApplyTransformation( Mat3<float>::Rotation( angle ) );
 		if ( objState == State::Collided )
 		{
-			if ( collideTime >= 0.03f )
+			if ( collideTime >= dt )
 			{
 				objState = State::Normal;
 				collideTime = 0.0f;
@@ -125,6 +117,26 @@ void PhysicsEntity::Draw( HDC hdc ) const
 {
 	return pObj->GetSize();
 }
+
+ float PhysicsEntity::GetWidth() const
+ {
+	 return pObj->GetWidth();
+ }
+
+ float PhysicsEntity::GetHeight() const
+ {
+	 return pObj->GetHeight();
+ }
+
+ Vec2<float> PhysicsEntity::GetLeftTop() const
+ {
+	 return pObj->GetLeftTop();
+ }
+
+ Vec2<float> PhysicsEntity::GetRightBottom() const
+ {
+	 return pObj->GetRightBottom();
+ }
 
  float PhysicsEntity::GetOuterRadius() const
 {

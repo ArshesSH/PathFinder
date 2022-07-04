@@ -66,9 +66,6 @@
     <ClInclude Include="Shooter.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -81,7 +78,7 @@
     <ClInclude Include="UtilSH.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="SceneGame.h">
+    <ClInclude Include="Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DrawManager.h">
@@ -111,6 +108,15 @@
     <ClInclude Include="ImageCodex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMainGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhaWinAPIGame.cpp">
@@ -120,9 +126,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Shooter.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="GDIPlusManager.cpp">

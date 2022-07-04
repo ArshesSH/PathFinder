@@ -3,7 +3,6 @@
 #include "GeometricObject.h"
 #include "Mat3.h"
 #include <memory>
-#include <random>
 #include "MathSH.h"
 
 class PhysicsEntity
@@ -35,8 +34,8 @@ public:
 	};
 
 public:
-	PhysicsEntity( Type type, const Vec2<float>& pos, int id );
-	PhysicsEntity( Type type, const Vec2<float>& pos, int id, int size_in, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares );
+	PhysicsEntity( Type type, const Vec2<float>& pos, int id, float size_in, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares );
+	PhysicsEntity( Type type, const Vec2<float>& pos, int id, float width, float height, const Vec2<float>& vel, float angle_in, float spinFreq, int nFlares );
 
 	bool operator==( const PhysicsEntity& rhs ) const;
 	bool operator!=( const PhysicsEntity& rhs ) const;
@@ -48,6 +47,10 @@ public:
 	float GetCenterX() const;
 	float GetCenterY() const;
 	float GetSize() const;
+	float GetWidth() const;
+	float GetHeight() const;
+	Vec2<float> GetLeftTop() const;
+	Vec2<float> GetRightBottom() const;
 	float GetOuterRadius() const;
 	float GetAngle() const;
 	Type GetType() const;
@@ -80,7 +83,8 @@ public:
 	void ReboundY();
 
 	void DoEntityCollisionWith( PhysicsEntity& other, class PatternMatchingListener& listener );
-
+	void DoWallCollision( const RECT& walls );
+	bool CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight );
 private:
 	void ApplyTransformation( const Mat3<float>& transformation_in );
 
@@ -90,16 +94,9 @@ private:
 		pObj->SetCenter( curPos );
 	}
 
-	void DoWallCollision( const RECT& walls );
-	bool CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight );
+
 
 private:
-	static constexpr int minSize = 30;
-	static constexpr int maxSize = 50;
-	static constexpr float minSpeed = 100;
-	static constexpr float maxSpeed = 400;
-	static constexpr int roatateAmount = 2;
-
 	std::unique_ptr<GeometricObject<float>> pObj;
 	std::unique_ptr<TypeTrait> pType;
 	Vec2<float> vel;
