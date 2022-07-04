@@ -11,8 +11,9 @@ class SceneMainGame : public Scene
 public:
 	SceneMainGame();
 
-	void Update( float dt, const class Game& game ) override;
+	void Update( float dt, RECT screenRect ) override;
 	void Draw( HDC hdc ) override;
+	RECT GetSceneRECT() const override;
 private:
 	// Arrow Setting
 	static constexpr float arrowGenXPadding = 10.0f;

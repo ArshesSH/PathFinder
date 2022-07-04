@@ -25,7 +25,7 @@ void Game::ComposeFrame(HDC hdc)
 void Game::UpdateModel()
 {
 	float dt = ft.Mark();
-	mainGame.Update(dt, *this);
+	mainGame.Update(dt, screenRect);
 }
 
 Vec2<int> Game::GetMousePos()

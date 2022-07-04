@@ -112,7 +112,20 @@ public:
 	{
 		return T(lhs.x * rhs.y - lhs.y * rhs.x);
 	}
+	Vec2& Rotate( T angle )
+	{
+		const T sinT = sin( angle );
+		const T cosT = cos( angle );
+		const T new_x = x * cosT - y * sinT;
+		y = x * sinT + y * cosT;
+		x = new_x;
 
+		return *this;
+	}
+	Vec2	GetRotated( T angle ) const
+	{
+		return Vec2W( *this ).Rotate( angle );
+	}
 public:
 	T x;
 	T y;

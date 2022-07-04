@@ -6,7 +6,7 @@ public:
 	Shooter( const std::wstring& imageName, const Vec2<float>& size );
 	Shooter( const std::wstring& imageName, const Vec2<float>& center, const Vec2<float>& size, const Vec2<float> rotateCenter );
 
-	void Update( float dt, const class Game& game ) override;
+	void Update( float dt, const class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
 	void SetCenter( const Vec2<float>& v );
 	void SetRotateCenter( const Vec2<float>& v );
@@ -42,6 +42,7 @@ private:
 	const Vec2<int> imageEnd = {200,400};
 	Vec2<float> center;
 	Vec2<float> rotateCenter;
+	Vec2<float> shootPos;
 	const Vec2<float> size;
 
 };

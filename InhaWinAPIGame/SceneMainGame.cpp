@@ -9,18 +9,18 @@ SceneMainGame::SceneMainGame()
 	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight } )
 {}
 
-void SceneMainGame::Update( float dt, const Game& game )
+void SceneMainGame::Update( float dt, RECT screenRect )
 {
 	time += dt;
 
-	const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
+	const Gdiplus::PointF topLeft = { (screenRect.right - worldWidth) / 2.0f, (screenRect.bottom - worldHeight) / 2.0f };
 	worldRect = { topLeft,{worldWidth, worldHeight}};
 
 	const Vec2<float> shooterPos = { worldRect.X + halfWidth, worldRect.Y + worldHeight - shooterImageHeight - shooterImageDistFromRotate };
 	shooter.SetCenter( shooterPos );
 	shooter.SetRotateCenter( shooterPos + Vec2<float>{0.0f, shooterImageHeight} );
 
-	shooter.Update( dt, game );
+	shooter.Update( dt, *this );
 
 	if ( time >= arrowGenTime )
 	{
@@ -35,7 +35,7 @@ void SceneMainGame::Update( float dt, const Game& game )
 
 	for ( auto& arrow : arrows )
 	{
-		arrow.Update( dt, game );
+		arrow.Update( dt, *this );
 	}
 
 	UtilSH::remove_erase_if( arrows,
@@ -60,4 +60,11 @@ void SceneMainGame::Draw( HDC hdc )
 	a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 
 	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
+}
+
+RECT SceneMainGame::GetSceneRECT() const
+{
+	const LONG worldLeft = (LONG)worldRect.X;
+	const LONG worldTop = (LONG)worldRect.Y;
+	return { worldLeft, worldTop, worldLeft + (LONG)worldWidth, worldTop + (LONG)worldHeight };
 }
