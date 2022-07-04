@@ -46,7 +46,6 @@ private:
 	static constexpr float brickPosY = worldHeight - 50.0f;
 
 	Gdiplus::RectF worldRect;
-	RECT lastScreenRect;
 
 	// Objects
 	Shooter shooter;

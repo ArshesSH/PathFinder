@@ -80,6 +80,7 @@ void SceneMainGame::Update( float dt, const Game& game )
 
 	for ( auto& brick : bricks )
 	{
+		brick.AddCenter( { worldRect.X, worldRect.Y } );
 		brick.Update( dt, *this );
 	}
 

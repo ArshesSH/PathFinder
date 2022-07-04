@@ -24,15 +24,15 @@ public:
 	{
 		health = --health;
 	}
-	void SetCenterX(float p)
+	void AddCenter( const Vec2<float> addPos )
 	{
-		rigidBody.SetCenterX( p );
+		rigidBody.SetCenter( initPos + addPos );
 	}
 private:
 	static constexpr int maxHealth = 2;
 
 	PhysicsEntity rigidBody;
-	
+	Vec2<float> initPos;
 	Gdiplus::Color color;
 	int health = maxHealth;
 };

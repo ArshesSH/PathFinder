@@ -16,12 +16,9 @@ public:
 
 	Vec2<int> GetMousePos();
 	void SetMousePos( const Vec2<int>& pos );
+	Vec2<float> GetScreenChangeAmount() const;
 
 private:
-	void IsScreenSizeChanged()
-	{
-		
-	}
 
 public:
 	RECT screenRect;
@@ -33,6 +30,6 @@ private:
 	DrawManager drawManager;
 
 	Vec2<int> mousePos;
-
+	Vec2<float> screenChangeAmount = {0.0f,0.0f};
 	float time = 0.0f;
 };

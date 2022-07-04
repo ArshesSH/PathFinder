@@ -2,6 +2,7 @@
 
 Brick::Brick( const Vec2<float>& pos, float width, float height, int id )
 	:
+	initPos(pos),
 	rigidBody( PhysicsEntity::Type::Rect, pos, id, width, height, {0.0f,0.0f}, 0.0f, 0.0f, 0 )
 {
 }

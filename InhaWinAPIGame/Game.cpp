@@ -33,6 +33,8 @@ void Game::UpdateModel()
 	{
 		isScreenChanged = true;
 
+		screenChangeAmount = { float(screenRect.right - oldScreenSize.right), float(screenRect.bottom - oldScreenSize.bottom) };
+
 		oldScreenSize.left = screenRect.left;
 		oldScreenSize.top = screenRect.top;
 		oldScreenSize.right = screenRect.right;
@@ -49,4 +51,9 @@ Vec2<int> Game::GetMousePos()
 void Game::SetMousePos( const Vec2<int>& pos )
 {
 	mousePos = pos;
+}
+
+Vec2<float> Game::GetScreenChangeAmount() const
+{
+	return screenChangeAmount;
 }
