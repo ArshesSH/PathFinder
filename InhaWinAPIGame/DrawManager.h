@@ -11,13 +11,13 @@ class DrawManager
 {
 public:
 	template<typename F>
-	void DrawMain( HDC hdc, const RECT& clientRECT, F drawFunc )
+	void DrawMain( HDC hdc, const RECT& clientRECT, bool isClientSizeChanged, F drawFunc )
 	{
 		HDC hMemDC;
 		HBITMAP hOldBitmap;
 
 		hMemDC = CreateCompatibleDC( hdc );
-		if ( hDoubleBufferImage == nullptr )
+		if ( hDoubleBufferImage == nullptr || isClientSizeChanged )
 		{
 			// Create Bitmap Image for Double buffering
 			hDoubleBufferImage = CreateCompatibleBitmap( hdc, clientRECT.right, clientRECT.bottom );

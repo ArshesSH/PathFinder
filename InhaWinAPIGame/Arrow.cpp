@@ -25,54 +25,61 @@ void Arrow::Draw( HDC hdc )
 
 inline bool Arrow::CheckFloor( RECT screenRect )
 {
-	const Vec2<float> topLeft( (float)screenRect.left, (float)screenRect.top );
-	const Vec2<float> bottomRight( (float)screenRect.right, (float)screenRect.bottom );
+	//const Vec2<float> topLeft( (float)screenRect.left, (float)screenRect.top );
+	//const Vec2<float> bottomRight( (float)screenRect.right, (float)screenRect.bottom );
 
-	// Create Normalized Horizontal and Vertical Window Sized Vectors
-	const Vec2<float> NormalizedHorizontal = Vec2<float>( bottomRight.x - topLeft.x, topLeft.y ).GetNormalized();
-	const Vec2<float> NormalizedVertical = Vec2<float>( topLeft.x, bottomRight.y - topLeft.y ).GetNormalized();
+	//// Create Normalized Horizontal and Vertical Window Sized Vectors
+	//const Vec2<float> NormalizedHorizontal = Vec2<float>( bottomRight.x - topLeft.x, topLeft.y ).GetNormalized();
+	//const Vec2<float> NormalizedVertical = Vec2<float>( topLeft.x, bottomRight.y - topLeft.y ).GetNormalized();
 
-	// Set Projection vals
-	float minHorizon = INFINITY;
-	float maxHorizon = -INFINITY;
-	float minVertical = INFINITY;
-	float maxVertical = -INFINITY;
+	//// Set Projection vals
+	//float minHorizon = INFINITY;
+	//float maxHorizon = -INFINITY;
+	//float minVertical = INFINITY;
+	//float maxVertical = -INFINITY;
 
-	std::vector<Vec2<float>> vertices = rigidBody.GetVertices();
+	//std::vector<Vec2<float>> vertices = rigidBody.GetVertices();
 
-	for ( auto e : vertices )
-	{
-		// Check Horizontal
-		const float pHorizon = e * NormalizedHorizontal;
-		minHorizon = (std::min)(minHorizon, pHorizon);
-		maxHorizon = (std::max)(maxHorizon, pHorizon);
+	//for ( auto e : vertices )
+	//{
+	//	// Check Horizontal
+	//	const float pHorizon = e * NormalizedHorizontal;
+	//	minHorizon = (std::min)(minHorizon, pHorizon);
+	//	maxHorizon = (std::max)(maxHorizon, pHorizon);
 
-		// Case Left Collision
-		if ( minHorizon < topLeft.x )
-		{
-			return true;
-		}
-		// Case Right Collision
-		else if ( bottomRight.x < maxHorizon )
-		{
-			return true;
-		}
+	//	// Case Left Collision
+	//	if ( minHorizon < topLeft.x )
+	//	{
+	//		return true;
+	//	}
+	//	// Case Right Collision
+	//	else if ( bottomRight.x < maxHorizon )
+	//	{
+	//		return true;
+	//	}
 
-		// Check Vertical
-		const float pVertical = e * NormalizedVertical;
-		minVertical = (std::min)(minVertical, pVertical);
-		maxVertical = (std::max)(maxVertical, pVertical);
+	//	// Check Vertical
+	//	const float pVertical = e * NormalizedVertical;
+	//	minVertical = (std::min)(minVertical, pVertical);
+	//	maxVertical = (std::max)(maxVertical, pVertical);
 
-		// Case Top Collision
-		//if ( minVertical < topLeft.y )
-		//{
-		//	return true;
-		//}
-		// Case Bottom Collision
-		if ( bottomRight.y < maxVertical )
-		{
-			return true;
-		}
-	}
-	return false;
+	//	// Case Top Collision
+	//	//if ( minVertical < topLeft.y )
+	//	//{
+	//	//	return true;
+	//	//}
+	//	// Case Bottom Collision
+	//	if ( bottomRight.y < maxVertical )
+	//	{
+	//		return true;
+	//	}
+	//}
+	//return false;
+
+	const Vec2<float> curPos = rigidBody.GetCenter();
+	const float width = rigidBody.GetWidth() / 2.0f;
+	const float height = rigidBody.GetHeight() / 2.0f;
+
+	return !(curPos.x - width >= screenRect.left && curPos.x + width <= screenRect.right &&
+		curPos.y + height >= screenRect.top && curPos.y + height <= screenRect.bottom);
 }

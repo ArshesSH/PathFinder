@@ -55,10 +55,15 @@ void SceneMainGame::Draw( HDC hdc )
 	}
 
 	// debug
-	std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
 	Surface a;
+	std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
 	a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 
+	std::wstring worldRectStr = L"worldRect : left=" + std::to_wstring( worldRect.X ) + L" top=" + std::to_wstring( worldRect.Y )
+		+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
+	a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+
+	// DrawRect
 	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
 }
 

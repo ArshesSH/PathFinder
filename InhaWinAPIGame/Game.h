@@ -18,10 +18,16 @@ public:
 	void SetMousePos( const Vec2<int>& pos );
 
 private:
+	void IsScreenSizeChanged()
+	{
+		
+	}
 
 public:
 	RECT screenRect;
 private:
+	RECT oldScreenSize = screenRect;
+	bool isScreenChanged = true;
 	FrameTimer ft;
 	SceneMainGame mainGame;
 	DrawManager drawManager;

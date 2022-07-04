@@ -10,7 +10,7 @@ Game::Game()
 
 void Game::ComposeFrame(HDC hdc)
 {
-	drawManager.DrawMain( hdc, screenRect,
+	drawManager.DrawMain( hdc, screenRect, isScreenChanged,
 		[this]( HDC hdc )
 		{
 			mainGame.Draw( hdc );
@@ -20,11 +20,24 @@ void Game::ComposeFrame(HDC hdc)
 			a.DrawString( hdc, mousePosDebugStr, { 0,20 }, Gdiplus::Color( 255, 255, 0, 0 ) );
 		}
 	);
+	if ( isScreenChanged )
+	{
+		isScreenChanged = false;
+	}
 }
 
 void Game::UpdateModel()
 {
 	float dt = ft.Mark();
+	if ( screenRect.right != oldScreenSize.right || screenRect.bottom != oldScreenSize.bottom )
+	{
+		isScreenChanged = true;
+
+		oldScreenSize.left = screenRect.left;
+		oldScreenSize.top = screenRect.top;
+		oldScreenSize.right = screenRect.right;
+		oldScreenSize.bottom = screenRect.bottom;
+	}
 	mainGame.Update(dt, screenRect);
 }
 

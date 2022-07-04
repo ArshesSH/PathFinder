@@ -18,10 +18,18 @@ private:
 		if ( GetAsyncKeyState( VK_RIGHT ) & 0x8000 )
 		{
 			angle += rotateSpeed * dt;
+			if ( angle >= 60.0f )
+			{
+				angle = 60.0f;
+			}
 		}
 		if ( GetAsyncKeyState( VK_LEFT ) & 0x8000 )
 		{
 			angle -= rotateSpeed * dt;
+			if ( angle <= -60.0f )
+			{
+				angle = -60.0f;
+			}
 		}
 
 		if ( fireTime >= fireInterval )
@@ -37,6 +45,7 @@ private:
 private:
 	static constexpr float fireInterval = 2.0f;
 	static constexpr float rotateSpeed = 100.0f;
+	static constexpr float angleLimit = 60.0f;
 	float angle = 0.0f;
 	float fireTime = 0.0f;
 	const Vec2<int> imageEnd = {200,400};

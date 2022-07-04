@@ -145,8 +145,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_SIZE:
         GetClientRect( hWnd, &game.screenRect );
         break;
-    case WM_TIMER:
-        break; 
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

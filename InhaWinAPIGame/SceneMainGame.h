@@ -18,7 +18,7 @@ private:
 	// Arrow Setting
 	static constexpr float arrowGenXPadding = 10.0f;
 	static constexpr float arrowSpeed = 100.0f;
-	static constexpr float arrowWidth = 10.0f;
+	static constexpr float arrowWidth = 30.0f;
 	static constexpr float arrowHeight = 50.0f;
 
 	// Shooter Setting

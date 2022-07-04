@@ -215,7 +215,9 @@ public:
 		:
 		GeometricObject<T>( (T)0, (T)0 ),
 		width( (T)1 ),
-		height( (T)1 )
+		height( (T)1 ),
+		halfWidth((T)width * (T)0.5),
+		halfHeight( (T)height * (T)0.5 )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -224,7 +226,9 @@ public:
 		:
 		GeometricObject<T>( center ),
 		width( width ),
-		height( height )
+		height( height ),
+		halfWidth( (T)width * (T)0.5 ),
+		halfHeight( (T)height * (T)0.5 )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -233,7 +237,9 @@ public:
 		:
 		GeometricObject<T>( x, y ),
 		width( width ),
-		height( height )
+		height( height ),
+		halfWidth( (T)width * (T)0.5 ),
+		halfHeight( (T)height * (T)0.5 )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -242,7 +248,9 @@ public:
 		:
 		GeometricObject<T>( (topLeft + bottomRight)* (T)0.5 ),
 		width( bottomRight.x - topLeft.x ),
-		height( bottomRight.y - topLeft.y )
+		height( bottomRight.y - topLeft.y ),
+		halfWidth( (T)width * (T)0.5 ),
+		halfHeight( (T)height * (T)0.5 )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -252,7 +260,6 @@ public:
 
 	T GetRadius() const override
 	{
-		const float halfWidth = width * 0.5f;
 		return (T)std::sqrt( halfWidth * halfWidth + halfWidth * halfWidth );
 	}
 	T GetWidth() const override
@@ -265,11 +272,11 @@ public:
 	}
 	Vec2<T> GetLeftTop() const override
 	{
-		return { this->center.x - width, this->center.y - height };
+		return { this->center.x - halfWidth, this->center.y - halfHeight };
 	}
 	Vec2<T> GetRightBottom() const override
 	{
-		return { this->center.x + width, this->center.y + height };
+		return { this->center.x + halfWidth, this->center.y + halfHeight };
 	}
 	void SetWidth( T width_in )
 	{
@@ -299,7 +306,6 @@ public:
 	{
 		width += size_in;
 		height += size_in;
-		const float halfWidth = size_in * 0.5f;
 		SetVertices();
 	}
 	void Draw( HDC hdc ) const override
@@ -335,8 +341,6 @@ public:
 private:
 	void SetVertices()
 	{
-		const T halfWidth = T( width / 2.0 );
-		const T halfHeight = T( height / 2.0 );
 		left = GeometricObject<T>::center.x - halfWidth;
 		right = GeometricObject<T>::center.x + halfWidth;
 		top = GeometricObject<T>::center.y - halfHeight;
@@ -355,6 +359,8 @@ private:
 	T right;
 	T top;
 	T bottom;
+	T halfWidth;
+	T halfHeight;
 };
 
 template<typename T>
