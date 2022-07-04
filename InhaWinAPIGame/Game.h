@@ -10,6 +10,13 @@
 class Game
 {
 public:
+	enum class SceneType
+	{
+		SceneStart,
+		SceneMainGame,
+		SceneResult
+	};
+public:
 	Game();
 	void ComposeFrame( HDC hdc );
 	void UpdateModel();
@@ -32,4 +39,5 @@ private:
 	Vec2<int> mousePos;
 	Vec2<float> screenChangeAmount = {0.0f,0.0f};
 	float time = 0.0f;
+	SceneType sceneType = SceneType::SceneStart;
 };

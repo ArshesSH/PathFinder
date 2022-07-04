@@ -17,11 +17,6 @@ SceneMainGame::SceneMainGame()
 
 void SceneMainGame::Update( float dt, const Game& game )
 {
-	if ( bricks.size() == 0 )
-	{
-		isSceneFinish = true;
-	}
-
 	time += dt;
 	bulletGenTime += dt;
 
@@ -81,6 +76,11 @@ void SceneMainGame::Update( float dt, const Game& game )
 				brick.ReduceHealth();
 			}
 		}
+	}
+
+	if ( bricks.size() == 0 )
+	{
+		isSceneFinish = true;
 	}
 
 	for ( auto& brick : bricks )
