@@ -157,18 +157,15 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shooter.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="ImageCodex.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TemplateSingleton.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec2W.h" />
     <ClInclude Include="Vec3.h" />
-    <ClInclude Include="DrawType.h" />
     <ClInclude Include="UtilSH.h" />
     <ClInclude Include="DrawManager.h" />
-    <ClInclude Include="TestGDI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />

@@ -2,9 +2,10 @@
 //
 
 #include "framework.h"
+#include "GDIPlusManager.h"
 #include "InhaWinAPIGame.h"
 #include "Game.h"
-#include "GDIPlusManager.h"
+
 
 #define MAX_LOADSTRING 100
 
@@ -20,14 +21,14 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 VOID    CALLBACK    TimerProc( HWND, UINT, WPARAM, DWORD );
 
-static Game game;
-
+GDIPlusManager gdi;
+Game game;
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-    GDIPlusManager gdi;
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -47,7 +48,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_INHAWINAPIGAME));
 
     // Window Process Message
-    
     MSG msg;
     while ( true )
     {

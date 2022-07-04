@@ -2,28 +2,32 @@
 
 #include <vector>
 #include <string>
+#include <ObjIdl.h>
+#include <gdiplus.h>
+#pragma comment(lib, "Gdiplus.lib")
+#include "GDIPlusManager.h"
 
-template<class T>
-class Codex
+class ImageCodex
 {
 private:
 	class Entry
 	{
 	public:
-		Entry( const std::wstring& key, T* pResource)
+		Entry( const std::wstring& key )
 			:
-			key(key),
-			pResource(pResource)
-		{}
+			key( key ),
+			pResource( Gdiplus::Image::FromFile( key.c_str() ) )
+		{
+		}
 		std::wstring key;
-		T* pResource;
+		Gdiplus::Image* pResource;
 	};
 
 public:
 	// Retrive a ptr to resource based on string
-	static T* Retrieve( const std::wstring& key )
+	static Gdiplus::Image* Retrieve( const std::wstring& key )
 	{
-		return Get()._Retrieve(key);
+		return Get()._Retrieve( key );
 	}
 	// Remove all entries from codex
 	static void RemoveAll()
@@ -32,8 +36,8 @@ public:
 	}
 
 private:
-	Codex() = default;
-	~Codex()
+	ImageCodex() = default;
+	~ImageCodex()
 	{
 		for ( auto& e : entries )
 		{
@@ -41,7 +45,7 @@ private:
 		}
 	}
 	// find ptr to resoruce based on string
-	T* _Retrieve( const std::wstring& key )
+	Gdiplus::Image* _Retrieve( const std::wstring& key )
 	{
 		// find position of resource or when resource should be ( binary search )
 		auto i = std::lower_bound( entries.begin(), entries.end(), key,
@@ -55,7 +59,7 @@ private:
 		if ( i == entries.end() || i->key != key )
 		{
 			// construct entry in i
-			i = entries.emplace( i, key, new T(key.c_str()) );
+			i = entries.emplace( i, key );
 		}
 
 		// Return ptr to resource in codex
@@ -72,9 +76,9 @@ private:
 	}
 
 	// Get Singleton Instance
-	static Codex& Get()
+	static ImageCodex& Get()
 	{
-		static Codex codex;
+		static ImageCodex codex;
 		return codex;
 	}
 

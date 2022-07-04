@@ -2,9 +2,7 @@
 
 #include "Vec2.h"
 #include "PhysicsEntity.h"
-#include <ObjIdl.h>
-#include <gdiplus.h>
-#include "Codex.h"
+#include "ImageCodex.h"
 #include "Surface.h"
 
 class Bullet
@@ -21,9 +19,11 @@ public:
 	}
 	void Draw(HDC hdc)
 	{
-		
+		RECT r = rigidBody.GetRECT();
+		Surface a;
+		a.DrawImageChroma( hdc, pImage, { r.left,r.top }, { r.right,r.bottom }, { 0,0 }, { 20,20 } );
 	}
 private:
-	const Gdiplus::Image* sprite = Codex<Gdiplus::Image>::Retrieve(L"Images/awsom.bmp");
+	Gdiplus::Image* pImage = ImageCodex::Retrieve( L"Images/awsom.bmp" );
 	PhysicsEntity rigidBody;
 };

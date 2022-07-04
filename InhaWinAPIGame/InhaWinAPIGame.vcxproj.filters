@@ -45,12 +45,6 @@
     <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteManager.h">
-      <Filter>Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="TemplateSingleton.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -68,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="Mat3.h">
       <Filter>Utilities\Mat</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawType.h">
-      <Filter>Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Shooter.h">
       <Filter>GameObjects</Filter>
@@ -96,9 +87,6 @@
     <ClInclude Include="DrawManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TestGDI.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GeometricObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -118,6 +106,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FrameTimer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageCodex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
