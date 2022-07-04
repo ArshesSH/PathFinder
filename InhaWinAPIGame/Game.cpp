@@ -24,9 +24,9 @@ void Game::ComposeFrame(HDC hdc)
 				{
 					mainGame.Draw( hdc );
 
-					std::wstring mousePosDebugStr = L"MousePos = " + std::to_wstring( mousePos.x ) + L", " + std::to_wstring( mousePos.y );
-					Surface a;
-					a.DrawString( hdc, mousePosDebugStr, { 0,20 }, Gdiplus::Color( 255, 255, 0, 0 ) );
+					std::wstring scoreStr = L"Score : " + std::to_wstring( playerScore );
+					
+					surf.DrawString( hdc, scoreStr, { float(screenRect.right * 0.5 - ((scoreStr.size() + 1) * 10)) ,0 }, Gdiplus::Color( 255, 255, 0, 255 ) );
 				}
 			);
 			if ( isScreenChanged )
@@ -67,6 +67,10 @@ void Game::UpdateModel()
 				oldScreenSize.bottom = screenRect.bottom;
 			}
 			mainGame.Update( dt, *this );
+			if ( mainGame.isSceneFinshed() )
+			{
+				sceneType = SceneType::SceneResult;
+			}
 		}
 		break;
 	case Game::SceneType::SceneResult:

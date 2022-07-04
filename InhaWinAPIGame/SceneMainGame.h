@@ -12,7 +12,7 @@ class SceneMainGame : public Scene
 public:
 	SceneMainGame();
 
-	void Update( float dt, const class Game& game ) override;
+	void Update( float dt, class Game& game ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetSceneRECT() const override;
 private:

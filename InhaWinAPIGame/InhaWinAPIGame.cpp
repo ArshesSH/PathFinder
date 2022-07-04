@@ -20,6 +20,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 VOID    CALLBACK    TimerProc( HWND, UINT, WPARAM, DWORD );
+BOOL    CALLBACK    DialogProc( HWND, UINT, WPARAM, LPARAM );
 
 GDIPlusManager gdi;
 Game game;
@@ -141,6 +142,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
         GetClientRect( hWnd, &game.screenRect );
         SetTimer( hWnd, 0, 0, TimerProc );
+        DialogBox( hInst, MAKEINTRESOURCE( IDD_STARTMENU ), hWnd, DialogProc );
         break;
     case WM_SIZE:
         GetClientRect( hWnd, &game.screenRect );
@@ -210,4 +212,58 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 VOID CALLBACK TimerProc( HWND hWnd, UINT, WPARAM, DWORD )
 {
     InvalidateRect( hWnd, nullptr, false );
+}
+
+BOOL CALLBACK DialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
+{
+    UNREFERENCED_PARAMETER( lParam );
+    switch ( iMsg )
+    {
+    case WM_INITDIALOG:
+        {
+            HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
+            EnableWindow( hBtn, FALSE );
+        }
+        return TRUE;
+
+    case WM_COMMAND:
+        switch ( LOWORD( wParam ) )
+        {
+
+        case IDC_BUTTON1:
+            {
+                wchar_t word[256];
+                GetDlgItemText( hDlg, IDC_EDIT1, word, 256 );
+                game.SetUserID( word );
+
+                if ( game.GetUserID().size() != 0 )
+                {
+                    HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
+                    EnableWindow( hBtn, TRUE );
+                }
+                else
+                {
+                    HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
+                    EnableWindow( hBtn, FALSE );
+                }
+            }
+            break;
+        case IDC_GAMESTART:
+            {
+                EndDialog( hDlg, LOWORD( wParam ) );
+                game.StartMainGame();
+                return TRUE;
+            }
+            break;
+        case IDCANCEL:
+            {
+                EndDialog( hDlg, LOWORD( wParam ) );
+                PostQuitMessage( 0 );
+                return FALSE;
+            }
+            break;
+
+        }
+    }
+    return FALSE;
 }

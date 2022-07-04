@@ -6,10 +6,10 @@ class Scene
 {
 public:
 	virtual ~Scene() {}
-	virtual void Update(float dt, const class Game& game ) = 0;
+	virtual void Update(float dt, class Game& game ) = 0;
 	virtual void Draw( HDC hdc ) = 0;
 	virtual RECT GetSceneRECT() const = 0;
-	bool GetSceneState() const
+	bool isSceneFinshed() const
 	{
 		return isSceneFinish;
 	}

@@ -24,7 +24,23 @@ public:
 	Vec2<int> GetMousePos();
 	void SetMousePos( const Vec2<int>& pos );
 	Vec2<float> GetScreenChangeAmount() const;
-
+	void AddScore()
+	{
+		playerScore += 100;
+	}
+	
+	void StartMainGame()
+	{
+		sceneType = SceneType::SceneMainGame;
+	}
+	void SetUserID( const std::wstring& id )
+	{
+		userId = id;
+	}
+	std::wstring GetUserID() const
+	{
+		return userId;
+	}
 private:
 
 public:
@@ -35,9 +51,12 @@ private:
 	FrameTimer ft;
 	SceneMainGame mainGame;
 	DrawManager drawManager;
+	Surface surf;
 
 	Vec2<int> mousePos;
 	Vec2<float> screenChangeAmount = {0.0f,0.0f};
 	float time = 0.0f;
 	SceneType sceneType = SceneType::SceneStart;
+	std::wstring userId;
+	unsigned long long playerScore = 0;
 };

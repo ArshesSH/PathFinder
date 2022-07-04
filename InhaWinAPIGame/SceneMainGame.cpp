@@ -15,7 +15,7 @@ SceneMainGame::SceneMainGame()
 	}
 }
 
-void SceneMainGame::Update( float dt, const Game& game )
+void SceneMainGame::Update( float dt, Game& game )
 {
 	time += dt;
 	bulletGenTime += dt;
@@ -64,6 +64,7 @@ void SceneMainGame::Update( float dt, const Game& game )
 		{
 			if ( arrow.isOverlapWith( bullet.GetRECT() ) )
 			{
+				game.AddScore();
 				arrow.SetDestroy();
 				bullet.SetDestroy();
 			}
@@ -136,8 +137,6 @@ void SceneMainGame::Draw( HDC hdc )
 	std::wstring worldRectStr = L"worldRect : left=" + std::to_wstring( worldRect.X ) + L" top=" + std::to_wstring( worldRect.Y )
 		+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
 	a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
-
-	a.DrawFillRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), Gdiplus::RectF( { 0,20 }, { 20,20 } ) );
 
 	// DrawRect
 	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
