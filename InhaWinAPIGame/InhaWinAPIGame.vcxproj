@@ -174,11 +174,13 @@
     <ClInclude Include="DrawManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />
     <ClCompile Include="InhaWinAPIGame.cpp" />
     <ClCompile Include="PhysicsEntity.cpp" />
+    <ClCompile Include="SceneMainGame.cpp" />
     <ClCompile Include="Shooter.cpp" />
     <ClCompile Include="Surface.cpp" />
   </ItemGroup>

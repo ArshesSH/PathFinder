@@ -10,11 +10,6 @@
 class DrawManager
 {
 public:
-	void Update(float dt)
-	{
-		pos.y += 100 * dt;
-	}
-
 	template<typename F>
 	void DrawMain( HDC hdc, const RECT& clientRECT, F drawFunc )
 	{
@@ -34,6 +29,8 @@ public:
 
 		/*Surface a;
 		a.DrawString( hMemDC, L"Hello", pos, {255,255,0,0} );*/
+
+		// Call Actual Draw functions
 		drawFunc(hMemDC);
 
 		BitBlt( hdc, 0, 0, clientRECT.right, clientRECT.bottom, hMemDC, 0, 0, SRCCOPY );
@@ -41,8 +38,6 @@ public:
 		DeleteObject( hMemDC );
 	}
 
-
 private:
-	Vec2<float> pos{ 0.0f,0.0f };
 	HBITMAP hDoubleBufferImage = nullptr;
 };

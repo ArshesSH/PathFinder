@@ -4,10 +4,8 @@
 
 #include "FrameTimer.h"
 #include "SceneMainGame.h"
+#include "DrawManager.h"
 
-//#include <vector>
-//#include "DrawManager.h"
-//#include "Arrow.h"
 
 class Game
 {
@@ -22,8 +20,6 @@ private:
 	FrameTimer ft;
 	SceneMainGame mainGame;
 	DrawManager drawManager;
-
-	//std::vector<Arrow> arrows;
 
 	float time = 0.0f;
 };

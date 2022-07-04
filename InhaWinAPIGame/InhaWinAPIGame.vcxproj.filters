@@ -63,9 +63,6 @@
     <ClInclude Include="Mat3.h">
       <Filter>Utilities\Mat</Filter>
     </ClInclude>
-    <ClInclude Include="Shooter.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -117,6 +114,9 @@
     <ClInclude Include="Arrow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Shooter.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhaWinAPIGame.cpp">
@@ -124,9 +124,6 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Shooter.cpp">
-      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="GDIPlusManager.cpp">
       <Filter>소스 파일</Filter>
@@ -138,6 +135,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="FrameTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shooter.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

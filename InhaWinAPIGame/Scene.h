@@ -6,7 +6,7 @@ class Scene
 {
 public:
 	virtual ~Scene() {}
-	virtual void Update(float dt, RECT screenRect) = 0;
+	virtual void Update(float dt, const class Game& game) = 0;
 	virtual void Draw( HDC hdc ) = 0;
 };
 
