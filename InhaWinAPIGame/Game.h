@@ -28,6 +28,14 @@ public:
 	{
 		playerScore += 100;
 	}
+	bool IsInitialGame() const
+	{
+		return sceneType == SceneType::SceneStart;
+	}
+	bool IsGameFinished() const
+	{
+		return sceneType == SceneType::SceneResult;
+	}
 	
 	void StartMainGame()
 	{
@@ -41,6 +49,7 @@ public:
 	{
 		return userId;
 	}
+
 private:
 
 public:
@@ -59,4 +68,5 @@ private:
 	SceneType sceneType = SceneType::SceneStart;
 	std::wstring userId;
 	unsigned long long playerScore = 0;
+	bool isFinishedResult = false;
 };

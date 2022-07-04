@@ -57,4 +57,5 @@ private:
 	float time = 0.0f;
 	float bulletGenTime = bulletGenTimeLimit;
 	float arrowGenTime = 2.0f;
+	bool isStart = false;
 };

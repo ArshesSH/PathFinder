@@ -55,6 +55,7 @@ void Game::UpdateModel()
 	case Game::SceneType::SceneMainGame:
 		{
 			float dt = ft.Mark();
+
 			if ( screenRect.right != oldScreenSize.right || screenRect.bottom != oldScreenSize.bottom )
 			{
 				isScreenChanged = true;
@@ -75,7 +76,11 @@ void Game::UpdateModel()
 		break;
 	case Game::SceneType::SceneResult:
 		{
-
+			// Do Once
+			if ( !isFinishedResult )
+			{
+				isFinishedResult = true;
+			}
 		}
 		break;
 	}

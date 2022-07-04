@@ -17,129 +17,148 @@ SceneMainGame::SceneMainGame()
 
 void SceneMainGame::Update( float dt, Game& game )
 {
-	time += dt;
-	bulletGenTime += dt;
-
-	const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
-	worldRect = { topLeft,{worldWidth, worldHeight}};
-
-	const Vec2<float> shooterPos = { worldRect.X + halfWidth, worldRect.Y + worldHeight - shooterImageHeight - shooterImageDistFromRotate };
-	shooter.SetCenter( shooterPos );
-	shooter.SetRotateCenter( shooterPos + Vec2<float>{0.0f, shooterImageHeight} );
-
-	shooter.Update( dt, *this );
-
-	if ( bulletGenTime >= bulletGenTimeLimit )
+	if ( isStart )
 	{
-		if ( GetAsyncKeyState( VK_SPACE ) & 0x8000 )
+		time += dt;
+		bulletGenTime += dt;
+
+		const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
+		worldRect = { topLeft,{worldWidth, worldHeight} };
+
+		const Vec2<float> shooterPos = { worldRect.X + halfWidth, worldRect.Y + worldHeight - shooterImageHeight - shooterImageDistFromRotate };
+		shooter.SetCenter( shooterPos );
+		shooter.SetRotateCenter( shooterPos + Vec2<float>{0.0f, shooterImageHeight} );
+
+		shooter.Update( dt, *this );
+
+		if ( bulletGenTime >= bulletGenTimeLimit )
 		{
-			bullets.emplace_back(
-				L"Images/cannonBall.png", shooter.GetShootPos(), shooter.GetShootDir() * bulletSpeed, bulletWidth, bulletHeight, bullets.size()
-			);
-			bulletGenTime = 0.0f;
+			if ( GetAsyncKeyState( VK_SPACE ) & 0x8000 )
+			{
+				bullets.emplace_back(
+					L"Images/cannonBall.png", shooter.GetShootPos(), shooter.GetShootDir() * bulletSpeed, bulletWidth, bulletHeight, bullets.size()
+				);
+				bulletGenTime = 0.0f;
+			}
 		}
-	}
 
-	for ( auto& bullet : bullets )
-	{
-		bullet.Update( dt, *this );
-	}
-
-  	if ( time >= arrowGenTime )
-	{
-		std::random_device rd;
-		std::mt19937 rng( rd() );
-		std::uniform_real_distribution<float> arrowXGen( worldRect.X + arrowGenXPadding, worldRect.X + worldWidth - arrowGenXPadding );
-		arrows.emplace_back(
-			Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), worldRect.Y }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
-		);
-		time = 0.0f;
-	}
-
-	for ( auto& arrow : arrows )
-	{
-		arrow.Update( dt, *this );
-		
 		for ( auto& bullet : bullets )
 		{
-			if ( arrow.isOverlapWith( bullet.GetRECT() ) )
+			bullet.Update( dt, *this );
+		}
+
+		if ( time >= arrowGenTime )
+		{
+			std::random_device rd;
+			std::mt19937 rng( rd() );
+			std::uniform_real_distribution<float> arrowXGen( worldRect.X + arrowGenXPadding, worldRect.X + worldWidth - arrowGenXPadding );
+			arrows.emplace_back(
+				Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), worldRect.Y }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
+			);
+			time = 0.0f;
+		}
+
+		for ( auto& arrow : arrows )
+		{
+			arrow.Update( dt, *this );
+
+			for ( auto& bullet : bullets )
 			{
-				game.AddScore();
-				arrow.SetDestroy();
-				bullet.SetDestroy();
+				if ( arrow.isOverlapWith( bullet.GetRECT() ) )
+				{
+					game.AddScore();
+					arrow.SetDestroy();
+					bullet.SetDestroy();
+				}
+			}
+			for ( auto& brick : bricks )
+			{
+				if ( arrow.isOverlapWith( brick.GetRECT() ) )
+				{
+					arrow.SetDestroy();
+					brick.ReduceHealth();
+				}
 			}
 		}
+
+		if ( bricks.size() == 0 )
+		{
+			isSceneFinish = true;
+		}
+
 		for ( auto& brick : bricks )
 		{
-			if ( arrow.isOverlapWith( brick.GetRECT() ) )
+			brick.AddCenter( { worldRect.X, worldRect.Y } );
+			brick.Update( dt, *this );
+		}
+
+		// Destroy Objects
+
+		UtilSH::remove_erase_if( arrows,
+			[]( const Arrow& arrow )
 			{
-				arrow.SetDestroy();
-				brick.ReduceHealth();
+				return arrow.ShouldDestroy();
 			}
-		}
+		);
+		UtilSH::remove_erase_if( bullets,
+			[]( const Bullet& bullet )
+			{
+				return bullet.ShouldDestroy();
+			}
+		);
+		UtilSH::remove_erase_if( bricks,
+			[]( const Brick& brick )
+			{
+				return brick.ShouldDestroy();
+			}
+		);
 	}
-
-	if ( bricks.size() == 0 )
+	else
 	{
-		isSceneFinish = true;
+		if ( GetAsyncKeyState( VK_RETURN ) & 0x8000 )
+		{
+			isStart = true;
+		}
 	}
-
-	for ( auto& brick : bricks )
-	{
-		brick.AddCenter( { worldRect.X, worldRect.Y } );
-		brick.Update( dt, *this );
-	}
-
-	// Destroy Objects
-
-	UtilSH::remove_erase_if( arrows,
-		[]( const Arrow& arrow )
-		{
-			return arrow.ShouldDestroy();
-		}
-	);
-	UtilSH::remove_erase_if( bullets,
-		[]( const Bullet& bullet )
-		{
-			return bullet.ShouldDestroy();
-		}
-	);
-	UtilSH::remove_erase_if( bricks,
-		[]( const Brick& brick )
-		{
-			return brick.ShouldDestroy();
-		}
-	);
 }
 
 void SceneMainGame::Draw( HDC hdc )
 {
-	shooter.Draw( hdc );
-	for ( auto& bullet : bullets )
+	if ( isStart )
 	{
-		bullet.Draw( hdc );
+		shooter.Draw( hdc );
+		for ( auto& bullet : bullets )
+		{
+			bullet.Draw( hdc );
+		}
+		for ( auto& arrow : arrows )
+		{
+			arrow.Draw( hdc );
+		}
+		for ( auto& brick : bricks )
+		{
+			brick.Draw( hdc );
+		}
+
+
+		// debug
+		Surface a;
+		std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
+		a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+
+		std::wstring worldRectStr = L"worldRect : left=" + std::to_wstring( worldRect.X ) + L" top=" + std::to_wstring( worldRect.Y )
+			+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
+		a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+
+		// DrawRect
+		a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
 	}
-	for ( auto& arrow : arrows )
+	else
 	{
-		arrow.Draw( hdc );
+		Surface a;
+		std::wstring curArrowCountStr = L"Press Enter to Start ";
+		a.DrawString( hdc, curArrowCountStr, { 1000.0f ,500.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 	}
-	for ( auto& brick : bricks )
-	{
-		brick.Draw( hdc );
-	}
-	
-
-	// debug
-	Surface a;
-	std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
-	a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
-
-	std::wstring worldRectStr = L"worldRect : left=" + std::to_wstring( worldRect.X ) + L" top=" + std::to_wstring( worldRect.Y )
-		+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
-	a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
-
-	// DrawRect
-	a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
 
 }
 

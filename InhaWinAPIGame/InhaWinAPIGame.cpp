@@ -20,10 +20,14 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 VOID    CALLBACK    TimerProc( HWND, UINT, WPARAM, DWORD );
-BOOL    CALLBACK    DialogProc( HWND, UINT, WPARAM, LPARAM );
+BOOL    CALLBACK    StartDialogProc( HWND, UINT, WPARAM, LPARAM );
+BOOL    CALLBACK    ResultDialogProc( HWND, UINT, WPARAM, LPARAM );
 
 GDIPlusManager gdi;
 Game game;
+
+bool isStartGame = true;
+bool isEndGame = false;
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -137,12 +141,21 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if ( game.IsGameFinished() && !isEndGame )
+    {
+        DialogBox( hInst, MAKEINTRESOURCE( IDD_RESULT ), hWnd, ResultDialogProc );
+        isEndGame = true;
+    }
     switch (message)
     {
     case WM_CREATE:
         GetClientRect( hWnd, &game.screenRect );
         SetTimer( hWnd, 0, 0, TimerProc );
-        DialogBox( hInst, MAKEINTRESOURCE( IDD_STARTMENU ), hWnd, DialogProc );
+        if ( game.IsInitialGame() && isStartGame )
+        {
+            DialogBox( hInst, MAKEINTRESOURCE( IDD_STARTMENU ), hWnd, StartDialogProc );
+            isStartGame = false;
+        }
         break;
     case WM_SIZE:
         GetClientRect( hWnd, &game.screenRect );
@@ -214,7 +227,7 @@ VOID CALLBACK TimerProc( HWND hWnd, UINT, WPARAM, DWORD )
     InvalidateRect( hWnd, nullptr, false );
 }
 
-BOOL CALLBACK DialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
+BOOL CALLBACK StartDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
 {
     UNREFERENCED_PARAMETER( lParam );
     switch ( iMsg )
@@ -229,7 +242,6 @@ BOOL CALLBACK DialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
     case WM_COMMAND:
         switch ( LOWORD( wParam ) )
         {
-
         case IDC_BUTTON1:
             {
                 wchar_t word[256];
@@ -263,6 +275,28 @@ BOOL CALLBACK DialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
             }
             break;
 
+        }
+    }
+    return FALSE;
+}
+
+BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
+{
+    UNREFERENCED_PARAMETER( lParam );
+    switch ( iMsg )
+    {
+    case WM_COMMAND:
+        switch ( LOWORD( wParam ) )
+        {
+
+        case IDOK:
+        case IDCANCEL:
+            {
+                EndDialog( hDlg, LOWORD( wParam ) );
+                PostQuitMessage( 0 );
+                return FALSE;
+            }
+            break;
         }
     }
     return FALSE;
