@@ -14,7 +14,7 @@ namespace UtilSH
 	inline void remove_element( std::vector<T>& vec, size_t index )
 	{
 		// Swap element to be removed with element at back, and pop back
-		std::swap( vec[i], vec.back() );
+		std::swap( vec[index], vec.back() );
 		vec.pop_back();
 	}
 
@@ -56,7 +56,7 @@ namespace UtilSH
 		* else i >= val
 		* if !(i > val) than it must equal
 		*/
-		if ( i != end && !(val < acc( *i ))
+		if ( i != end && !(val < acc( *i ) ))
 		{
 			return i;
 		}

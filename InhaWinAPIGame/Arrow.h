@@ -10,6 +10,10 @@ public:
 		Actor(imagename, pos, vel, width, height, PhysicsEntity::Type::Rect, id)
 	{}
 	~Arrow() {}
+	Arrow( const Arrow& ) = default;
+	Arrow( Arrow&& ) = default;
+	Arrow& operator=( const Arrow& ) = default;
+	Arrow& operator=( Arrow&& ) = default;
 
 	void Update( float dt, RECT screenRect ) override
 	{
@@ -21,7 +25,7 @@ public:
 	}
 	void Draw( HDC hdc ) override
 	{
-		surface.DrawImageChroma( hdc, pImage, rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
+		surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
 	}
 
 private:

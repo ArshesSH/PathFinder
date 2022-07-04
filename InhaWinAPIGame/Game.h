@@ -4,10 +4,10 @@
 
 #include "FrameTimer.h"
 #include "SceneMainGame.h"
-#include <vector>
 
-#include "DrawManager.h"
-#include "Arrow.h"
+//#include <vector>
+//#include "DrawManager.h"
+//#include "Arrow.h"
 
 class Game
 {
@@ -23,10 +23,7 @@ private:
 	SceneMainGame mainGame;
 	DrawManager drawManager;
 
-	static constexpr float arrowGenXPadding = 10.0f;
-	static constexpr float arrowSpeed = 100.0f;
-	static constexpr float arrowWidth = 20.0f;
-	static constexpr float arrowHeight = 100.0f;
-	std::vector<Arrow> arrows;
+	//std::vector<Arrow> arrows;
+
 	float time = 0.0f;
 };

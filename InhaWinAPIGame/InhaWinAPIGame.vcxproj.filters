@@ -134,9 +134,6 @@
     <ClCompile Include="Surface.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SceneGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsEntity.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

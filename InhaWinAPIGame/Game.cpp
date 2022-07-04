@@ -6,23 +6,28 @@
 
 Game::Game()
 {
+	//arrows.emplace_back( Arrow(L"Images/awsom.bmp", { 200.0f,0.0f }, { 0.0f, 100.0f }, 20, 100, 1) );
+	//arrows.emplace_back( Arrow( L"Images/awsom.bmp", { 500.0f,0.0f }, { 0.0f, 100.0f }, 20, 100, 1 ) );
 }
 
 void Game::ComposeFrame(HDC hdc)
 {
-	mainGame.Draw( hdc );
+	drawManager.DrawMain( hdc, screenRect,
+		[this]( HDC hdc )
+		{
+			mainGame.Draw( hdc );
+		}
+	);
+
+
 }
 
 void Game::UpdateModel()
 {
 	float dt = ft.Mark();
-	time += dt;
-	if ( time >= 1.0f )
-	{
-		std::random_device rd;
-		std::mt19937 rng( rd() );
-		std::uniform_real_distribution<float> arrowXGen( arrowGenXPadding, (float)screenRect.right - arrowGenXPadding );
-		//arrows.push_back( Arrow( { arrowXGen( rng ), 0.0f },{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() ) );
-		//arrows.emplace_back( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), 0.0f }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() );
-	}
+	//for ( auto& a : arrows )
+	//{
+	//	a.Update( dt, screenRect );
+	//}
+	mainGame.Update(dt, screenRect);
 }

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include <ObjIdl.h>
 #include <gdiplus.h>
 #pragma comment(lib, "Gdiplus.lib")
@@ -18,14 +19,16 @@ private:
 			key( key ),
 			pResource( Gdiplus::Image::FromFile( key.c_str() ) )
 		{
+			//pResource = std::make_unique<Gdiplus::Image>( Gdiplus::Image::FromFile( key.c_str() ) );
 		}
 		std::wstring key;
-		Gdiplus::Image* pResource;
+		std::shared_ptr<Gdiplus::Image> pResource;
 	};
 
 public:
 	// Retrive a ptr to resource based on string
-	static Gdiplus::Image* Retrieve( const std::wstring& key )
+	//static Gdiplus::Image* Retrieve( const std::wstring& key )
+	static std::shared_ptr<Gdiplus::Image> Retrieve( const std::wstring& key )
 	{
 		return Get()._Retrieve( key );
 	}
@@ -39,13 +42,14 @@ private:
 	ImageCodex() = default;
 	~ImageCodex()
 	{
-		for ( auto& e : entries )
+		//for ( auto& e : entries )
 		{
-			delete e.pResource;
+			//delete e.pResource;
 		}
 	}
 	// find ptr to resoruce based on string
-	Gdiplus::Image* _Retrieve( const std::wstring& key )
+	//Gdiplus::Image* _Retrieve( const std::wstring& key )
+	std::shared_ptr<Gdiplus::Image> _Retrieve( const std::wstring& key )
 	{
 		// find position of resource or when resource should be ( binary search )
 		auto i = std::lower_bound( entries.begin(), entries.end(), key,
@@ -68,9 +72,9 @@ private:
 
 	void _RemoveAll()
 	{
-		for ( auto& e : entries )
+		//for ( auto& e : entries )
 		{
-			delete e.pResource;
+			//delete e.pResource;
 		}
 		entries.clear();
 	}
