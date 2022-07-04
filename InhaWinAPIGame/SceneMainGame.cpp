@@ -7,11 +7,17 @@
 SceneMainGame::SceneMainGame()
 	:
 	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight } )
-{}
+{
+	for ( int i = 0; i < 6; ++i )
+	{
+		bricks.emplace_back()
+	}
+}
 
 void SceneMainGame::Update( float dt, RECT screenRect )
 {
 	time += dt;
+	bulletGenTime += dt;
 
 	const Gdiplus::PointF topLeft = { (screenRect.right - worldWidth) / 2.0f, (screenRect.bottom - worldHeight) / 2.0f };
 	worldRect = { topLeft,{worldWidth, worldHeight}};
@@ -22,7 +28,23 @@ void SceneMainGame::Update( float dt, RECT screenRect )
 
 	shooter.Update( dt, *this );
 
-	if ( time >= arrowGenTime )
+	if ( bulletGenTime >= bulletGenTimeLimit )
+	{
+		if ( GetAsyncKeyState( VK_SPACE ) & 0x8000 )
+		{
+			bullets.emplace_back(
+				L"Images/cannonBall.png", shooter.GetShootPos(), shooter.GetShootDir() * bulletSpeed, bulletWidth, bulletHeight, bullets.size()
+			);
+			bulletGenTime = 0.0f;
+		}
+	}
+
+	for ( auto& bullet : bullets )
+	{
+		bullet.Update( dt, *this );
+	}
+
+  	if ( time >= arrowGenTime )
 	{
 		std::random_device rd;
 		std::mt19937 rng( rd() );
@@ -36,7 +58,27 @@ void SceneMainGame::Update( float dt, RECT screenRect )
 	for ( auto& arrow : arrows )
 	{
 		arrow.Update( dt, *this );
+		
+		for ( auto& bullet : bullets )
+		{
+			if ( arrow.isOverlapWith( bullet.GetRECT() ) )
+			{
+				arrow.SetDestroy();
+				bullet.SetDestroy();
+			}
+		}
+		for ( auto& brick : bricks )
+		{
+			if ( arrow.isOverlapWith( brick.GetRECT() ) )
+			{
+				arrow.SetDestroy();
+				brick.ReduceHealth();
+			}
+		}
 	}
+
+
+	// Destroy Objects
 
 	UtilSH::remove_erase_if( arrows,
 		[]( const Arrow& arrow )
@@ -44,15 +86,27 @@ void SceneMainGame::Update( float dt, RECT screenRect )
 			return arrow.ShouldDestroy();
 		}
 	);
+	UtilSH::remove_erase_if( bullets,
+		[]( const Bullet& bullet )
+		{
+			return bullet.ShouldDestroy();
+		}
+	);
+
 }
 
 void SceneMainGame::Draw( HDC hdc )
 {
 	shooter.Draw( hdc );
+	for ( auto& bullet : bullets )
+	{
+		bullet.Draw( hdc );
+	}
 	for ( auto& arrow : arrows )
 	{
 		arrow.Draw( hdc );
 	}
+	
 
 	// debug
 	Surface a;

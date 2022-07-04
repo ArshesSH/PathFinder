@@ -339,7 +339,7 @@ inline void PhysicsEntity::DoWallCollision( const RECT& walls )
 	}
 }
 
-inline bool PhysicsEntity::CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight )
+bool PhysicsEntity::CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight )
 {
 	// Create Normalized Horizontal and Vertical Window Sized Vectors
 	const Vec2<float> NormalizedHorizontal = Vec2<float>( bottomRight.x - topLeft.x, topLeft.y ).GetNormalized();

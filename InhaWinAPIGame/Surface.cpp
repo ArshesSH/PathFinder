@@ -32,6 +32,25 @@ void Surface::DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::
 	graphics.DrawRectangle( &pen, rectF );
 }
 
+void Surface::DrawFillRect( HDC hdc, Gdiplus::Color color, const Vec2<float>& topLeft, float width, float height )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	SolidBrush brush( color );
+	Gdiplus::RectF r( { topLeft.x, topLeft.y }, { width, height } );
+	graphics.FillRectangle( &brush, r );
+}
+
+void Surface::DrawFillRect( HDC hdc, Gdiplus::Color color, Gdiplus::RectF rectF )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	SolidBrush brush( color );
+	graphics.FillRectangle( &brush, rectF );
+}
+
 void Surface::DrawImageNonChroma( HDC hdc, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
 {
 	using namespace Gdiplus;

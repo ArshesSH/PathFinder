@@ -4,7 +4,8 @@
 #include "Scene.h"
 #include "Shooter.h"
 #include "Arrow.h"
-
+#include "Bullet.h"
+#include "Brick.h"
 
 class SceneMainGame : public Scene
 {
@@ -26,6 +27,12 @@ private:
 	static constexpr float shooterImageHeight = 50.0f;
 	static constexpr float shooterImageDistFromRotate = 20.0f;
 
+	// Bullet Setting
+	static constexpr float bulletWidth = 20.0f;
+	static constexpr float bulletHeight = 20.0f;
+	static constexpr float bulletGenTimeLimit = 0.5f;
+	static constexpr float bulletSpeed = 300.0f;
+
 	// World
 	static constexpr float worldWidth = 1280.0f;
 	static constexpr float worldHeight = 720.0f;
@@ -36,8 +43,11 @@ private:
 	// Objects
 	Shooter shooter;
 	std::vector<Arrow> arrows;
+	std::vector<Bullet> bullets;
+	std::vector<Brick> bricks;
 
 
 	float time = 0.0f;
+	float bulletGenTime = bulletGenTimeLimit;
 	float arrowGenTime = 2.0f;
 };

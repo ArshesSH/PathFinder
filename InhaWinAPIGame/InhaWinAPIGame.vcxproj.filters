@@ -117,6 +117,12 @@
     <ClInclude Include="Shooter.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhaWinAPIGame.cpp">
@@ -144,6 +150,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SceneMainGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

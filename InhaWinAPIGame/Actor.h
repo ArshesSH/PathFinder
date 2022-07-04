@@ -19,6 +19,10 @@ public:
 	Actor& operator=( Actor&& ) noexcept = default;
 	virtual void Update( float dt, const class Scene& scene ) = 0;
 	virtual void Draw( HDC hdc ) = 0;
+	void SetDestroy()
+	{
+		shouldDestroy = true;
+	}
 	bool ShouldDestroy() const
 	{
 		return shouldDestroy;

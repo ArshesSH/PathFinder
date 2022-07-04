@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Arrow.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="FrameTimer.h" />
@@ -175,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />

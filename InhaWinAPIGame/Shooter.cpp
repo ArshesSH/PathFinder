@@ -50,3 +50,45 @@ void Shooter::SetRotateCenter( const Vec2<float>& v )
 {
 	rotateCenter = v;
 }
+
+Vec2<float> Shooter::GetShootPos() const
+{
+	return shootPos;
+}
+
+Vec2<float> Shooter::GetShootDir() const
+{
+	return (shootPos - rotateCenter).Normalize();
+}
+
+void Shooter::SetStateFireCooldown()
+{
+	state = State::FireCooldown;
+}
+
+ Shooter::State Shooter::GetState()
+{
+	return state;
+}
+
+void Shooter::KbdInput( float dt )
+{
+	fireTime += dt;
+
+	if ( GetAsyncKeyState( VK_RIGHT ) & 0x8000 )
+	{
+		angle += rotateSpeed * dt;
+		if ( angle >= 60.0f )
+		{
+			angle = 60.0f;
+		}
+	}
+	if ( GetAsyncKeyState( VK_LEFT ) & 0x8000 )
+	{
+		angle -= rotateSpeed * dt;
+		if ( angle <= -60.0f )
+		{
+			angle = -60.0f;
+		}
+	}
+}

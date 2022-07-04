@@ -17,11 +17,12 @@ public:
 
 	void Update( float dt, const class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
-
+	bool isOverlapWith( RECT other );
 private:
 	bool CheckFloor( RECT screenRect );
 
 private:
+	std::shared_ptr<Gdiplus::Image> pImage;
 	PhysicsEntity rigidBody;
 	Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 };
