@@ -12,7 +12,8 @@
 class Surface
 {
 public:
-	void DrawString( HDC hdc, const std::wstring& str, const Vec2<float> pos, Gdiplus::Color color, float fontSize = 24.0f, const std::wstring& fontType = L"Consolas" );
+	void DrawString( HDC hdc, const std::wstring& str, const Vec2<float> pos, Gdiplus::Color color, float fontSize = 24.0f,
+		const std::wstring& fontType = L"Consolas", const Gdiplus::FontStyle& fontStyle = Gdiplus::FontStyleRegular );
 
 	void DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height );
 	void DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF );

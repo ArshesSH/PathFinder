@@ -6,7 +6,8 @@
 
 SceneMainGame::SceneMainGame()
 	:
-	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight }, {shooterFrameWidth, shooterFrameHeight} )
+	shooter( { shooterImageWidth, shooterImageHeight }, {shooterFrameWidth, shooterFrameHeight} ),
+	pBackImage(ImageCodex::Retrieve( backImageName ))
 {
 	for ( int i = 1; i <= 6; ++i )
 	{
@@ -21,6 +22,8 @@ void SceneMainGame::Update( float dt, Game& game )
 	{
 		time += dt;
 		bulletGenTime += dt;
+
+		playerScore = game.GetCurScore();
 
 		UpdateWorldRect(game);
 
@@ -51,7 +54,9 @@ void SceneMainGame::Draw( HDC hdc )
 {
 	if ( isStart )
 	{
-		shooter.Draw( hdc );
+		surf.DrawImageNonChroma( hdc, pBackImage.get(), worldTopLeft,
+			worldBottomRight, { 0,0 }, backImageEnd );
+		 
 		for ( auto& bullet : bullets )
 		{
 			bullet.Draw( hdc );
@@ -64,13 +69,20 @@ void SceneMainGame::Draw( HDC hdc )
 		{
 			brick.Draw( hdc );
 		}
+		shooter.Draw( hdc );
 
 		// Draw World Rect
-		surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
+		surf.DrawRect( hdc, Gdiplus::Color( 255, 56, 56, 68 ), boarderThick, worldRect );
 
 		// Draw Player Name
 		std::wstring playerNameStr = L"Player: " + playerName;
-		surf.DrawString( hdc, playerNameStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+		surf.DrawString( hdc, playerNameStr, { worldRect.X, worldTopLeft.y - 60 },
+			Gdiplus::Color( 255, 255, 255, 255 ), 24.0f, L"Consolas", Gdiplus::FontStyleBold );
+
+		std::wstring scoreStr = L"Score : " + std::to_wstring( playerScore );
+		surf.DrawString( hdc, scoreStr,
+			{ float( (worldRect.X + worldWidth) * 0.5 + scoreStr.size() * 8 ), worldTopLeft.y - 60 },
+			Gdiplus::Color( 255, 255, 10, 255 ), 24.0f, L"Consolas", Gdiplus::FontStyleBold );
 
 		// debug
 		/*
@@ -87,7 +99,7 @@ void SceneMainGame::Draw( HDC hdc )
 	else
 	{
 		std::wstring startStr = L"Press Enter to Start ";
-		const float strStartPosX = (worldRect.X + worldRect.Width - (startStr.size() * 12)) * 0.5f ;
+		const float strStartPosX = (worldRect.X + worldRect.Width - (startStr.size() * 4)) * 0.5f ;
 		const float strStartPosY = (worldRect.Y + worldRect.Height) * 0.5f;
 		surf.DrawString( hdc, startStr, { strStartPosX ,strStartPosY }, Gdiplus::Color( 255, 255, 0, 255 ) );
 	}
@@ -104,6 +116,8 @@ inline void SceneMainGame::UpdateWorldRect( Game& game )
 {
 	const Gdiplus::PointF topLeft = { (game.screenRect.right - worldWidth) / 2.0f, (game.screenRect.bottom - worldHeight) / 2.0f };
 	worldRect = { topLeft,{ worldWidth, worldHeight } };
+	worldTopLeft = { worldRect.X, worldRect.Y };
+	worldBottomRight = { worldRect.X + worldWidth, worldRect.Y + worldHeight };
 	worldChangPosAmount = { worldRect.X - lastRect.X, worldRect.Y - lastRect.Y };
 }
 
@@ -149,9 +163,9 @@ inline void SceneMainGame::GenerateArrows()
 	{
 		std::random_device rd;
 		std::mt19937 rng( rd() );
-		std::uniform_real_distribution<float> arrowXGen( worldRect.X + arrowGenXPadding, worldRect.X + worldWidth - arrowGenXPadding );
+		std::uniform_real_distribution<float> arrowXGen( worldRect.X + boarderThick, worldRect.X + worldWidth - boarderThick );
 		arrows.emplace_back(
-			Arrow( L"Images/awsom.bmp", Vec2<float>{ arrowXGen( rng ), worldRect.Y }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
+			Arrow( Vec2<float>{ arrowXGen( rng ), worldRect.Y + arrowHalfHeight }, Vec2<float>{ 0.0f, arrowSpeed }, arrowWidth, arrowHeight, arrows.size() )
 		);
 		time = 0.0f;
 	}

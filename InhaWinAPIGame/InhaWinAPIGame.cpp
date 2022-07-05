@@ -65,15 +65,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 return false;
             }
         }
-        else
+        //else
         {
             game.UpdateModel();
         }
     }
     return (int)msg.wParam;
 }
-
-
 
 //
 //  함수: MyRegisterClass()
@@ -187,6 +185,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_DESTROY:
+        KillTimer( hWnd, 0 );
         PostQuitMessage(0);
         break;
     default:
@@ -267,7 +266,6 @@ BOOL CALLBACK StartDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPara
                 return FALSE;
             }
             break;
-
         }
     }
     return FALSE;
@@ -286,7 +284,7 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
             std::wstring topScores[3];
 
             int i = 0;
-            for ( auto rIt = scoreMap.rbegin(); i < 3; ++rIt )
+            for ( auto rIt = scoreMap.rbegin(); i < 3 && rIt != scoreMap.rend(); ++rIt )
             {
                 for ( auto str : rIt->second )
                 {
@@ -308,7 +306,7 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
             SetDlgItemText( hDlg, IDC_TOPSCORE2, topScores[1].c_str() );
             SetDlgItemText( hDlg, IDC_TOPSCORE3, topScores[2].c_str() );
         }
-        return TRUE;
+        break;
     case WM_COMMAND:
         switch ( LOWORD( wParam ) )
         {

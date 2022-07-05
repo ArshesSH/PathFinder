@@ -18,12 +18,12 @@ void Brick::Update( float dt, Scene& scene )
 		break;
 	case 1:
 		{
-			color = Gdiplus::Color( 125, 255, 10, 10 );
+			color = Gdiplus::Color( 200, 255, 10, 10 );
 		}
 		break;
 	case 2:
 		{
-			color = Gdiplus::Color( 255, 10, 255, 10 );
+			color = Gdiplus::Color( 255, 10, 230, 10 );
 		}
 		break;
 	}

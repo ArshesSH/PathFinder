@@ -10,9 +10,7 @@ public:
 		FireCooldown
 	};
 public:
-	Shooter( const std::wstring& imagename, const Vec2<float>& size, const Vec2<float>& frameSize );
-	Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size,
-		const Vec2<float>& frameSize, const Vec2<float>& rotateCenter );
+	Shooter( const Vec2<float>& size, const Vec2<float>& frameSize );
 
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
@@ -30,10 +28,11 @@ private:
 	static constexpr float fireInterval = 2.0f;
 	static constexpr float rotateSpeed = 100.0f;
 	static constexpr float angleLimit = 60.0f;
+	static constexpr wchar_t imagename[] = L"Images/Cannon.png";
 	std::shared_ptr<Gdiplus::Image> pImage;
 	float angle = 0.0f;
 	float fireTime = fireInterval;
-	const Vec2<int> imageEnd = {200,400};
+	Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 	Vec2<float> center;
 	Vec2<float> rotateCenter;
 	Vec2<float> shootPos;

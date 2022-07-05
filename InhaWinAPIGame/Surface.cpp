@@ -1,13 +1,14 @@
 #include "Surface.h"
 
-void Surface::DrawString( HDC hdc, const std::wstring& str, const Vec2<float> pos, Gdiplus::Color color, float fontSize, const std::wstring& fontType )
+void Surface::DrawString( HDC hdc, const std::wstring& str, const Vec2<float> pos, Gdiplus::Color color, float fontSize,
+	const std::wstring& fontType, const Gdiplus::FontStyle& fontStyle )
 {
 	using namespace Gdiplus;
 	Graphics graphics( hdc );
 
 	SolidBrush brush( color );
 	FontFamily fontFamily( fontType.c_str() );
-	Font font( &fontFamily, fontSize, FontStyleRegular, UnitPixel );
+	Font font( &fontFamily, fontSize, fontStyle, UnitPixel );
 	PointF pointF( pos.x, pos.y );
 
 	graphics.DrawString( str.c_str(), str.size(), &font, pointF, &brush );

@@ -25,12 +25,6 @@ void Game::ComposeFrame(HDC hdc)
 				[this]( HDC hdc )
 				{
 					mainGame.Draw( hdc );
-
-					std::wstring scoreStr = L"Score : " + std::to_wstring( playerScore );
-					
-					surf.DrawString( hdc, scoreStr,
-						{ float(screenRect.right * 0.5 - (((float)scoreStr.size() + 1.0f) * 10.0f)) ,0 },
-						Gdiplus::Color( 255, 255, 0, 255 ) );
 				}
 			);
 			if ( isScreenChanged )

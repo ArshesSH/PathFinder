@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 
-Arrow::Arrow( const std::wstring& imagename, const Vec2<float>& pos, const Vec2<float>& vel, float width, float height, int id )
+Arrow::Arrow(const Vec2<float>& pos, const Vec2<float>& vel, float width, float height, int id )
 	:
 	pImage( ImageCodex::Retrieve( imagename ) ),
 	rigidBody( PhysicsEntity::Type::Rect, pos, id, width, height, vel, 0.0f, 0.0f, 0 )

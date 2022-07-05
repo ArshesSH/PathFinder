@@ -25,7 +25,7 @@ public:
 
 		hOldBitmap = (HBITMAP)SelectObject( hMemDC, hDoubleBufferImage );
 
-		FillRect( hMemDC, &clientRECT, (HBRUSH)GetStockObject( WHITE_BRUSH ) );
+		FillRect( hMemDC, &clientRECT, (HBRUSH)GetStockObject( BLACK_BRUSH ) );
 
 		/*Surface a;
 		a.DrawString( hMemDC, L"Hello", pos, {255,255,0,0} );*/
