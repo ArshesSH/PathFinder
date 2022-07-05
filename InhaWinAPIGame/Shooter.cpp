@@ -36,7 +36,7 @@ void Shooter::Draw( HDC hdc )
 	surface.DrawImageChroma( hdc, pImage.get(), {center.x - size.x, center.y - size.y},
 		{ center.x + size.x, center.y + size.y }, { 0,0 }, imageEnd, rotateCenter, angle );
 
-	surface.DrawArc( hdc, Gdiplus::Color( 255, 0, 0, 255 ), 50,
+	surface.DrawArc( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 50,
 		{ rotateCenter.x - frameSize.x * 0.5f, rotateCenter.y, frameSize.x, frameSize.y },
 		0, -180 );
 
