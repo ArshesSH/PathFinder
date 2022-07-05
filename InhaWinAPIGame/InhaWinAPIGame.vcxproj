@@ -149,6 +149,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="framework.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />

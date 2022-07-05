@@ -21,11 +21,15 @@ private:
 	static constexpr float arrowSpeed = 100.0f;
 	static constexpr float arrowWidth = 30.0f;
 	static constexpr float arrowHeight = 50.0f;
+	static constexpr float arrowGenTimeMax = 2.0f;
+	static constexpr float arrowGenTimeMin = 0.5f;
 
 	// Shooter Setting
 	static constexpr float shooterImageWidth = 20.0f;
 	static constexpr float shooterImageHeight = 50.0f;
 	static constexpr float shooterImageDistFromRotate = 20.0f;
+	static constexpr float shooterFrameWidth = 50.0f;
+	static constexpr float shooterFrameHeight = 50.0f;
 
 	// Bullet Setting
 	static constexpr float bulletWidth = 20.0f;
@@ -46,6 +50,8 @@ private:
 	static constexpr float brickPosY = worldHeight - 50.0f;
 
 	Gdiplus::RectF worldRect;
+	Surface surf;
+	std::wstring playerName;
 
 	// Objects
 	Shooter shooter;
@@ -53,9 +59,8 @@ private:
 	std::vector<Bullet> bullets;
 	std::vector<Brick> bricks;
 
-
 	float time = 0.0f;
 	float bulletGenTime = bulletGenTimeLimit;
-	float arrowGenTime = 2.0f;
+	float arrowGenTime = arrowGenTimeMax;
 	bool isStart = false;
 };

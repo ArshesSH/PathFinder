@@ -32,6 +32,25 @@ void Surface::DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::
 	graphics.DrawRectangle( &pen, rectF );
 }
 
+void Surface::DrawArc( HDC hdc, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height, float startAngle, float sweepAngle )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	Pen pen( color, penWidth );
+	Gdiplus::RectF r( { topLeft.x, topLeft.y }, { width, height } );
+	graphics.DrawArc( &pen, r, startAngle, sweepAngle );
+}
+
+void Surface::DrawArc( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF, float startAngle, float sweepAngle )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	Pen pen( color, penWidth );
+	graphics.DrawArc( &pen, rectF, startAngle, sweepAngle );
+}
+
 void Surface::DrawFillRect( HDC hdc, Gdiplus::Color color, const Vec2<float>& topLeft, float width, float height )
 {
 	using namespace Gdiplus;

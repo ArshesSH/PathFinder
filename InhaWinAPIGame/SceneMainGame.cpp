@@ -6,7 +6,7 @@
 
 SceneMainGame::SceneMainGame()
 	:
-	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight } )
+	shooter( L"Images/testCannon.png", { shooterImageWidth, shooterImageHeight }, {shooterFrameWidth, shooterFrameHeight} )
 {
 	for ( int i = 1; i <= 6; ++i )
 	{
@@ -118,6 +118,7 @@ void SceneMainGame::Update( float dt, Game& game )
 		if ( GetAsyncKeyState( VK_RETURN ) & 0x8000 )
 		{
 			isStart = true;
+			playerName = game.GetUserID();
 		}
 	}
 }
@@ -140,26 +141,31 @@ void SceneMainGame::Draw( HDC hdc )
 			brick.Draw( hdc );
 		}
 
+		// Draw World Rect
+		surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
+
+		// Draw Player Name
+		std::wstring playerNameStr = L"Player: " + playerName;
+		surf.DrawString( hdc, playerNameStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 
 		// debug
+		/*
 		Surface a;
 		std::wstring curArrowCountStr = L"Cur Arrows count : " + std::to_wstring( arrows.size() );
 		a.DrawString( hdc, curArrowCountStr, { 0.0f,0.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
-
+		*/
+		/*
 		std::wstring worldRectStr = L"worldRect : left=" + std::to_wstring( worldRect.X ) + L" top=" + std::to_wstring( worldRect.Y )
 			+ L" right=" + std::to_wstring( worldRect.X + worldWidth ) + L" bottom=" + std::to_wstring( worldRect.Y + worldHeight );
 		a.DrawString( hdc, worldRectStr, { 0.0f,80.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+		*/
 
-		// DrawRect
-		a.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 25, worldRect );
 	}
 	else
 	{
-		Surface a;
 		std::wstring curArrowCountStr = L"Press Enter to Start ";
-		a.DrawString( hdc, curArrowCountStr, { 1000.0f ,500.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
+		surf.DrawString( hdc, curArrowCountStr, { 1000.0f ,500.0f }, Gdiplus::Color( 255, 255, 0, 0 ) );
 	}
-
 }
 
 RECT SceneMainGame::GetSceneRECT() const

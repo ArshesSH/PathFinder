@@ -10,8 +10,9 @@ public:
 		FireCooldown
 	};
 public:
-	Shooter( const std::wstring& imagename, const Vec2<float>& size );
-	Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size, const Vec2<float> rotateCenter );
+	Shooter( const std::wstring& imagename, const Vec2<float>& size, const Vec2<float>& frameSize );
+	Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size,
+		const Vec2<float>& frameSize, const Vec2<float>& rotateCenter );
 
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
@@ -37,6 +38,7 @@ private:
 	Vec2<float> rotateCenter;
 	Vec2<float> shootPos;
 	const Vec2<float> size;
+	const Vec2<float> frameSize;
 	
 	State state = State::CanFire;
 };

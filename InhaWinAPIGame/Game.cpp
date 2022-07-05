@@ -5,7 +5,10 @@
 
 
 Game::Game()
+	:
+	fileManager( dataDir )
 {
+	GetScoreMapFromData();
 }
 
 void Game::ComposeFrame(HDC hdc)
@@ -26,7 +29,9 @@ void Game::ComposeFrame(HDC hdc)
 
 					std::wstring scoreStr = L"Score : " + std::to_wstring( playerScore );
 					
-					surf.DrawString( hdc, scoreStr, { float(screenRect.right * 0.5 - ((scoreStr.size() + 1) * 10)) ,0 }, Gdiplus::Color( 255, 255, 0, 255 ) );
+					surf.DrawString( hdc, scoreStr,
+						{ float(screenRect.right * 0.5 - (((float)scoreStr.size() + 1.0f) * 10.0f)) ,0 },
+						Gdiplus::Color( 255, 255, 0, 255 ) );
 				}
 			);
 			if ( isScreenChanged )
@@ -88,18 +93,12 @@ void Game::UpdateModel()
 
 
 }
-
-Vec2<int> Game::GetMousePos()
-{
-	return mousePos;
-}
-
-void Game::SetMousePos( const Vec2<int>& pos )
-{
-	mousePos = pos;
-}
-
 Vec2<float> Game::GetScreenChangeAmount() const
 {
 	return screenChangeAmount;
+}
+
+unsigned long long Game::GetCurScore()
+{
+	return playerScore;
 }

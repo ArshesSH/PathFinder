@@ -17,8 +17,13 @@ public:
 	void DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height );
 	void DrawRect( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF );
 
+	void DrawArc( HDC hdc, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height, float startAngle, float sweepAngle );
+	void DrawArc( HDC hdc, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF, float startAngle, float sweepAngle );
+
 	void DrawFillRect( HDC hdc, Gdiplus::Color color, const Vec2<float>& topLeft, float width, float height );
 	void DrawFillRect( HDC hdc, Gdiplus::Color color, Gdiplus::RectF rectF );
+
+
 
 	void DrawImageNonChroma( HDC hdc, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd );
 

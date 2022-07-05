@@ -30,8 +30,7 @@ inline bool Arrow::CheckFloor( RECT screenRect )
 	const float width = rigidBody.GetWidth() * 0.5f;
 	const float height = rigidBody.GetHeight() * 0.5f;
 
-	return !(curPos.x - width >= screenRect.left && curPos.x + width <= screenRect.right &&
-		 curPos.y + height <= screenRect.bottom);
+	return !(curPos.y + height <= screenRect.bottom);
 }
 
 bool Arrow::isOverlapWith( RECT other )

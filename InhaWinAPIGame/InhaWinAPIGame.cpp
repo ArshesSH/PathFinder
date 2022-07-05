@@ -154,7 +154,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         if ( game.IsInitialGame() && isStartGame )
         {
             DialogBox( hInst, MAKEINTRESOURCE( IDD_STARTMENU ), hWnd, StartDialogProc );
-            isStartGame = false;
         }
         break;
     case WM_SIZE:
@@ -186,11 +185,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             game.ComposeFrame(hdc);
 
             EndPaint(hWnd, &ps);
-        }
-        break;
-    case WM_MOUSEMOVE:
-        {
-            game.SetMousePos( { LOWORD( lParam ), HIWORD( lParam ) } );
         }
         break;
     case WM_DESTROY:
@@ -285,6 +279,39 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
     UNREFERENCED_PARAMETER( lParam );
     switch ( iMsg )
     {
+    case WM_INITDIALOG:
+        {
+            auto scoreMap = game.GetScoreMap();
+
+            std::wstring topNames[3];
+            std::wstring topScores[3];
+
+            int i = 0;
+            for ( auto rIt = scoreMap.rbegin(); i < 3; ++rIt )
+            {
+                for ( auto str : rIt->second )
+                {
+                    if ( i >= 3 )
+                    {
+                        break;
+                    }
+                    topNames[i] = str;
+                    topScores[i] = std::to_wstring( rIt->first );
+                    ++i;
+
+                }
+            }
+            SetDlgItemText( hDlg, IDC_CURPLAYER, game.GetCurUserId().c_str() );
+            SetDlgItemText( hDlg, IDC_CURSCORE, std::to_wstring(game.GetCurScore()).c_str() );
+            SetDlgItemText( hDlg, IDC_TOPPLAYER, topNames[0].c_str() );
+            SetDlgItemText( hDlg, IDC_TOPPLAYER2, topNames[1].c_str() );
+            SetDlgItemText( hDlg, IDC_TOPPLAYER3, topNames[2].c_str() );
+            SetDlgItemText( hDlg, IDC_TOPSCORE, topScores[0].c_str() );
+            SetDlgItemText( hDlg, IDC_TOPSCORE2, topScores[1].c_str() );
+            SetDlgItemText( hDlg, IDC_TOPSCORE3, topScores[2].c_str() );
+
+        }
+        return TRUE;
     case WM_COMMAND:
         switch ( LOWORD( wParam ) )
         {
@@ -293,6 +320,7 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
         case IDCANCEL:
             {
                 EndDialog( hDlg, LOWORD( wParam ) );
+                game.SaveDataFromScoreMap();
                 PostQuitMessage( 0 );
                 return FALSE;
             }

@@ -2,21 +2,23 @@
 
 #include "MathSH.h"
 
-Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& size )
+Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& size, const Vec2<float>& frameSize )
 	:
 	pImage( ImageCodex::Retrieve( imagename ) ),
-	size( size )
+	size( size ),
+	frameSize(frameSize)
 {
 }
 
-Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size, const Vec2<float> rotateCenter )
+Shooter::Shooter( const std::wstring& imagename, const Vec2<float>& center, const Vec2<float>& size,
+	const Vec2<float>& frameSize, const Vec2<float>& rotateCenter )
 	:
 	pImage( ImageCodex::Retrieve( imagename ) ),
 	center(center),
 	size(size),
+	frameSize(frameSize),
 	rotateCenter(rotateCenter)
 {
-
 }
 
 void Shooter::Update( float dt, Scene& scene )
@@ -34,11 +36,17 @@ void Shooter::Draw( HDC hdc )
 	surface.DrawImageChroma( hdc, pImage.get(), {center.x - size.x, center.y - size.y},
 		{ center.x + size.x, center.y + size.y }, { 0,0 }, imageEnd, rotateCenter, angle );
 
+	surface.DrawArc( hdc, Gdiplus::Color( 255, 0, 0, 255 ), 50,
+		{ rotateCenter.x - frameSize.x * 0.5f, rotateCenter.y, frameSize.x, frameSize.y },
+		0, -180 );
+
 	// Debug
+	/*
 	std::wstring angleDebugStr = L"angle : " + std::to_wstring( angle );
 	surface.DrawString( hdc, angleDebugStr, { 0,40 }, Gdiplus::Color( 255, 255, 0, 0 ) );
 	std::wstring shootPosStr = L"shootPos : " + std::to_wstring( shootPos.x ) + L", " + std::to_wstring( shootPos.y );
 	surface.DrawString( hdc, shootPosStr, { 0,60 }, Gdiplus::Color( 255, 255, 0, 0 ) );
+	*/
 }
 
 void Shooter::SetCenter( const Vec2<float>& v )
