@@ -32,6 +32,12 @@ RECT Bullet::GetRECT() const
 	return rigidBody.GetRECT();
 }
 
+void Bullet::AddPos( const Vec2<float> addPos )
+{
+	rigidBody.SetCenter( rigidBody.GetCenter() + addPos );
+}
+
+
 bool Bullet::CheckBorder( RECT screenRect ) const
 {
 	const Vec2<float> curPos = rigidBody.GetCenter();

@@ -183,7 +183,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
             
             game.ComposeFrame(hdc);
-
             EndPaint(hWnd, &ps);
         }
         break;
@@ -298,7 +297,6 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
                     topNames[i] = str;
                     topScores[i] = std::to_wstring( rIt->first );
                     ++i;
-
                 }
             }
             SetDlgItemText( hDlg, IDC_CURPLAYER, game.GetCurUserId().c_str() );
@@ -309,7 +307,6 @@ BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
             SetDlgItemText( hDlg, IDC_TOPSCORE, topScores[0].c_str() );
             SetDlgItemText( hDlg, IDC_TOPSCORE2, topScores[1].c_str() );
             SetDlgItemText( hDlg, IDC_TOPSCORE3, topScores[2].c_str() );
-
         }
         return TRUE;
     case WM_COMMAND:

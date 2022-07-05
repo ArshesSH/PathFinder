@@ -10,3 +10,6 @@ asdf 100
 asdf 0
 asdf 0
 sdffsd 0
+asdf 0
+asdf 0
+sdf 0

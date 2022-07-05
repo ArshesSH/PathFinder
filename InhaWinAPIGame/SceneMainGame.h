@@ -15,6 +15,18 @@ public:
 	void Update( float dt, class Game& game ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetSceneRECT() const override;
+
+private:
+	void UpdateWorldRect( class Game& game );
+	void UpdateShooter(float dt);
+	void GenerateBullet();
+	void UpdateBullet( float dt, class Game& game );
+	void GenerateArrows();
+	void UpdateArrows( float dt, class Game& game );
+	void UpdateBricks( float dt, class Game& game );
+	void RefreshLastRect( class Game& game );
+	void DestroyObjects();
+
 private:
 	// Arrow Setting
 	static constexpr float arrowGenXPadding = 10.0f;
@@ -50,6 +62,8 @@ private:
 	static constexpr float brickPosY = worldHeight - 50.0f;
 
 	Gdiplus::RectF worldRect;
+	Gdiplus::RectF lastRect = worldRect;
+	Vec2<float> worldChangPosAmount;
 	Surface surf;
 	std::wstring playerName;
 

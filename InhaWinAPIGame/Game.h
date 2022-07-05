@@ -21,73 +21,21 @@ public:
 	void ComposeFrame( HDC hdc );
 	void UpdateModel();
 
-	Vec2<float> GetScreenChangeAmount() const;
-
 	unsigned long long GetCurScore();
-	std::wstring GetCurUserId()
-	{
-		return userId;
-	}
-	void AddScore()
-	{
-		playerScore += 100;
-	}
-	bool IsInitialGame() const
-	{
-		return sceneType == SceneType::SceneStart;
-	}
-	bool IsGameFinished() const
-	{
-		return sceneType == SceneType::SceneResult;
-	}
-	void StartMainGame()
-	{
-		sceneType = SceneType::SceneMainGame;
-	}
-	void SetUserID( const std::wstring& id )
-	{
-		userId = id;
-	}
-	std::wstring GetUserID() const
-	{
-		return userId;
-	}
-
+	std::wstring GetCurUserId();
+	void AddScore();
+	bool IsInitialGame() const;
+	bool IsGameFinished() const;
+	void StartMainGame();
+	void SetUserID( const std::wstring& id );
+	std::wstring GetUserID() const;
 	auto GetScoreMap()
 	{
 		return scoreMap;
 	}
-	void GetScoreMapFromData()
-	{
-		auto lines = fileManager.GetLineVector();
-		
-		for ( auto line : lines )
-		{
-			auto pos = line.find( L" " );
-			const unsigned long long scoreData = std::stoull( line.substr( pos, line.size() ) ) ;
-			const std::wstring nameData = line.substr( 0, pos );
-
-			scoreMap[scoreData].push_back( nameData );
-		}
-	}
-	void SaveDataFromScoreMap()
-	{
-		std::vector<std::wstring> lines;
-
-		scoreMap[playerScore].push_back( userId );
-		for ( auto rIt = scoreMap.rbegin(); rIt != scoreMap.rend(); ++rIt )
-		{
-			for ( auto str : rIt->second )
-			{
-				lines.push_back( str + L" ");
-				lines.push_back( std::to_wstring( rIt->first ) + L"\n");
-			}
-		}
-
-		fileManager.SaveToFile( lines );
-	}
-
-private:
+	void GetScoreMapFromData();
+	void SaveDataFromScoreMap();
+	bool IsScreenChanged() const;
 
 public:
 	RECT screenRect;
@@ -102,7 +50,6 @@ private:
 	Surface surf;
 
 	bool isScreenChanged = true;
-	Vec2<float> screenChangeAmount = {0.0f,0.0f};
 	float time = 0.0f;
 	SceneType sceneType = SceneType::SceneStart;
 

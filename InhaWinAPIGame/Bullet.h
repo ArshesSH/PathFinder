@@ -18,6 +18,8 @@ public:
 	void Draw( HDC hdc ) override;
 	RECT GetRECT() const;
 
+	void AddPos( const Vec2<float> addPos );
+
 private:
 	bool CheckBorder( RECT screenRect ) const;
 private:

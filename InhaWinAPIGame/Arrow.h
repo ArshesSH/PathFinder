@@ -18,6 +18,9 @@ public:
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( HDC hdc ) override;
 	bool isOverlapWith( RECT other );
+
+	void AddPos( const Vec2<float> addPos );
+
 private:
 	bool CheckFloor( RECT screenRect );
 

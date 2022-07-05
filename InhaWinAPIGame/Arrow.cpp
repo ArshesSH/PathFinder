@@ -42,3 +42,8 @@ bool Arrow::isOverlapWith( RECT other )
 	return curPos.x + width > other.left && curPos.x - width < other.right
 		&& curPos.y + height > other.top && curPos.y - height < other.bottom;
 }
+
+void Arrow::AddPos( const Vec2<float> addPos )
+{
+	rigidBody.SetCenter( rigidBody.GetCenter() + addPos );
+}

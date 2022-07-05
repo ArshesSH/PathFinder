@@ -17,7 +17,6 @@ void Game::ComposeFrame(HDC hdc)
 	{
 	case Game::SceneType::SceneStart:
 		{
-
 		}
 		break;
 	case Game::SceneType::SceneMainGame:
@@ -42,7 +41,6 @@ void Game::ComposeFrame(HDC hdc)
 		break;
 	case Game::SceneType::SceneResult:
 		{
-
 		}
 		break;
 	}
@@ -54,7 +52,6 @@ void Game::UpdateModel()
 	{
 	case Game::SceneType::SceneStart:
 		{
-
 		}
 		break;
 	case Game::SceneType::SceneMainGame:
@@ -64,8 +61,6 @@ void Game::UpdateModel()
 			if ( screenRect.right != oldScreenSize.right || screenRect.bottom != oldScreenSize.bottom )
 			{
 				isScreenChanged = true;
-
-				screenChangeAmount = { float( screenRect.right - oldScreenSize.right ), float( screenRect.bottom - oldScreenSize.bottom ) };
 
 				oldScreenSize.left = screenRect.left;
 				oldScreenSize.top = screenRect.top;
@@ -89,16 +84,69 @@ void Game::UpdateModel()
 		}
 		break;
 	}
-
-
-
 }
-Vec2<float> Game::GetScreenChangeAmount() const
-{
-	return screenChangeAmount;
-}
-
 unsigned long long Game::GetCurScore()
 {
 	return playerScore;
+}
+std::wstring Game::GetCurUserId()
+{
+	return userId;
+}
+void Game::AddScore()
+{
+	playerScore += 100;
+}
+bool Game::IsInitialGame() const
+{
+	return sceneType == SceneType::SceneStart;
+}
+bool Game::IsGameFinished() const
+{
+	return sceneType == SceneType::SceneResult;
+}
+void Game::StartMainGame()
+{
+	sceneType = SceneType::SceneMainGame;
+}
+void Game::SetUserID( const std::wstring& id )
+{
+	userId = id;
+}
+std::wstring Game::GetUserID() const
+{
+	return userId;
+}
+void Game::GetScoreMapFromData()
+{
+	auto lines = fileManager.GetLineVector();
+
+	for ( auto line : lines )
+	{
+		auto pos = line.find( L" " );
+		const unsigned long long scoreData = std::stoull( line.substr( pos, line.size() ) );
+		const std::wstring nameData = line.substr( 0, pos );
+
+		scoreMap[scoreData].push_back( nameData );
+	}
+}
+void Game::SaveDataFromScoreMap()
+{
+	std::vector<std::wstring> lines;
+
+	scoreMap[playerScore].push_back( userId );
+	for ( auto rIt = scoreMap.rbegin(); rIt != scoreMap.rend(); ++rIt )
+	{
+		for ( auto str : rIt->second )
+		{
+			lines.push_back( str + L" " );
+			lines.push_back( std::to_wstring( rIt->first ) + L"\n" );
+		}
+	}
+
+	fileManager.SaveToFile( lines );
+}
+bool Game::IsScreenChanged() const
+{
+	return isScreenChanged;
 }
