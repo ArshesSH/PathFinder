@@ -161,10 +161,12 @@
     <ClInclude Include="Mat2.h" />
     <ClInclude Include="Mat3.h" />
     <ClInclude Include="MathSH.h" />
+    <ClInclude Include="PanicPlayer.h" />
     <ClInclude Include="PatternMatchingListener.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="PhysicsEntityTypeTraits.h" />
+    <ClInclude Include="PlayerArea.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -192,7 +194,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />
     <ClCompile Include="InhaWinAPIGame.cpp" />
+    <ClCompile Include="PanicPlayer.cpp" />
     <ClCompile Include="PhysicsEntity.cpp" />
+    <ClCompile Include="PlayerArea.cpp" />
     <ClCompile Include="SceneMainGame.cpp" />
     <ClCompile Include="SceneStage.cpp" />
     <ClCompile Include="Shooter.cpp" />

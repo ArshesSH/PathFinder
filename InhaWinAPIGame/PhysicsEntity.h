@@ -76,11 +76,15 @@ public:
 	void SetStateToCollide();
 	void ReboundX();
 	void ReboundY();
-private:
 	void ApplyTransformation( const Mat3<float>& transformation_in );
 	void MovePos( float dt )
 	{
 		const Vec2<float> curPos = pObj->GetCenter() + (vel * dt);
+		pObj->SetCenter( curPos );
+	}
+	void MovePos( const Vec2<float> vel_in, float dt )
+	{
+		const Vec2<float> curPos = pObj->GetCenter() + (vel_in * dt);
 		pObj->SetCenter( curPos );
 	}
 

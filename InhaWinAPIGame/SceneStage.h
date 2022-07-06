@@ -4,10 +4,13 @@
 
 #include "Vec2.h"
 #include "Surface.h"
+#include "PanicPlayer.h"
 
 class SceneStage : public Scene
 {
 public:
+	SceneStage();
+	
 	void Update( float dt, class Game& game ) override;
 	void Draw( HDC hdc ) override;
 	RECT GetSceneRECT() const override;
@@ -27,4 +30,6 @@ private:
 	Vec2<float> worldChangPosAmount;
 	Surface surf;
 	
+	// Player Setting
+	PanicPlayer player;
 };

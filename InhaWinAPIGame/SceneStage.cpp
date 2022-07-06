@@ -3,14 +3,23 @@
 #include "Game.h"
 #include "UtilSH.h"
 
+SceneStage::SceneStage()
+	:
+	player( { 600,600 }, { 0,0 }, 20, 20, 0 )
+{
+}
+
 void SceneStage::Update( float dt, Game& game )
 {
 	UpdateWorldRect( game );
+
+	player.Update( dt, *this );
 }
 
 void SceneStage::Draw( HDC hdc )
 {
 	surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 20, worldRect );
+	player.Draw( hdc );
 }
 
 RECT SceneStage::GetSceneRECT() const
