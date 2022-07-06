@@ -183,6 +183,9 @@
     <ClInclude Include="Physics.h">
       <Filter>헤더 파일\Engine\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicActor.h">
+      <Filter>헤더 파일\GameObjects\DynamicActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhaWinAPIGame.cpp">

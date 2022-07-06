@@ -150,6 +150,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GDIPlusManager.h" />
