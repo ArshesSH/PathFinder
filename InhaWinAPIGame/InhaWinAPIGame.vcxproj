@@ -169,7 +169,6 @@
     <ClInclude Include="ImageCodex.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TemplateSingleton.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec2W.h" />
     <ClInclude Include="Vec3.h" />
