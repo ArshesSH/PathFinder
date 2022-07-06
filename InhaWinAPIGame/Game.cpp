@@ -4,6 +4,7 @@
 #include "Surface.h"
 
 
+
 Game::Game()
 	:
 	fileManager( dataDir )
@@ -33,6 +34,21 @@ void Game::ComposeFrame(HDC hdc)
 			}
 		}
 		break;
+	case Game::SceneType::SceneStage:
+		{
+			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
+				[this]( HDC hdc )
+				{
+					stage.Draw( hdc );
+				}
+			);
+
+			if ( isScreenChanged )
+			{
+				isScreenChanged = false;
+			}
+		}
+		break;
 	case Game::SceneType::SceneResult:
 		{
 		}
@@ -52,20 +68,19 @@ void Game::UpdateModel()
 		{
 			float dt = ft.Mark();
 
-			if ( screenRect.right != oldScreenSize.right || screenRect.bottom != oldScreenSize.bottom )
-			{
-				isScreenChanged = true;
-
-				oldScreenSize.left = screenRect.left;
-				oldScreenSize.top = screenRect.top;
-				oldScreenSize.right = screenRect.right;
-				oldScreenSize.bottom = screenRect.bottom;
-			}
+			RefreshScreen();
 			mainGame.Update( dt, *this );
 			if ( mainGame.isSceneFinshed() )
 			{
 				sceneType = SceneType::SceneResult;
 			}
+		}
+		break;
+	case Game::SceneType::SceneStage:
+		{
+			float dt = ft.Mark();
+			RefreshScreen();
+			stage.Update( dt, *this );
 		}
 		break;
 	case Game::SceneType::SceneResult:
@@ -77,6 +92,18 @@ void Game::UpdateModel()
 			}
 		}
 		break;
+	}
+}
+void Game::RefreshScreen()
+{
+	if ( screenRect.right != oldScreenSize.right || screenRect.bottom != oldScreenSize.bottom )
+	{
+		isScreenChanged = true;
+
+		oldScreenSize.left = screenRect.left;
+		oldScreenSize.top = screenRect.top;
+		oldScreenSize.right = screenRect.right;
+		oldScreenSize.bottom = screenRect.bottom;
 	}
 }
 unsigned long long Game::GetCurScore()

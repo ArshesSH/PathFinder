@@ -4,6 +4,7 @@
 
 #include "FrameTimer.h"
 #include "SceneMainGame.h"
+#include "SceneStage.h"
 #include "DrawManager.h"
 #include "FileManager.h"
 #include <map>
@@ -14,12 +15,15 @@ public:
 	{
 		SceneStart,
 		SceneMainGame,
+		SceneStage,
 		SceneResult
 	};
 public:
 	Game();
 	void ComposeFrame( HDC hdc );
 	void UpdateModel();
+
+	void RefreshScreen();
 
 	unsigned long long GetCurScore();
 	std::wstring GetCurUserId();
@@ -46,12 +50,13 @@ private:
 	FileManager fileManager;
 	FrameTimer ft;
 	SceneMainGame mainGame;
+	SceneStage stage;
 	DrawManager drawManager;
 	Surface surf;
 
 	bool isScreenChanged = true;
 	float time = 0.0f;
-	SceneType sceneType = SceneType::SceneStart;
+	SceneType sceneType = SceneType::SceneStage;
 
 	std::wstring userId;
 	unsigned long long playerScore = 0;
