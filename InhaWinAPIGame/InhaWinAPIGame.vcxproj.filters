@@ -73,6 +73,9 @@
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{928bb001-9a17-4d2f-ba20-e76146f001b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Engine\Physics\GeometricObject">
+      <UniqueIdentifier>{51c8f122-48a1-49fc-977a-58cff67c0168}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -135,9 +138,6 @@
     <ClInclude Include="GDIPlusManager.h">
       <Filter>헤더 파일\Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GeometricObject.h">
-      <Filter>헤더 파일\Engine\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="ImageCodex.h">
       <Filter>헤더 파일\Engine\Utilities</Filter>
     </ClInclude>
@@ -167,6 +167,21 @@
     </ClInclude>
     <ClInclude Include="SceneMainGame.h">
       <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometricObject.h">
+      <Filter>헤더 파일\Engine\Physics\GeometricObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>헤더 파일\Engine\Physics\GeometricObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>헤더 파일\Engine\Physics\GeometricObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>헤더 파일\Engine\Physics\GeometricObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>헤더 파일\Engine\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="SceneMainGame.cpp">
       <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>소스 파일\Engine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

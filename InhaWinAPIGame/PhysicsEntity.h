@@ -1,6 +1,10 @@
 #pragma once
 
 #include "GeometricObject.h"
+#include "Circle.h"
+#include "Rect.h"
+#include "Star.h"
+
 #include "Mat3.h"
 #include <memory>
 #include "MathSH.h"
@@ -27,10 +31,7 @@ public:
 	enum class State
 	{
 		Normal,
-		Collided,
-		ShouldSplit,
-		ShouldScaleUP,
-		ShouldDestroy
+		Collided
 	};
 
 public:
@@ -58,9 +59,6 @@ public:
 	const TypeTrait& GetEntityType() const;
 	Vec2<float> GetVelocity() const;
 	std::vector<Vec2<float>> GetVertices() const;
-	bool GetStateShouldSplit() const;
-	bool GetStateShouldScaleUp() const;
-	bool GetStateShouldDestroy() const;
 	bool WasCollided() const;
 	float GetSizeForAdd() const;
 	int GetFlareCount() const;
@@ -76,25 +74,15 @@ public:
 	void SetState( const State& s );
 	void SetStateToNormal();
 	void SetStateToCollide();
-	void SetStateShouldSplit();
-	void SetStateShouldScaleUP();
-	void SetStateShouldDestroy();
 	void ReboundX();
 	void ReboundY();
-
-	void DoEntityCollisionWith( PhysicsEntity& other, class PatternMatchingListener& listener );
-	void DoWallCollision( const RECT& walls );
-	bool CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight );
 private:
 	void ApplyTransformation( const Mat3<float>& transformation_in );
-
 	void MovePos( float dt )
 	{
 		const Vec2<float> curPos = pObj->GetCenter() + (vel * dt);
 		pObj->SetCenter( curPos );
 	}
-
-
 
 private:
 	std::unique_ptr<GeometricObject<float>> pObj;

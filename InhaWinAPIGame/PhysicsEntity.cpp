@@ -173,21 +173,6 @@ std::vector<Vec2<float>> PhysicsEntity::GetVertices() const
 	return pObj->GetVertices();
 }
 
-bool PhysicsEntity::GetStateShouldSplit() const
-{
-	return objState == State::ShouldSplit;
-}
-
-bool PhysicsEntity::GetStateShouldScaleUp() const
-{
-	return objState == State::ShouldScaleUP;
-}
-
-bool PhysicsEntity::GetStateShouldDestroy() const
-{
-	return objState == State::ShouldDestroy;
-}
-
 bool PhysicsEntity::WasCollided() const
 {
 	return objState == State::Collided;
@@ -259,21 +244,6 @@ void PhysicsEntity::SetCenterY( float y )
 	 objState = State::Collided;
  }
 
- void PhysicsEntity::SetStateShouldSplit()
- {
-	 objState = State::ShouldSplit;
- }
-
- void PhysicsEntity::SetStateShouldScaleUP()
- {
-	 objState = State::ShouldScaleUP;
- }
-
- void PhysicsEntity::SetStateShouldDestroy()
- {
-	 objState = State::ShouldDestroy;
- }
-
  void PhysicsEntity::ReboundX()
  {
 	 vel.x = -vel.x;
@@ -284,120 +254,7 @@ void PhysicsEntity::SetCenterY( float y )
 	 vel.y = -vel.y;
  }
 
-void PhysicsEntity::DoEntityCollisionWith( PhysicsEntity& other, PatternMatchingListener& listener )
-{
-	//if ( !WasCollided() && !other.WasCollided() )
-	{
-		if ( *this != other )
-		{
-			Vec2<float> correctionVec;
-
-			listener.Switch( *this, other );
-		}
-	}
-}
-
 inline void PhysicsEntity::ApplyTransformation( const Mat3<float>& transformation_in )
 {
 	transform = transformation_in * transform;
-}
-
-inline void PhysicsEntity::DoWallCollision( const RECT& walls )
-{
-	if ( pType->GetType() == Type::Rect )
-	{
-		const Vec2<float> topLeftVec{ (float)walls.left, (float)walls.top };
-		const Vec2<float> bottomRightVec{ (float)walls.right, (float)walls.bottom };
-
-		if ( CheckConvexOverlapWithborder( topLeftVec, bottomRightVec ) )
-		{
-		}
-	}
-	else
-	{
-		const RECT objRect = pObj->GetRECT();
-		if ( objRect.left < walls.left )
-		{
-			pObj->SetCenterX( pObj->GetCenterX() + walls.left - objRect.left );
-			ReboundX();
-		}
-		else if ( objRect.right > walls.right )
-		{
-			pObj->SetCenterX( pObj->GetCenterX() + (walls.right - objRect.right) );
-			ReboundX();
-		}
-		if ( objRect.top < walls.top )
-		{
-			pObj->SetCenterY( pObj->GetCenterY() + walls.top - objRect.top );
-			ReboundY();
-		}
-		else if ( objRect.bottom > walls.bottom )
-		{
-			pObj->SetCenterY( pObj->GetCenterY() + (walls.bottom - objRect.bottom) );
-			ReboundY();
-		}
-	}
-}
-
-bool PhysicsEntity::CheckConvexOverlapWithborder( const Vec2<float>& topLeft, const Vec2<float>& bottomRight )
-{
-	// Create Normalized Horizontal and Vertical Window Sized Vectors
-	const Vec2<float> NormalizedHorizontal = Vec2<float>( bottomRight.x - topLeft.x, topLeft.y ).GetNormalized();
-	const Vec2<float> NormalizedVertical = Vec2<float>( topLeft.x, bottomRight.y - topLeft.y ).GetNormalized();
-
-	// Set Projection vals
-	float minHorizon = INFINITY;
-	float maxHorizon = -INFINITY;
-	float minVertical = INFINITY;
-	float maxVertical = -INFINITY;
-
-	std::vector<Vec2<float>> vertices = pObj->GetVertices();
-
-	for ( auto e : vertices )
-	{
-		// Check Horizontal
-		const float pHorizon = e * NormalizedHorizontal;
-		minHorizon = (std::min)(minHorizon, pHorizon);
-		maxHorizon = (std::max)(maxHorizon, pHorizon);
-
-		// Case Left Collision
-		if ( minHorizon < topLeft.x )
-		{
-			const Vec2<float> minimumTranslateVec = NormalizedHorizontal * (topLeft.x - e.x);
-			SetCenter( GetCenter() + minimumTranslateVec );
-			ReboundX();
-			return true;
-		}
-		// Case Right Collision
-		else if ( bottomRight.x < maxHorizon )
-		{
-			const Vec2<float> minimumTranslateVec = NormalizedHorizontal * (bottomRight.x - e.x);
-			SetCenter( GetCenter() + minimumTranslateVec );
-			ReboundX();
-			return true;
-		}
-
-		// Check Vertical
-		const float pVertical = e * NormalizedVertical;
-		minVertical = (std::min)(minVertical, pVertical);
-		maxVertical = (std::max)(maxVertical, pVertical);
-
-		// Case Top Collision
-		if ( minVertical < topLeft.y )
-		{
-			const Vec2<float> minimumTranslateVec = NormalizedVertical * (topLeft.y - e.y);
-			SetCenter( GetCenter() + minimumTranslateVec );
-			ReboundY();
-			return true;
-		}
-		// Case Bottom Collision
-		else if ( bottomRight.y < maxVertical )
-		{
-			const Vec2<float> minimumTranslateVec = NormalizedVertical * (bottomRight.y - e.y);
-			SetCenter( GetCenter() + minimumTranslateVec );
-			ReboundY();
-			return true;
-		}
-	}
-	return false;
 }
