@@ -18,7 +18,9 @@ void SceneStage::Update( float dt, Game& game )
 
 void SceneStage::Draw( HDC hdc )
 {
-	surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), 20, worldRect );
+	surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), worldBorderThick,
+		{ worldRect.X - worldBorderThick, worldRect.Y - worldBorderThick,worldWidth + worldBorderThick, worldHeight + worldBorderThick }
+	);
 	player.Draw( hdc );
 }
 

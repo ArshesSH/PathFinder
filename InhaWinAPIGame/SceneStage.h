@@ -21,6 +21,7 @@ private:
 private:
 	static constexpr float worldWidth = 700.0f;
 	static constexpr float worldHeight = 960.0f;
+	static constexpr float worldBorderThick = 20.0f;
 
 	// World Setting
 	Gdiplus::RectF worldRect;
