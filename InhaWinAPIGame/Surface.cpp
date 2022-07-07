@@ -71,6 +71,25 @@ void Surface::DrawFillRect( HDC hdc, Gdiplus::Color color, Gdiplus::RectF rectF 
 	graphics.FillRectangle( &brush, rectF );
 }
 
+void Surface::DrawPolygon( HDC hdc, Gdiplus::Color color, float penWidth, const Gdiplus::PointF& points, int pointCnt )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	Pen pen( color, penWidth );
+	graphics.DrawPolygon( &pen, &points, pointCnt );
+}
+
+void Surface::DrawFillPolygon( HDC hdc, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt )
+{
+	using namespace Gdiplus;
+	Graphics graphics( hdc );
+
+	SolidBrush brush( color );
+	graphics.FillPolygon( &brush, &points, pointCnt );
+}
+
+
 void Surface::DrawImageNonChroma( HDC hdc, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
 {
 	using namespace Gdiplus;

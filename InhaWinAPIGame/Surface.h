@@ -24,6 +24,8 @@ public:
 	void DrawFillRect( HDC hdc, Gdiplus::Color color, const Vec2<float>& topLeft, float width, float height );
 	void DrawFillRect( HDC hdc, Gdiplus::Color color, Gdiplus::RectF rectF );
 
+	void DrawPolygon( HDC hdc, Gdiplus::Color color, float penWidth, const Gdiplus::PointF& points, int pointCnt );
+	void DrawFillPolygon( HDC hdc, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt );
 
 
 	void DrawImageNonChroma( HDC hdc, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd );
@@ -39,7 +41,6 @@ public:
 		const Vec2<int> imageStart, const Vec2<int> imageEnd, const Vec2<float> rotateCenter, float angle,
 		Gdiplus::Color lowChroma = { 245, 0, 245 }, Gdiplus::Color highChroma = { 255,10,255 } );
 
-	
 private:
 };
 

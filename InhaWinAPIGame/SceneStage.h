@@ -5,6 +5,7 @@
 #include "Vec2.h"
 #include "Surface.h"
 #include "PanicPlayer.h"
+#include <list>
 
 class SceneStage : public Scene
 {
@@ -30,7 +31,12 @@ private:
 	Vec2<float> worldBottomRight;
 	Vec2<float> worldChangPosAmount;
 	Surface surf;
+	std::shared_ptr<Gdiplus::Image> pBackImage =  ImageCodex::Retrieve( L"Images/¼öÁö.bmp");
+	Vec2<int> imageEnd = { pBackImage->GetWidth(), pBackImage->GetHeight() };
 	
 	// Player Setting
 	PanicPlayer player;
+
+	std::vector<Gdiplus::PointF> points;
+	
 };
