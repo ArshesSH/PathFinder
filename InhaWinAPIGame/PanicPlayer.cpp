@@ -10,8 +10,7 @@ PanicPlayer::PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float wi
 
 void PanicPlayer::Update( float dt, Scene& scene )
 {
-	movedTopLeft = rigidBody.GetLeftTop() + scene.GetSceneTopLeft();
-	movedBottomRight = rigidBody.GetRightBottom() + scene.GetSceneTopLeft();
+	MoveToRelativeCoord( scene.GetSceneTopLeft() );
 	KbdInput(dt);
 }
 
@@ -22,22 +21,22 @@ void PanicPlayer::Draw( HDC hdc )
 
 void PanicPlayer::KbdInput(float dt)
 {
-	if ( GetAsyncKeyState( VK_LEFT ) )
+	if ( GetAsyncKeyState( VK_LEFT ) & 0x8001 )
 	{
 		const Vec2<float> vel = dirLeft * speed * dt;
 		rigidBody.SetCenter( rigidBody.GetCenter() + vel );
 	}
-	else if ( GetAsyncKeyState( VK_RIGHT ) )
+	else if ( GetAsyncKeyState( VK_RIGHT ) & 0x8001)
 	{
 		const Vec2<float> vel = dirRight * speed * dt;
 		rigidBody.SetCenter( rigidBody.GetCenter() + vel );
 	}
-	else if ( GetAsyncKeyState( VK_UP ) )
+	else if ( GetAsyncKeyState( VK_UP ) & 0x8001)
 	{
 		const Vec2<float> vel = dirUp * speed * dt;
 		rigidBody.SetCenter( rigidBody.GetCenter() + vel );
 	}
-	else if ( GetAsyncKeyState( VK_DOWN ) )
+	else if ( GetAsyncKeyState( VK_DOWN ) & 0x8001)
 	{
 		const Vec2<float> vel = dirDown * speed * dt;
 		rigidBody.SetCenter( rigidBody.GetCenter() + vel );
@@ -46,5 +45,6 @@ void PanicPlayer::KbdInput(float dt)
 
 void PanicPlayer::MoveToRelativeCoord( const Vec2<float> amount )
 {
-
+	movedTopLeft = rigidBody.GetLeftTop() + amount;
+	movedBottomRight = rigidBody.GetRightBottom() + amount;
 }

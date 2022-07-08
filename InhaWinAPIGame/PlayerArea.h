@@ -19,7 +19,6 @@ private:
 
 private:
 	const Gdiplus::Color color{ 255, 0, 255, 0 };
-	Surface surf;
 	std::vector<Gdiplus::PointF> vertices;
 	std::vector<Gdiplus::PointF> drawVertices;
 };

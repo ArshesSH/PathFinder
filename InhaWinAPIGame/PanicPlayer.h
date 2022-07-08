@@ -3,6 +3,7 @@
 #include "DynamicActor.h"
 
 #include <vector>
+#include "PlayerArea.h"
 
 class PanicPlayer : public DynamicActor
 {
@@ -44,6 +45,7 @@ private:
 	Vec2<float> dir;
 
 	float speed = 100.0f;
+
 
 	//temp
 	Vec2<float> movedTopLeft;

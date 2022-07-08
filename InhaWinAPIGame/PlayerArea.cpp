@@ -31,7 +31,7 @@ void PlayerArea::Update( float dt, Scene& scene )
 
 void PlayerArea::Draw( HDC hdc )
 {
-	surf.DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
+	surface.DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
 }
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<float> amount )
