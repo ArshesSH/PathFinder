@@ -34,5 +34,5 @@ void Brick::Draw( HDC hdc )
 	const Vec2<float> topLeft = rigidBody.GetLeftTop();
 	const float width = rigidBody.GetWidth();
 	const float height = rigidBody.GetHeight();
-	surface.DrawFillRect( hdc, color, topLeft, width, height );
+	Surface::DrawFillRect( hdc, color, topLeft, width, height );
 }

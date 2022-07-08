@@ -16,7 +16,7 @@ void PanicPlayer::Update( float dt, Scene& scene )
 
 void PanicPlayer::Draw( HDC hdc )
 {
-	surface.DrawImageChroma( hdc, pImage.get(), movedTopLeft, movedBottomRight, { 0,0 }, imageEnd );
+	Surface::DrawImageChroma( hdc, pImage.get(), movedTopLeft, movedBottomRight, { 0,0 }, imageEnd );
 }
 
 void PanicPlayer::KbdInput(float dt)

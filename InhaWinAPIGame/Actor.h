@@ -24,6 +24,5 @@ public:
 		return shouldDestroy;
 	}
 protected:
-	Surface surface;
 	bool shouldDestroy = false;
 };

@@ -50,7 +50,6 @@ private:
 	FrameTimer ft;
 	SceneStage stage;
 	DrawManager drawManager;
-	Surface surf;
 
 	bool isScreenChanged = true;
 	float time = 0.0f;

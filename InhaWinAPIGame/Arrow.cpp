@@ -21,7 +21,7 @@ void Arrow::Update( float dt, Scene& scene )
 
 void Arrow::Draw( HDC hdc )
 {
-	surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
+	Surface::DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
 }
 
 inline bool Arrow::CheckFloor( RECT screenRect )

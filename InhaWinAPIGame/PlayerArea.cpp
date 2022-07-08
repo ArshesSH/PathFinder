@@ -31,13 +31,13 @@ void PlayerArea::Update( float dt, Scene& scene )
 
 void PlayerArea::Draw( HDC hdc )
 {
-	surface.DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
+	Surface::DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
 }
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<float> amount )
 {
 	drawVertices = vertices;
-	for (auto i = 0; i < vertices.size(); ++i)
+	for (size_t i = 0; i < vertices.size(); ++i)
 	{
 		drawVertices[i] = vertices[i] + Gdiplus::PointF( amount.x, amount.y );
 	}

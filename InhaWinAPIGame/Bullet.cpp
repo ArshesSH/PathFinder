@@ -24,7 +24,7 @@ void Bullet::Update( float dt, Scene& scene )
 
 void Bullet::Draw( HDC hdc )
 {
-	surface.DrawImageNonChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
+	Surface::DrawImageNonChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
 }
 
 RECT Bullet::GetRECT() const

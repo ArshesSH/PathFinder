@@ -20,7 +20,6 @@ private:
 	static constexpr float worldHeight = 960.0f;
 	static constexpr float worldBorderThick = 20.0f;
 
-	Surface surf;
 	std::shared_ptr<Gdiplus::Image> pBackImage =  ImageCodex::Retrieve( L"Images/¼öÁö.bmp");
 	Vec2<int> imageEnd = { pBackImage->GetWidth(), pBackImage->GetHeight() };
 	

@@ -55,7 +55,7 @@ void SceneMainGame::Draw( HDC hdc )
 {
 	if ( isStart )
 	{
-		surf.DrawImageNonChroma( hdc, pBackImage.get(), worldTopLeft,
+		Surface::DrawImageNonChroma( hdc, pBackImage.get(), worldTopLeft,
 			worldBottomRight, { 0,0 }, backImageEnd );
 		 
 		for ( auto& bullet : bullets )
@@ -73,15 +73,15 @@ void SceneMainGame::Draw( HDC hdc )
 		shooter.Draw( hdc );
 
 		// Draw World Rect
-		surf.DrawRect( hdc, Gdiplus::Color( 255, 56, 56, 68 ), boarderThick, worldRect );
+		Surface::DrawRect( hdc, Gdiplus::Color( 255, 56, 56, 68 ), boarderThick, worldRect );
 
 		// Draw Player Name
 		std::wstring playerNameStr = L"Player: " + playerName;
-		surf.DrawString( hdc, playerNameStr, { worldRect.X, worldTopLeft.y - 60 },
+		Surface::DrawString( hdc, playerNameStr, { worldRect.X, worldTopLeft.y - 60 },
 			Gdiplus::Color( 255, 255, 255, 255 ), 24.0f, L"Consolas", Gdiplus::FontStyleBold );
 
 		std::wstring scoreStr = L"Score : " + std::to_wstring( playerScore );
-		surf.DrawString( hdc, scoreStr,
+		Surface::DrawString( hdc, scoreStr,
 			{ float( (worldRect.X + worldWidth) * 0.5 + scoreStr.size() * 8 ), worldTopLeft.y - 60 },
 			Gdiplus::Color( 255, 255, 10, 255 ), 24.0f, L"Consolas", Gdiplus::FontStyleBold );
 
@@ -102,7 +102,7 @@ void SceneMainGame::Draw( HDC hdc )
 		std::wstring startStr = L"Press Enter to Start ";
 		const float strStartPosX = (worldRect.X + worldRect.Width - (startStr.size() * 4)) * 0.5f ;
 		const float strStartPosY = (worldRect.Y + worldRect.Height) * 0.5f;
-		surf.DrawString( hdc, startStr, { strStartPosX ,strStartPosY }, Gdiplus::Color( 255, 255, 0, 255 ) );
+		Surface::DrawString( hdc, startStr, { strStartPosX ,strStartPosY }, Gdiplus::Color( 255, 255, 0, 255 ) );
 	}
 }
 

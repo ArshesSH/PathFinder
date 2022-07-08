@@ -21,13 +21,13 @@ void SceneStage::Update( float dt, Game& game )
 
 void SceneStage::Draw( HDC hdc )
 {
-	surf.DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), worldBorderThick,
+	Surface::DrawRect( hdc, Gdiplus::Color( 255, 255, 0, 255 ), worldBorderThick,
 		{ sceneRect.left - worldBorderThick * 0.5f,
 		sceneRect.top - worldBorderThick * 0.5f,
 		worldWidth + worldBorderThick,
 		worldHeight + worldBorderThick }
 	);
-	surf.DrawImageNonChroma( hdc, pBackImage.get(), sceneTopLeft, sceneBottomRight, { 0,0 }, imageEnd );
+	Surface::DrawImageNonChroma( hdc, pBackImage.get(), sceneTopLeft, sceneBottomRight, { 0,0 }, imageEnd );
 	
 	playerArea.Draw(hdc);
 	player.Draw( hdc );

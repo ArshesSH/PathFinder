@@ -73,7 +73,6 @@ private:
 	Vec2<float> worldBottomRight;
 	Vec2<float> worldChangPosAmount;
 
-	Surface surf;
 	std::wstring playerName;
 
 	// Objects
