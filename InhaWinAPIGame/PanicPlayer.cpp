@@ -1,4 +1,7 @@
 #include "PanicPlayer.h"
+
+#include "Scene.h"
+
 PanicPlayer::PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float width, float height, int id )
 	:
 	DynamicActor( imageName, pos, vel, width, height, id )
@@ -7,16 +10,14 @@ PanicPlayer::PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float wi
 
 void PanicPlayer::Update( float dt, Scene& scene )
 {
-
+	movedTopLeft = rigidBody.GetLeftTop() + scene.GetSceneTopLeft();
+	movedBottomRight = rigidBody.GetRightBottom() + scene.GetSceneTopLeft();
 	KbdInput(dt);
 }
 
 void PanicPlayer::Draw( HDC hdc )
 {
-
-
-
-	surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
+	surface.DrawImageChroma( hdc, pImage.get(), movedTopLeft, movedBottomRight, { 0,0 }, imageEnd );
 }
 
 void PanicPlayer::KbdInput(float dt)

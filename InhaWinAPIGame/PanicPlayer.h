@@ -42,5 +42,10 @@ private:
 
 	MoveState movestate = MoveState::Stop;
 	Vec2<float> dir;
+
 	float speed = 100.0f;
+
+	//temp
+	Vec2<float> movedTopLeft;
+	Vec2<float> movedBottomRight;
 };
