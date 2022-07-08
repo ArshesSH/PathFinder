@@ -252,7 +252,7 @@
       <Filter>소스 파일\GameObjects\DynamicActor</Filter>
     </ClCompile>
     <ClCompile Include="PlayerArea.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\GameObjects\StaticActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

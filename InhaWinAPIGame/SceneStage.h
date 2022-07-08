@@ -5,7 +5,7 @@
 #include "Vec2.h"
 #include "Surface.h"
 #include "PanicPlayer.h"
-#include <list>
+#include "PlayerArea.h"
 
 class SceneStage : public Scene
 {
@@ -33,6 +33,10 @@ private:
 	Surface surf;
 	std::shared_ptr<Gdiplus::Image> pBackImage =  ImageCodex::Retrieve( L"Images/¼öÁö.bmp");
 	Vec2<int> imageEnd = { pBackImage->GetWidth(), pBackImage->GetHeight() };
+	
+	// PlayerArea Setting
+	static constexpr float areaPadding = worldBorderThick * 0.5f;
+	PlayerArea playerArea;
 	
 	// Player Setting
 	PanicPlayer player;

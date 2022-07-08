@@ -6,16 +6,23 @@
 #include <gdiplus.h>
 #pragma comment(lib, "Gdiplus.lib")
 
+template <typename T>
 class PolygonGDI
 {
 public:
 	PolygonGDI() {}
-	PolygonGDI(const std::vector<Gdiplus::PointF>& vertices, const std::vector<int>& indices)
+	PolygonGDI(const std::vector<T>& vertices)
 		:
-		vertices(vertices),
-		indices(indices)
+		vertices(vertices)
 	{}
+
+	void OverridePolygon(  )
+
 private:
-	std::vector<Gdiplus::PointF> vertices;
-	std::vector<int> indices;
+	void Insert( int pos, const std::vector<T>& vertices_in )
+	{
+		vertices.insert( std::next( vertices.begin(), pos ), vertices_in.begin(), vertices_in.end() );
+	}
+private:
+	std::vector<T> vertices;
 }
