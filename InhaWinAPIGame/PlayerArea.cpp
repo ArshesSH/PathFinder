@@ -1,5 +1,6 @@
 #include "PlayerArea.h"
 
+#include <cassert>
 #include "Scene.h"
 
 PlayerArea::PlayerArea(const std::vector<Gdiplus::PointF>& vertices)
@@ -34,11 +35,17 @@ void PlayerArea::Draw( HDC hdc )
 	Surface::DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
 }
 
-void PlayerArea::MoveToRelativeCoord( const Vec2<float> amount )
+void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
 {
 	drawVertices = vertices;
 	for (size_t i = 0; i < vertices.size(); ++i)
 	{
 		drawVertices[i] = vertices[i] + Gdiplus::PointF( amount.x, amount.y );
 	}
+}
+
+void PlayerArea::GetLineFromIndices( std::pair<Gdiplus::PointF, Gdiplus::PointF>& line, const std::pair<int, int>& indices )
+{
+	assert( indices.first >= 0 && indices.second < vertices.size() );
+	line = { vertices[indices.first], vertices[indices.second] };
 }
