@@ -150,6 +150,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CoordinateTransformer.h" />
     <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FrameTimer.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="PanicPlayer.cpp" />
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="PlayerArea.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMainGame.cpp" />
     <ClCompile Include="SceneStage.cpp" />
     <ClCompile Include="Shooter.cpp" />

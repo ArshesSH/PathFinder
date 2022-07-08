@@ -20,20 +20,6 @@ void Game::ComposeFrame(HDC hdc)
 		{
 		}
 		break;
-	case Game::SceneType::SceneMainGame:
-		{
-			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
-				[this]( HDC hdc )
-				{
-					mainGame.Draw( hdc );
-				}
-			);
-			if ( isScreenChanged )
-			{
-				isScreenChanged = false;
-			}
-		}
-		break;
 	case Game::SceneType::SceneStage:
 		{
 			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
@@ -62,18 +48,6 @@ void Game::UpdateModel()
 	{
 	case Game::SceneType::SceneStart:
 		{
-		}
-		break;
-	case Game::SceneType::SceneMainGame:
-		{
-			float dt = ft.Mark();
-
-			RefreshScreen();
-			mainGame.Update( dt, *this );
-			if ( mainGame.isSceneFinshed() )
-			{
-				sceneType = SceneType::SceneResult;
-			}
 		}
 		break;
 	case Game::SceneType::SceneStage:

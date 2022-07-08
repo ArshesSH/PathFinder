@@ -3,7 +3,6 @@
 #include "framework.h"
 
 #include "FrameTimer.h"
-#include "SceneMainGame.h"
 #include "SceneStage.h"
 #include "DrawManager.h"
 #include "FileManager.h"
@@ -49,7 +48,6 @@ private:
 	RECT oldScreenSize = screenRect;
 	FileManager fileManager;
 	FrameTimer ft;
-	SceneMainGame mainGame;
 	SceneStage stage;
 	DrawManager drawManager;
 	Surface surf;

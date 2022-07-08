@@ -31,7 +31,7 @@ public:
 
 private:
 	void KbdInput(float dt);
-
+	void MoveToRelativeCoord( const Vec2<float> amount );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
 

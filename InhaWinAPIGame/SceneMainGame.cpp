@@ -6,6 +6,7 @@
 
 SceneMainGame::SceneMainGame()
 	:
+	Scene((int)worldWidth, (int)worldHeight),
 	shooter( { shooterImageWidth, shooterImageHeight }, {shooterFrameWidth, shooterFrameHeight} ),
 	pBackImage(ImageCodex::Retrieve( backImageName ))
 {
@@ -105,12 +106,6 @@ void SceneMainGame::Draw( HDC hdc )
 	}
 }
 
-RECT SceneMainGame::GetSceneRECT() const
-{
-	const LONG worldLeft = (LONG)worldRect.X;
-	const LONG worldTop = (LONG)worldRect.Y;
-	return { worldLeft, worldTop, worldLeft + (LONG)worldWidth, worldTop + (LONG)worldHeight };
-}
 
 inline void SceneMainGame::UpdateWorldRect( Game& game )
 {

@@ -7,11 +7,15 @@ PanicPlayer::PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float wi
 
 void PanicPlayer::Update( float dt, Scene& scene )
 {
+
 	KbdInput(dt);
 }
 
 void PanicPlayer::Draw( HDC hdc )
 {
+
+
+
 	surface.DrawImageChroma( hdc, pImage.get(), rigidBody.GetLeftTop(), rigidBody.GetRightBottom(), { 0,0 }, imageEnd );
 }
 
@@ -37,4 +41,9 @@ void PanicPlayer::KbdInput(float dt)
 		const Vec2<float> vel = dirDown * speed * dt;
 		rigidBody.SetCenter( rigidBody.GetCenter() + vel );
 	}
+}
+
+void PanicPlayer::MoveToRelativeCoord( const Vec2<float> amount )
+{
+
 }

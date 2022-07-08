@@ -1,5 +1,7 @@
 #include "PlayerArea.h"
 
+#include "Scene.h"
+
 PlayerArea::PlayerArea(const std::vector<Gdiplus::PointF>& vertices)
 	:
 	vertices(vertices),
@@ -24,6 +26,7 @@ PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
 
 void PlayerArea::Update( float dt, Scene& scene )
 {
+	MoveToRelativeCoord( scene.GetSceneTopLeft());
 }
 
 void PlayerArea::Draw( HDC hdc )

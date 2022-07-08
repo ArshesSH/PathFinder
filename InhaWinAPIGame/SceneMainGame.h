@@ -14,7 +14,6 @@ public:
 
 	void Update( float dt, class Game& game ) override;
 	void Draw( HDC hdc ) override;
-	RECT GetSceneRECT() const override;
 
 private:
 	void UpdateWorldRect( class Game& game );
