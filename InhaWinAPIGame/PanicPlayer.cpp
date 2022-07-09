@@ -14,9 +14,9 @@ void PanicPlayer::Update( float dt, Scene& scene )
 	KbdInput(dt);
 }
 
-void PanicPlayer::Draw( HDC hdc )
+void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 {
-	Surface::DrawImageChroma( hdc, pImage.get(), movedTopLeft, movedBottomRight, { 0,0 }, imageEnd );
+	Surface::DrawImageChroma( gfx, pImage.get(), movedTopLeft, movedBottomRight, { 0,0 }, imageEnd );
 }
 
 void PanicPlayer::KbdInput(float dt)

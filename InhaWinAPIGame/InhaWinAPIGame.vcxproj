@@ -144,9 +144,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="Arrow.h" />
-    <ClInclude Include="Brick.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -174,7 +171,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMainGame.h" />
     <ClInclude Include="SceneStage.h" />
-    <ClInclude Include="Shooter.h" />
     <ClInclude Include="ImageCodex.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Surface.h" />
@@ -186,9 +182,6 @@
     <ClInclude Include="DrawManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Arrow.cpp" />
-    <ClCompile Include="Brick.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DynamicActor.cpp" />
     <ClCompile Include="FileManager.cpp" />
@@ -202,7 +195,6 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMainGame.cpp" />
     <ClCompile Include="SceneStage.cpp" />
-    <ClCompile Include="Shooter.cpp" />
     <ClCompile Include="Surface.cpp" />
   </ItemGroup>
   <ItemGroup>

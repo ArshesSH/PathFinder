@@ -17,7 +17,7 @@ public:
 	DynamicActor& operator=( DynamicActor&& ) noexcept = default;
 
 	virtual void Update( float dt, class Scene& scene ) = 0;
-	virtual void Draw( HDC hdc ) = 0;
+	virtual void Draw( Gdiplus::Graphics& gfx ) = 0;
 	virtual bool isOverlapWith( RECT other );
 	virtual void AddPos( const Vec2<float> addPos );
 

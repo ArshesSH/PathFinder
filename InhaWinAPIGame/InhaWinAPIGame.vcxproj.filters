@@ -153,18 +153,6 @@
     <ClInclude Include="Actor.h">
       <Filter>헤더 파일\Engine\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>헤더 파일\GameObjects\DynamicActor</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>헤더 파일\GameObjects\DynamicActor</Filter>
-    </ClInclude>
-    <ClInclude Include="Shooter.h">
-      <Filter>헤더 파일\GameObjects\DynamicActor</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>헤더 파일\GameObjects\StaticActor</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>헤더 파일\Engine\Scene</Filter>
     </ClInclude>
@@ -226,18 +214,6 @@
     </ClCompile>
     <ClCompile Include="PhysicsEntity.cpp">
       <Filter>소스 파일\Engine\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>소스 파일\GameObjects\DynamicActor</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일\GameObjects\DynamicActor</Filter>
-    </ClCompile>
-    <ClCompile Include="Shooter.cpp">
-      <Filter>소스 파일\GameObjects\DynamicActor</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>소스 파일\GameObjects\StaticActor</Filter>
     </ClCompile>
     <ClCompile Include="SceneMainGame.cpp">
       <Filter>소스 파일\Scene</Filter>

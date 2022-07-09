@@ -12,7 +12,7 @@ public:
 	PlayerArea( const Gdiplus::RectF& rect );
 
 	void Update( float dt, class Scene& scene ) override;
-	void Draw( HDC hdc )override;
+	void Draw( Gdiplus::Graphics& gfx )override;
 	void MoveToRelativeCoord( const Vec2<float>& amount );
 	void GetLineFromIndices( std::pair<Gdiplus::PointF, Gdiplus::PointF>& line , const std::pair<int, int>& indices );
 private:

@@ -30,9 +30,9 @@ void PlayerArea::Update( float dt, Scene& scene )
 	MoveToRelativeCoord( scene.GetSceneTopLeft());
 }
 
-void PlayerArea::Draw( HDC hdc )
+void PlayerArea::Draw( Gdiplus::Graphics& gfx )
 {
-	Surface::DrawFillPolygon( hdc, color, drawVertices[0], drawVertices.size() );
+	Surface::DrawFillPolygon( gfx, color, drawVertices[0], drawVertices.size() );
 }
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
@@ -46,6 +46,6 @@ void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
 
 void PlayerArea::GetLineFromIndices( std::pair<Gdiplus::PointF, Gdiplus::PointF>& line, const std::pair<int, int>& indices )
 {
-	assert( indices.first >= 0 && indices.second < vertices.size() );
+	assert( indices.first >= 0 && indices.second < (int)vertices.size() );
 	line = { vertices[indices.first], vertices[indices.second] };
 }

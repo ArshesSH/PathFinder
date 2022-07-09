@@ -28,7 +28,7 @@ public:
 	PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float width, float height, int id );
 
 	void Update( float dt, class Scene& scene ) override;
-	void Draw( HDC hdc ) override;
+	void Draw( Gdiplus::Graphics& gfx ) override;
 
 private:
 	void KbdInput(float dt);

@@ -50,6 +50,7 @@ private:
 	FrameTimer ft;
 	SceneStage stage;
 	DrawManager drawManager;
+	Gdiplus::Graphics graphic;
 
 	bool isScreenChanged = true;
 	float time = 0.0f;
