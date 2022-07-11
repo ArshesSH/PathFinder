@@ -17,11 +17,10 @@ public:
 	};
 
 public:
-	enum class MoveState
+	enum class MoveMode
 	{
-		Stop,
-		Vertical,
-		Horizontal
+		Edge,
+		OutSide
 	};
 
 public:
@@ -32,7 +31,7 @@ public:
 
 private:
 	void KbdInput(float dt);
-	void MoveToRelativeCoord( const Vec2<float> amount );
+	void MoveObjectToRelativeCoord( const Vec2<float> amount );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
 
@@ -41,12 +40,12 @@ private:
 	const Vec2<float> dirRight = { 1, 0 };
 	const Vec2<float> dirDown = { 0, 1 };
 
-	MoveState movestate = MoveState::Stop;
 	Vec2<float> dir;
-
 	float speed = 100.0f;
 
+	MoveMode moveMode = MoveMode::Edge;
+
 	//temp
-	Vec2<float> movedTopLeft;
-	Vec2<float> movedBottomRight;
+	Vec2<float> relativeTopLeft;
+	Vec2<float> relativeBottomRight;
 };

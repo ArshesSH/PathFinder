@@ -169,7 +169,6 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneMainGame.h" />
     <ClInclude Include="SceneStage.h" />
     <ClInclude Include="ImageCodex.h" />
     <ClInclude Include="Star.h" />
@@ -193,7 +192,6 @@
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="PlayerArea.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneMainGame.cpp" />
     <ClCompile Include="SceneStage.cpp" />
     <ClCompile Include="Surface.cpp" />
   </ItemGroup>

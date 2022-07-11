@@ -156,9 +156,6 @@
     <ClInclude Include="Scene.h">
       <Filter>헤더 파일\Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="SceneMainGame.h">
-      <Filter>헤더 파일\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GeometricObject.h">
       <Filter>헤더 파일\Engine\Physics\GeometricObject</Filter>
     </ClInclude>
@@ -214,9 +211,6 @@
     </ClCompile>
     <ClCompile Include="PhysicsEntity.cpp">
       <Filter>소스 파일\Engine\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneMainGame.cpp">
-      <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\Engine\Physics</Filter>

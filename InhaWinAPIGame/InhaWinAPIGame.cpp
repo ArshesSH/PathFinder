@@ -20,8 +20,6 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 VOID    CALLBACK    TimerProc( HWND, UINT, WPARAM, DWORD );
-BOOL    CALLBACK    StartDialogProc( HWND, UINT, WPARAM, LPARAM );
-BOOL    CALLBACK    ResultDialogProc( HWND, UINT, WPARAM, LPARAM );
 
 GDIPlusManager gdi;
 Game game;
@@ -141,7 +139,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if ( game.IsGameFinished() && !isEndGame )
     {
-        DialogBox( hInst, MAKEINTRESOURCE( IDD_RESULT ), hWnd, ResultDialogProc );
         isEndGame = true;
     }
     switch (message)
@@ -151,7 +148,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         SetTimer( hWnd, 0, 0, TimerProc );
         if ( game.IsInitialGame() && isStartGame )
         {
-            DialogBox( hInst, MAKEINTRESOURCE( IDD_STARTMENU ), hWnd, StartDialogProc );
         }
         break;
     case WM_SIZE:
@@ -217,110 +213,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 VOID CALLBACK TimerProc( HWND hWnd, UINT, WPARAM, DWORD )
 {
     InvalidateRect( hWnd, nullptr, false );
-}
-
-BOOL CALLBACK StartDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
-{
-    UNREFERENCED_PARAMETER( lParam );
-    switch ( iMsg )
-    {
-    case WM_INITDIALOG:
-        {
-            HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
-            EnableWindow( hBtn, FALSE );
-        }
-        return TRUE;
-
-    case WM_COMMAND:
-        switch ( LOWORD( wParam ) )
-        {
-        case IDC_BUTTON1:
-            {
-                wchar_t word[256];
-                GetDlgItemText( hDlg, IDC_EDIT1, word, 256 );
-                game.SetUserID( word );
-
-                if ( game.GetUserID().size() != 0 )
-                {
-                    HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
-                    EnableWindow( hBtn, TRUE );
-                }
-                else
-                {
-                    HWND hBtn = GetDlgItem( hDlg, IDC_GAMESTART );
-                    EnableWindow( hBtn, FALSE );
-                }
-            }
-            break;
-        case IDC_GAMESTART:
-            {
-                EndDialog( hDlg, LOWORD( wParam ) );
-                game.StartMainGame();
-                return TRUE;
-            }
-            break;
-        case IDCANCEL:
-            {
-                EndDialog( hDlg, LOWORD( wParam ) );
-                PostQuitMessage( 0 );
-                return FALSE;
-            }
-            break;
-        }
-    }
-    return FALSE;
-}
-
-BOOL CALLBACK ResultDialogProc( HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam )
-{
-    UNREFERENCED_PARAMETER( lParam );
-    switch ( iMsg )
-    {
-    case WM_INITDIALOG:
-        {
-            auto scoreMap = game.GetScoreMap();
-
-            std::wstring topNames[3];
-            std::wstring topScores[3];
-
-            int i = 0;
-            for ( auto rIt = scoreMap.rbegin(); i < 3 && rIt != scoreMap.rend(); ++rIt )
-            {
-                for ( auto str : rIt->second )
-                {
-                    if ( i >= 3 )
-                    {
-                        break;
-                    }
-                    topNames[i] = str;
-                    topScores[i] = std::to_wstring( rIt->first );
-                    ++i;
-                }
-            }
-            SetDlgItemText( hDlg, IDC_CURPLAYER, game.GetCurUserId().c_str() );
-            SetDlgItemText( hDlg, IDC_CURSCORE, std::to_wstring(game.GetCurScore()).c_str() );
-            SetDlgItemText( hDlg, IDC_TOPPLAYER, topNames[0].c_str() );
-            SetDlgItemText( hDlg, IDC_TOPPLAYER2, topNames[1].c_str() );
-            SetDlgItemText( hDlg, IDC_TOPPLAYER3, topNames[2].c_str() );
-            SetDlgItemText( hDlg, IDC_TOPSCORE, topScores[0].c_str() );
-            SetDlgItemText( hDlg, IDC_TOPSCORE2, topScores[1].c_str() );
-            SetDlgItemText( hDlg, IDC_TOPSCORE3, topScores[2].c_str() );
-        }
-        break;
-    case WM_COMMAND:
-        switch ( LOWORD( wParam ) )
-        {
-
-        case IDOK:
-        case IDCANCEL:
-            {
-                EndDialog( hDlg, LOWORD( wParam ) );
-                game.SaveDataFromScoreMap();
-                PostQuitMessage( 0 );
-                return FALSE;
-            }
-            break;
-        }
-    }
-    return FALSE;
 }

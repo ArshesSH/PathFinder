@@ -30,6 +30,4 @@ private:
 	// Player Setting
 	PanicPlayer player;
 
-	std::vector<Gdiplus::PointF> points;
-	
 };

@@ -196,7 +196,7 @@ bool CollisionManager::CheckConvexOverlapWitchCircle( PhysicsEntity& convex, Phy
 		float minTranslateScalar = INFINITY;
 		Vec2<float> minTranslateNormalVec;
 
-		for ( int vIdx = 0; vIdx < convexVertices.size(); ++vIdx )
+		for ( int vIdx = 0; vIdx < (int)convexVertices.size(); ++vIdx )
 		{
 			const int vIdxNext = (vIdx + 1) % convexVertices.size();
 			Vec2<float> axisProj = (convexVertices[vIdx] - convexVertices[vIdxNext]).GetNormalRightVec2().GetNormalized();
@@ -306,7 +306,7 @@ inline bool CollisionManager::CheckVerticesSAT( const PhysicsEntity& refObj, con
 	Vec2<float> minTranslateNormalVec;
 
 	// Check for each axis
-	for ( int vIdx = 0; vIdx < refObjVerticesSize; ++vIdx )
+	for ( int vIdx = 0; vIdx < (int)refObjVerticesSize; ++vIdx )
 	{
 		const int vIdxNext = (vIdx + 1) % refObjVerticesSize;
 		Vec2<float> axisProj = (refObjVertices[vIdx] - refObjVertices[vIdxNext]).GetNormalRightVec2().GetNormalized();
