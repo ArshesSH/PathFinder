@@ -28,10 +28,11 @@ public:
 
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( Gdiplus::Graphics& gfx ) override;
+	void ControlPlayer( float dt, const PlayerArea& area );
 
 private:
-	void KbdInput(float dt);
 	void MoveObjectToRelativeCoord( const Vec2<float> amount );
+	void MovePos( float dt, const Vec2<float>& dir, const PlayerArea& area );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
 
@@ -44,6 +45,7 @@ private:
 	float speed = 100.0f;
 
 	MoveMode moveMode = MoveMode::Edge;
+	std::pair<int, int> curLineIndices = {0,1};
 
 	//temp
 	Vec2<float> relativeTopLeft;

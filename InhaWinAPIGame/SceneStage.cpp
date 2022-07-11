@@ -17,6 +17,7 @@ void SceneStage::Update( float dt, Game& game )
 
 	playerArea.Update( dt, *this );
 	player.Update( dt, *this );
+	player.ControlPlayer( dt, playerArea );
 }
 
 void SceneStage::Draw( HDC hdc )

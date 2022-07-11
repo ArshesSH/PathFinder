@@ -44,8 +44,8 @@ void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
 	}
 }
 
-void PlayerArea::GetLineFromIndices( std::pair<Gdiplus::PointF, Gdiplus::PointF>& line, const std::pair<int, int>& indices )
+const std::pair<Gdiplus::PointF, Gdiplus::PointF>& PlayerArea::GetLineFromIndices( const std::pair<int, int>& indices ) const
 {
 	assert( indices.first >= 0 && indices.second < (int)vertices.size() );
-	line = { vertices[indices.first], vertices[indices.second] };
+	return { vertices[indices.first], vertices[indices.second] };
 }
