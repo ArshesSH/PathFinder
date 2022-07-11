@@ -6,11 +6,14 @@
 PlayerArea::PlayerArea(const std::vector<Gdiplus::PointF>& vertices)
 	:
 	vertices(vertices),
-	drawVertices(vertices)
+	drawVertices(vertices),
+	player( { 0,0 }, { 0,0 }, 20, 20, 0 )
 {
 }
 
 PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
+	:
+	player( { 0,0 }, { 0,0 }, 20, 20, 0 )
 {
 	const float left = rect.GetLeft();
 	const float top = rect.GetTop();
@@ -28,11 +31,15 @@ PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
 void PlayerArea::Update( float dt, Scene& scene )
 {
 	MoveToRelativeCoord( scene.GetSceneTopLeft());
+
+	player.Update( dt, scene );
 }
 
 void PlayerArea::Draw( Gdiplus::Graphics& gfx )
 {
 	Surface::DrawFillPolygon( gfx, color, drawVertices[0], drawVertices.size() );
+
+	player.Draw( gfx );
 }
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
@@ -44,8 +51,8 @@ void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
 	}
 }
 
-void PlayerArea::GetLineFromIndices( std::pair<Gdiplus::PointF, Gdiplus::PointF>& line, const std::pair<int, int>& indices )
+std::pair<Gdiplus::PointF, Gdiplus::PointF> PlayerArea::GetLineFromIndices( const std::pair<int, int>& indices )
 {
 	assert( indices.first >= 0 && indices.second < (int)vertices.size() );
-	line = { vertices[indices.first], vertices[indices.second] };
+	return { vertices[indices.first], vertices[indices.second] };
 }

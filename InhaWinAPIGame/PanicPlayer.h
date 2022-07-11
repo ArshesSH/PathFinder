@@ -3,7 +3,6 @@
 #include "DynamicActor.h"
 
 #include <vector>
-#include "PlayerArea.h"
 
 class PanicPlayer : public DynamicActor
 {
@@ -30,8 +29,10 @@ public:
 	void Draw( Gdiplus::Graphics& gfx ) override;
 
 private:
-	void KbdInput(float dt);
+	void KbdInput(float dt, Scene& scene);
+	void MovePos( float dt, const Vec2<float>& dir, Scene& scene );
 	void MoveObjectToRelativeCoord( const Vec2<float> amount );
+	bool CanMove(const Vec2<float> nextPos, const Scene& scene ) const;
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
 
@@ -42,10 +43,10 @@ private:
 
 	Vec2<float> dir;
 	float speed = 100.0f;
-
 	MoveMode moveMode = MoveMode::Edge;
 
-	//temp
+	std::pair<int, int> curLineIndex = { 0, 1 };
+
 	Vec2<float> relativeTopLeft;
 	Vec2<float> relativeBottomRight;
 };
