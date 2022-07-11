@@ -6,6 +6,7 @@
 SceneStage::SceneStage()
 	:
 	Scene((int)worldWidth, (int)worldHeight),
+	player( { 0,0 }, { 0,0 }, 20, 20, 0 ),
 	playerArea( { (float)sceneRect.left,  (float)sceneRect.right, worldWidth, worldHeight} )
 {
 }
@@ -15,7 +16,7 @@ void SceneStage::Update( float dt, Game& game )
 	UpdateSceneRect( game );
 
 	playerArea.Update( dt, *this );
-	//player.Update( dt, *this );
+	player.Update( dt, *this );
 }
 
 void SceneStage::Draw( HDC hdc )
@@ -30,5 +31,5 @@ void SceneStage::Draw( HDC hdc )
 	Surface::DrawImageNonChroma( graphics, pBackImage.get(), sceneTopLeft, sceneBottomRight, { 0,0 }, imageEnd );
 	
 	playerArea.Draw( graphics );
-	//player.Draw( graphics );
+	player.Draw( graphics );
 }

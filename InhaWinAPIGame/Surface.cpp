@@ -80,14 +80,6 @@ void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color
 	graphics.FillPolygon( &brush, &points, pointCnt );
 }
 
-void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::Point& points, int pointCnt )
-{
-	using namespace Gdiplus;
-
-	SolidBrush brush( color );
-	graphics.FillPolygon( &brush, &points, pointCnt );
-}
-
 
 void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
 {
