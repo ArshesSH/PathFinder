@@ -27,12 +27,12 @@ PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
 
 void PlayerArea::Update( float dt, Scene& scene )
 {
-	MoveToRelativeCoord( scene.GetSceneTopLeft());
+	MoveToRelativeCoord( scene.GetSceneTopLeft() );
 }
 
 void PlayerArea::Draw( Gdiplus::Graphics& gfx )
 {
-	Surface::DrawFillPolygon( gfx, color, drawVertices[0], drawVertices.size() );
+	Surface::DrawFillPolygon( gfx, color, drawVertices[0], (int)drawVertices.size() );
 }
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )

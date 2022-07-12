@@ -28,11 +28,11 @@ public:
 
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( Gdiplus::Graphics& gfx ) override;
-	void ControlPlayer( float dt, const PlayerArea& area );
+	void ControlPlayer( float dt, PlayerArea& area );
 
 private:
 	void MoveObjectToRelativeCoord( const Vec2<float> amount );
-	void MovePos( float dt, const Vec2<float>& dir, const PlayerArea& area );
+	void MovePos( float dt, const Vec2<float>& dir, PlayerArea& area );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
 
@@ -47,7 +47,9 @@ private:
 	MoveMode moveMode = MoveMode::Edge;
 	std::pair<int, int> curLineIndices = {0,1};
 
-	//temp
 	Vec2<float> relativeTopLeft;
 	Vec2<float> relativeBottomRight;
+
+	//Debug
+	std::pair<Gdiplus::PointF, Gdiplus::PointF> curVertices;
 };
