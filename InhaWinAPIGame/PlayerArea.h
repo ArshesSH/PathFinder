@@ -14,7 +14,7 @@ public:
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( Gdiplus::Graphics& gfx )override;
 	void MoveToRelativeCoord( const Vec2<float>& amount );
-	const std::pair<Gdiplus::PointF, Gdiplus::PointF>& GetLineFromIndices( const std::pair<int, int>& indices ) const;
+	std::pair<Gdiplus::PointF, Gdiplus::PointF> GetLineFromIndices( const std::pair<int, int>& indices ) const;
 
 	//bool IsOnEdge( const Vec2<float>& pos, const std::pair<int, int>& indices ) const
 	bool IsOnEdge( const Vec2<float>& pos, const std::pair<Gdiplus::PointF, Gdiplus::PointF>& curLine ) const
@@ -22,6 +22,7 @@ public:
 		//const auto& curLine = GetLineFromIndices( indices );
 		if ( IsHorizontal( curLine ) )
 		{
+			auto a = (int)curLine.second.X;
 			return (MathSH::Compare( pos.y, curLine.first.Y ) &&
 				pos.x >= curLine.first.X &&
 				pos.x <= curLine.second.X);
