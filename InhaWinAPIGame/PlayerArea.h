@@ -3,6 +3,7 @@
 #include "Actor.h"
 
 #include <vector>
+#include "MathSH.h"
 
 class PlayerArea : public Actor
 {
@@ -22,13 +23,13 @@ public:
 		if ( IsHorizontal( curLine ) )
 		{
 			auto a = (int)curLine.second.X;
-			return (Compare( pos.y, curLine.first.Y ) &&
+			return (MathSH::Compare( pos.y, curLine.first.Y ) &&
 				pos.x >= curLine.first.X &&
 				pos.x <= curLine.second.X);
 		}
 		else
 		{
-			return (Compare( pos.x, curLine.first.X ) &&
+			return (MathSH::Compare( pos.x, curLine.first.X ) &&
 				pos.y >= curLine.first.Y &&
 				pos.y <=curLine.second.Y);
 		}
@@ -47,20 +48,20 @@ public:
 	}
 	bool IsOnFirstVertex( const Vec2<float>& pos, const std::pair<Gdiplus::PointF, Gdiplus::PointF>& curLine ) const
 	{
-		return (Compare( pos.x, curLine.first.X ) && Compare( pos.y, curLine.first.Y ));
+		//return (MathSH::Compare( pos.x, curLine.first.X ) && MathSH::Compare( pos.y, curLine.first.Y ));
 
-		//return ((int)pos.x == (int)curLine.first.X) && ((int)pos.y == (int)curLine.first.Y);
+		return ((int)pos.x == (int)curLine.first.X) && ((int)pos.y == (int)curLine.first.Y);
 	}
 	bool IsOnSecondVertex( const Vec2<float>& pos, const std::pair<Gdiplus::PointF, Gdiplus::PointF>& curLine ) const
 	{
-		return (Compare( pos.x, curLine.second.X ) && Compare( pos.y, curLine.second.Y ));
-		//return ((int)pos.x == (int)curLine.second.X) && ((int)pos.y == (int)curLine.second.Y);
+		//return (MathSH::Compare( pos.x, curLine.second.X ) && MathSH::Compare( pos.y, curLine.second.Y ));
+		return ((int)pos.x == (int)curLine.second.X) && ((int)pos.y == (int)curLine.second.Y);
 	}
 
 
 	bool IsHorizontal( const std::pair<Gdiplus::PointF, Gdiplus::PointF>& line ) const
 	{
-		return Compare( line.first.Y, line.second.Y );
+		return MathSH::Compare( line.first.Y, line.second.Y );
 	}
 
 	int GetSafeIndex(int i) const
@@ -76,16 +77,9 @@ public:
 		return i;
 	}
 
-	
+private:
 
 private:
-	bool Compare( float lhs, float rhs ) const
-	{
-		return std::fabs( rhs - lhs ) < areaEpsilon;
-	}
-
-private:
-	static constexpr float areaEpsilon = 0.0005f;
 	const Gdiplus::Color color{ 255, 0, 255, 0 };
 	std::vector<Gdiplus::PointF> vertices;
 	std::vector<Gdiplus::PointF> drawVertices;
