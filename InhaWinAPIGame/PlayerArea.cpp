@@ -3,19 +3,19 @@
 #include <cassert>
 #include "Scene.h"
 
-PlayerArea::PlayerArea(const std::vector<Gdiplus::PointF>& vertices)
+PlayerArea::PlayerArea(const std::vector<Gdiplus::Point>& vertices)
 	:
 	vertices(vertices),
 	drawVertices(vertices)
 {
 }
 
-PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
+PlayerArea::PlayerArea( const Gdiplus::Rect& rect )
 {
-	const float left = rect.GetLeft();
-	const float top = rect.GetTop();
-	const float right = rect.GetRight();
-	const float bottom = rect.GetBottom();
+	const int left = rect.GetLeft();
+	const int top = rect.GetTop();
+	const int right = rect.GetRight();
+	const int bottom = rect.GetBottom();
 
 	vertices.emplace_back( left, top );
 	vertices.emplace_back( right, top );
@@ -27,7 +27,7 @@ PlayerArea::PlayerArea( const Gdiplus::RectF& rect )
 
 void PlayerArea::Update( float dt, Scene& scene )
 {
-	MoveToRelativeCoord( scene.GetSceneTopLeft() );
+	MoveToRelativeCoord( (Vec2<int>)scene.GetSceneTopLeft() );
 }
 
 void PlayerArea::Draw( Gdiplus::Graphics& gfx )
@@ -35,16 +35,16 @@ void PlayerArea::Draw( Gdiplus::Graphics& gfx )
 	Surface::DrawFillPolygon( gfx, color, drawVertices[0], (int)drawVertices.size() );
 }
 
-void PlayerArea::MoveToRelativeCoord( const Vec2<float>& amount )
+void PlayerArea::MoveToRelativeCoord( const Vec2<int>& amount )
 {
 	drawVertices = vertices;
 	for (size_t i = 0; i < vertices.size(); ++i)
 	{
-		drawVertices[i] = vertices[i] + Gdiplus::PointF( amount.x, amount.y );
+		drawVertices[i] = vertices[i] + Gdiplus::Point( amount.x, amount.y );
 	}
 }
 
-std::pair<Gdiplus::PointF, Gdiplus::PointF> PlayerArea::GetLineFromIndices( const std::pair<int, int>& indices ) const
+std::pair<Gdiplus::Point, Gdiplus::Point> PlayerArea::GetLineFromIndices( const std::pair<int, int>& indices ) const
 {
 	assert( indices.first >= 0 && indices.second < (int)vertices.size() );
 	return { vertices[indices.first], vertices[indices.second] };
