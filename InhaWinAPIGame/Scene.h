@@ -18,7 +18,7 @@ public:
 	{
 		return sceneRect;
 	}
-	Vec2<float> GetSceneTopLeft() const
+	Vec2<int> GetSceneTopLeft() const
 	{
 		return sceneTopLeft;
 	}
@@ -39,7 +39,7 @@ protected:
 	int sceneHeight;
 	
 	RECT sceneRect = {0,0,0,0};
-	Vec2<float> sceneTopLeft;
-	Vec2<float> sceneBottomRight;
+	Vec2<int> sceneTopLeft;
+	Vec2<int> sceneBottomRight;
 };
 

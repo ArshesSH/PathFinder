@@ -12,8 +12,8 @@ public:
 		GeometricObject<T>( (T)0, (T)0 ),
 		width( (T)1 ),
 		height( (T)1 ),
-		halfWidth( (T)width* (T)0.5 ),
-		halfHeight( (T)height* (T)0.5 )
+		halfWidth( (T)(width / 2) ),
+		halfHeight( (T)(height / 2) )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -23,8 +23,8 @@ public:
 		GeometricObject<T>( center ),
 		width( width ),
 		height( height ),
-		halfWidth( (T)width* (T)0.5 ),
-		halfHeight( (T)height* (T)0.5 )
+		halfWidth( (T)(width / 2) ),
+		halfHeight( (T)(height / 2) )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -34,8 +34,8 @@ public:
 		GeometricObject<T>( x, y ),
 		width( width ),
 		height( height ),
-		halfWidth( (T)width* (T)0.5 ),
-		halfHeight( (T)height* (T)0.5 )
+		halfWidth( (T)(width / 2) ),
+		halfHeight( (T)(height / 2) )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();
@@ -45,8 +45,8 @@ public:
 		GeometricObject<T>( (topLeft + bottomRight)* (T)0.5 ),
 		width( bottomRight.x - topLeft.x ),
 		height( bottomRight.y - topLeft.y ),
-		halfWidth( (T)width* (T)0.5 ),
-		halfHeight( (T)height* (T)0.5 )
+		halfWidth( (T)(width / 2) ),
+		halfHeight( (T)(height / 2) )
 	{
 		GeometricObject<T>::vertices.resize( 4 );
 		SetVertices();

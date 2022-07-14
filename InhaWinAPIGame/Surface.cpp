@@ -89,7 +89,8 @@ void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color
 }
 
 
-void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
+void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd )
 {
 	using namespace Gdiplus;
 
@@ -97,7 +98,17 @@ void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* i
 	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel );
 }
 
-void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd, const Vec2<float> rotateCenter, float angle )
+void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd )
+{
+	using namespace Gdiplus;
+
+	const Gdiplus::Rect r( (int)topLeft.x, (int)topLeft.y, (int)(bottomRight.x - topLeft.x), (int)(bottomRight.y - topLeft.y) );
+	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel );
+}
+
+void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd, const Vec2<float>& rotateCenter, float angle )
 {
 	using namespace Gdiplus;
 
@@ -112,7 +123,8 @@ void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* i
 	graphics.SetTransform( &mat );
 }
 
-void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
+void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
 {
 	using namespace Gdiplus;
 
@@ -123,7 +135,8 @@ void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* imag
 	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel, &imgAttr );
 }
 
-void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight, const Vec2<int>& imageStart, const Vec2<int>& imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
+void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
 {
 	using namespace Gdiplus;
 
@@ -134,7 +147,8 @@ void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* imag
 	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel, &imgAttr );
 }
 
-void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd, const Vec2<float> rotateCenter, float angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
+void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
+	const Vec2<int>& imageStart, const Vec2<int>& imageEnd, const Vec2<float>& rotateCenter, float angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
 {
 	using namespace Gdiplus;
 

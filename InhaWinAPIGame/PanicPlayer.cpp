@@ -63,20 +63,25 @@ void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
 
 void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 {
+	moveTime += dt;
 	switch ( moveMode )
 	{
 	case PanicPlayer::MoveMode::Edge:
 		{
-			const Vec2<int> vel = dir * speed;
-			const Vec2<int> nextPos = collisionRect.GetCenter() + vel;
-			auto curLine = area.GetLineFromIndices( curLineIndices );
-			curVertices = curLine;
-			if ( area.IsOnEdge( nextPos, curLine ) )
+			if ( moveTime >= movePeriod )
 			{
-				collisionRect.SetCenter( nextPos );
-				area.ChangeIndicesOnVertices( collisionRect.GetCenter(), curLineIndices );
+				moveTime = 0.0f;
+				const Vec2<int> vel = dir * speed;
+				const Vec2<int> nextPos = collisionRect.GetCenter() + vel;
+				auto curLine = area.GetLineFromIndices( curLineIndices );
+				curVertices = curLine;
+				//if ( area.IsOnEdge( nextPos, curLine ) )
+				{
+					collisionRect.SetCenter( nextPos );
+					area.ChangeIndicesOnVertices( collisionRect.GetCenter(), curLineIndices );
+				}
 			}
-			
+
 		}
 		break;
 	case PanicPlayer::MoveMode::OutSide:

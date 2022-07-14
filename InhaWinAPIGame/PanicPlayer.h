@@ -36,6 +36,7 @@ private:
 	void MovePos( float dt, const Vec2<int>& dir, PlayerArea& area );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
+	static constexpr float movePeriod = 0.01f;
 	std::shared_ptr<Gdiplus::Image> pImage;
 	Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 
@@ -45,8 +46,9 @@ private:
 	const Vec2<int> dirDown = { 0, 1 };
 
 	Vec2<int> dir;
-	int speed = 10;
+	int speed = 2;
 	Rect<int> collisionRect;
+	float moveTime = 0.0f;
 
 	MoveMode moveMode = MoveMode::Edge;
 	std::pair<int, int> curLineIndices = {0,1};

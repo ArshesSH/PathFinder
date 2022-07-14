@@ -27,13 +27,17 @@ namespace Surface
 	void DrawFillPolygon(Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt );
 	void DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::Point& points, int pointCnt );
 
-	void DrawImageNonChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd );
+	void DrawImageNonChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
+		const Vec2<int>& imageStart, const Vec2<int>& imageEnd );
+
+	void DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight,
+		const Vec2<int>& imageStart, const Vec2<int>& imageEnd );
 
 	void DrawImageNonChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
-		const Vec2<int> imageStart, const Vec2<int> imageEnd, const Vec2<float> rotateCenter, float angle );
+		const Vec2<int>& imageStart, const Vec2<int>& imageEnd, const Vec2<float>& rotateCenter, float angle );
 
 	void DrawImageChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
-		const Vec2<int> imageStart, const Vec2<int> imageEnd, int angle = 0,
+		const Vec2<int>& imageStart, const Vec2<int>& imageEnd, int angle = 0,
 		Gdiplus::Color lowChroma = { 245, 0, 245 }, Gdiplus::Color highChroma = { 255,10,255 } );
 
 	void DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight,
@@ -41,7 +45,7 @@ namespace Surface
 		Gdiplus::Color lowChroma = { 245, 0, 245 }, Gdiplus::Color highChroma = { 255,10,255 } );
 
 	void DrawImageChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
-		const Vec2<int> imageStart, const Vec2<int> imageEnd, const Vec2<float> rotateCenter, float angle,
+		const Vec2<int>& imageStart, const Vec2<int>& imageEnd, const Vec2<float>& rotateCenter, float angle,
 		Gdiplus::Color lowChroma = { 245, 0, 245 }, Gdiplus::Color highChroma = { 255,10,255 } );
 };
 
