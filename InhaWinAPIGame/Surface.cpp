@@ -111,6 +111,17 @@ void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* imag
 	ImageAttributes imgAttr;
 	imgAttr.SetColorKey( lowChroma, highChroma );
 
+	const Gdiplus::RectF r( topLeft.x, topLeft.y, (bottomRight.x - topLeft.x), (bottomRight.y - topLeft.y) );
+	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel, &imgAttr );
+}
+
+void Surface::DrawImageChromaInt( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
+{
+	using namespace Gdiplus;
+
+	ImageAttributes imgAttr;
+	imgAttr.SetColorKey( lowChroma, highChroma );
+
 	const Gdiplus::Rect r( (int)topLeft.x, (int)topLeft.y, (int)(bottomRight.x - topLeft.x), (int)(bottomRight.y - topLeft.y) );
 	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel, &imgAttr );
 }
