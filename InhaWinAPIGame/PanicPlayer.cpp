@@ -3,16 +3,15 @@
 #include "Scene.h"
 #include <string>
 
-PanicPlayer::PanicPlayer( const Vec2<int> pos, int width, int height )
+PanicPlayer::PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float width, float height, int id )
 	:
-	pImage( ImageCodex::Retrieve( imageName ) ),
-	collisionRect(pos, width, height)
+	DynamicActor( imageName, pos, vel, width, height, id )
 {
 }
 
 void PanicPlayer::Update( float dt, Scene& scene )
 {
-	MoveObjectToRelativeCoord( (Vec2<int>)scene.GetSceneTopLeft() );
+	MoveObjectToRelativeCoord( scene.GetSceneTopLeft() );
 }
 
 void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
@@ -27,7 +26,7 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 
 	const std::wstring firstVertexStr = L"FirstVertex: {" + std::to_wstring( curVertices.first.X ) + L", " + std::to_wstring( curVertices.first.Y ) + L"}";
 	const std::wstring secondVertexStr = L"SecondVertex: {" + std::to_wstring( curVertices.second.X ) + L", " + std::to_wstring( curVertices.second.Y ) + L"}";
-	const std::wstring playerPosStr = L"PlayerPos: {" + std::to_wstring( collisionRect.GetCenterX() ) + L", " + std::to_wstring( collisionRect.GetCenterY() ) + L"}";
+	const std::wstring playerPosStr = L"PlayerPos: {" + std::to_wstring( rigidBody.GetCenterX() ) + L", " + std::to_wstring( rigidBody.GetCenterY() ) + L"}";
 	Surface::DrawString( gfx, firstVertexStr, { 0,20 }, Gdiplus::Color( 255, 255, 255, 255 ) );
 	Surface::DrawString( gfx, secondVertexStr, { 0,40 }, Gdiplus::Color( 255, 255, 255, 255 ) );
 	Surface::DrawString( gfx, playerPosStr, { 0,60 }, Gdiplus::Color( 255, 255, 255, 255 ) );
@@ -55,26 +54,26 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 
 }
 
-void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
+void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<float> amount )
 {
-	relativeTopLeft = collisionRect.GetLeftTop() + amount;
-	relativeBottomRight = collisionRect.GetRightBottom() + amount;
+	relativeTopLeft = rigidBody.GetLeftTop() + amount;
+	relativeBottomRight = rigidBody.GetRightBottom() + amount;
 }
 
-void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
+void PanicPlayer::MovePos( float dt, const Vec2<float>& dir, PlayerArea& area )
 {
 	switch ( moveMode )
 	{
 	case PanicPlayer::MoveMode::Edge:
 		{
-			const Vec2<int> vel = dir * speed;
-			const Vec2<int> nextPos = collisionRect.GetCenter() + vel;
+			const Vec2<float> vel = dir * speed * dt;
+			const Vec2<float> nextPos = rigidBody.GetCenter() + vel;
 			auto curLine = area.GetLineFromIndices( curLineIndices );
 			curVertices = curLine;
 			if ( area.IsOnEdge( nextPos, curLine ) )
 			{
-				collisionRect.SetCenter( nextPos );
-				area.ChangeIndicesOnVertices( collisionRect.GetCenter(), curLineIndices );
+				rigidBody.SetCenter( nextPos );
+				area.ChangeIndicesOnVertices( nextPos, curLineIndices );
 			}
 			
 		}

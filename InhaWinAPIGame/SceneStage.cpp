@@ -6,8 +6,8 @@
 SceneStage::SceneStage()
 	:
 	Scene((int)worldWidth, (int)worldHeight),
-	player( { 0,0 },  20, 20),
-	playerArea( { sceneRect.left, sceneRect.right, (int)worldWidth, (int)worldHeight} )
+	player( { 0,0 }, { 0,0 }, 20, 20, 0 ),
+	playerArea( { (float)sceneRect.left,  (float)sceneRect.right, worldWidth, worldHeight} )
 {
 }
 

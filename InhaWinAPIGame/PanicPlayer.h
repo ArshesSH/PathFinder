@@ -1,20 +1,19 @@
 #pragma once
 
-#include "Actor.h"
+#include "DynamicActor.h"
 
 #include <vector>
-#include "Rect.h"
 #include "PlayerArea.h"
 
-class PanicPlayer : public Actor
+class PanicPlayer : public DynamicActor
 {
 public:
 	class MoveRecord
 	{
 
 	public:
-		std::vector<Vec2<int>> pos;
-		std::vector<Vec2<int>> dir;
+		std::vector<Vec2<float>> pos;
+		std::vector<Vec2<float>> dir;
 	};
 
 public:
@@ -25,35 +24,32 @@ public:
 	};
 
 public:
-	PanicPlayer( const Vec2<int> pos, int width, int height );
+	PanicPlayer( const Vec2<float> pos, const Vec2<float> vel, float width, float height, int id );
 
 	void Update( float dt, class Scene& scene ) override;
 	void Draw( Gdiplus::Graphics& gfx ) override;
 	void ControlPlayer( float dt, PlayerArea& area );
 
 private:
-	void MoveObjectToRelativeCoord( const Vec2<int> amount );
-	void MovePos( float dt, const Vec2<int>& dir, PlayerArea& area );
+	void MoveObjectToRelativeCoord( const Vec2<float> amount );
+	void MovePos( float dt, const Vec2<float>& dir, PlayerArea& area );
 private:
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
-	std::shared_ptr<Gdiplus::Image> pImage;
-	Vec2<int> imageEnd = { pImage->GetWidth(), pImage->GetHeight() };
 
-	const Vec2<int> dirLeft = { -1,0 };
-	const Vec2<int> dirUp = { 0,-1 };
-	const Vec2<int> dirRight = { 1, 0 };
-	const Vec2<int> dirDown = { 0, 1 };
+	const Vec2<float> dirLeft = { -1,0 };
+	const Vec2<float> dirUp = { 0,-1 };
+	const Vec2<float> dirRight = { 1, 0 };
+	const Vec2<float> dirDown = { 0, 1 };
 
-	Vec2<int> dir;
-	int speed = 10;
-	Rect<int> collisionRect;
+	Vec2<float> dir;
+	float speed = 100.0f;
 
 	MoveMode moveMode = MoveMode::Edge;
 	std::pair<int, int> curLineIndices = {0,1};
 
-	Vec2<int> relativeTopLeft;
-	Vec2<int> relativeBottomRight;
+	Vec2<float> relativeTopLeft;
+	Vec2<float> relativeBottomRight;
 
 	//Debug
-	std::pair<Gdiplus::Point, Gdiplus::Point> curVertices;
+	std::pair<Gdiplus::PointF, Gdiplus::PointF> curVertices;
 };

@@ -80,14 +80,6 @@ void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color
 	graphics.FillPolygon( &brush, &points, pointCnt );
 }
 
-void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::Point& points, int pointCnt )
-{
-	using namespace Gdiplus;
-
-	SolidBrush brush( color );
-	graphics.FillPolygon( &brush, &points, pointCnt );
-}
-
 
 void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd )
 {
@@ -113,17 +105,6 @@ void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* i
 }
 
 void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight, const Vec2<int> imageStart, const Vec2<int> imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
-{
-	using namespace Gdiplus;
-
-	ImageAttributes imgAttr;
-	imgAttr.SetColorKey( lowChroma, highChroma );
-
-	const Gdiplus::Rect r( (int)topLeft.x, (int)topLeft.y, (int)(bottomRight.x - topLeft.x), (int)(bottomRight.y - topLeft.y) );
-	graphics.DrawImage( image, r, imageStart.x, imageStart.y, imageEnd.x, imageEnd.y, UnitPixel, &imgAttr );
-}
-
-void Surface::DrawImageChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<int>& topLeft, const Vec2<int>& bottomRight, const Vec2<int>& imageStart, const Vec2<int>& imageEnd, int angle, Gdiplus::Color lowChroma, Gdiplus::Color highChroma )
 {
 	using namespace Gdiplus;
 
