@@ -22,15 +22,20 @@ public:
 		//const auto& curLine = GetLineFromIndices( indices );
 		if ( IsHorizontal( curLine ) )
 		{
+			const int left = (std::min)( curLine.first.X, curLine.second.X );
+			const int right = (std::max)(curLine.first.X, curLine.second.X);
+
 			return (pos.y == curLine.first.Y ) &&
-				pos.x >= curLine.first.X &&
-				pos.x <= curLine.second.X;
+				pos.x >= left &&
+				pos.x <= right;
 		}
 		else
 		{
+			const int top = (std::min)(curLine.first.Y, curLine.second.Y);
+			const int bottom = (std::max)(curLine.first.Y, curLine.second.Y);
 			return pos.x == curLine.first.X &&
-				pos.y >= curLine.first.Y &&
-				pos.y <=curLine.second.Y;
+				pos.y >= top &&
+				pos.y <= bottom;
 		}
 	}
 	void ChangeIndicesOnVertices( const Vec2<int>& pos, std::pair<int, int>& indices )
@@ -38,7 +43,7 @@ public:
 		const auto& curLine = GetLineFromIndices( indices );
 		if ( IsOnFirstVertex(pos, curLine))
 		{
-			//indices = { GetSafeIndex( indices.first - 1 ), GetSafeIndex( indices.second - 1 ) };
+			indices = { GetSafeIndex( indices.first - 1 ), GetSafeIndex( indices.second - 1 ) };
 		}
 		else if ( IsOnSecondVertex( pos, curLine ) )
 		{
@@ -47,20 +52,16 @@ public:
 	}
 	bool IsOnFirstVertex( const Vec2<int>& pos, const std::pair<Gdiplus::Point, Gdiplus::Point>& curLine ) const
 	{
-		//return (MathSH::Compare( pos.x, curLine.first.X ) && MathSH::Compare( pos.y, curLine.first.Y ));
-
 		return ((int)pos.x == (int)curLine.first.X) && ((int)pos.y == (int)curLine.first.Y);
 	}
 	bool IsOnSecondVertex( const Vec2<int>& pos, const std::pair<Gdiplus::Point, Gdiplus::Point>& curLine ) const
 	{
-		//return (MathSH::Compare( pos.x, curLine.second.X ) && MathSH::Compare( pos.y, curLine.second.Y ));
 		return ((int)pos.x == (int)curLine.second.X) && ((int)pos.y == (int)curLine.second.Y);
 	}
 
-
 	bool IsHorizontal( const std::pair<Gdiplus::Point, Gdiplus::Point>& line ) const
 	{
-		return MathSH::Compare( line.first.Y, line.second.Y );
+		return line.first.Y == line.second.Y;
 	}
 
 	int GetSafeIndex(int i) const
@@ -75,6 +76,7 @@ public:
 		}
 		return i;
 	}
+	
 
 private:
 

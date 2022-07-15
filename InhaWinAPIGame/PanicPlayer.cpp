@@ -75,7 +75,15 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 				const Vec2<int> nextPos = collisionRect.GetCenter() + vel;
 				auto curLine = area.GetLineFromIndices( curLineIndices );
 				curVertices = curLine;
-				//if ( area.IsOnEdge( nextPos, curLine ) )
+				if ( area.IsOnFirstVertex(collisionRect.GetCenter(), curLine) )
+				{
+					auto prevLineIndices = curLineIndices;
+					area.ChangeIndicesOnVertices( collisionRect.GetCenter(), prevLineIndices );
+					auto curLine = area.GetLineFromIndices( curLineIndices );
+				
+
+				}
+				if ( area.IsOnEdge( nextPos, curLine ) )
 				{
 					collisionRect.SetCenter( nextPos );
 					area.ChangeIndicesOnVertices( collisionRect.GetCenter(), curLineIndices );
