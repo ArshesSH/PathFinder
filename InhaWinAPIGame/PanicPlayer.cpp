@@ -53,6 +53,10 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 		MovePos( dt, dirDown, area );
 	}
 
+	if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
+	{
+		moveMode = MoveMode::OutSide;
+	}
 }
 
 void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
@@ -64,35 +68,79 @@ void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
 void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 {
 	moveTime += dt;
-	switch ( moveMode )
-	{
-	case PanicPlayer::MoveMode::Edge:
-		{
-			if ( moveTime >= movePeriod )
-			{
-				moveTime = 0.0f;
-				const Vec2<int> vel = dir * speed;
-				const Vec2<int> nextPos = collisionRect.GetCenter() + vel;
-				auto curLine = area.GetLineFromIndices( curLineIndices );
-				curVertices = curLine;
-				if ( area.IsOnFirstVertex(collisionRect.GetCenter(), curLine) )
-				{
-					auto prevLineIndices = curLineIndices;
-					area.ChangeIndicesOnVertices( collisionRect.GetCenter(), prevLineIndices );
-					auto curLine = area.GetLineFromIndices( curLineIndices );
-				
 
+	if ( moveTime >= movePeriod )
+	{
+		moveTime = 0.0f;
+		const Vec2<int> vel = dir * speed;
+
+		switch ( moveMode )
+		{
+		case PanicPlayer::MoveMode::Edge:
+			{
+				/* Move Condition
+					1. If Not on Vertex, Move by curLineIndices
+					2. If on vertex, Check it's first vertex or second vertex
+					3. If vertex is first vertex, Get prevLineIndex
+					4. If vertex is Second vertex Get NextLineIndex
+					5. If Get Two lines, Find next pos is in two lines
+					6. If So, Move
+					*/
+				const Vec2<int> curPos = collisionRect.GetCenter();
+				const Vec2<int> nextPos = curPos + vel;
+				auto curLine = area.GetLineFromIndices( curLineIndices );
+
+				//for Debug
+				curVertices = curLine;
+
+				if ( area.IsOnFirstVertex( curPos, curLine ) )
+				{
+					const auto prevLineIndices = area.GetPrevIndices( curLineIndices );
+					const auto prevLine = area.GetLineFromIndices( prevLineIndices );
+
+					if ( area.IsOnEdge( nextPos, curLine ) )
+					{
+						collisionRect.SetCenter( nextPos );
+					}
+					else if ( area.IsOnEdge( nextPos, prevLine ) )
+					{
+						collisionRect.SetCenter( nextPos );
+						curLineIndices = prevLineIndices;
+					}
 				}
-				if ( area.IsOnEdge( nextPos, curLine ) )
+				else if ( area.IsOnSecondVertex( curPos, curLine ) )
+				{
+					const auto nextLineIndices = area.GetNextIndices( curLineIndices );
+					const auto nextLine = area.GetLineFromIndices( nextLineIndices );
+
+					if ( area.IsOnEdge( nextPos, curLine ) )
+					{
+						collisionRect.SetCenter( nextPos );
+					}
+					else if ( area.IsOnEdge( nextPos, nextLine ) )
+					{
+						collisionRect.SetCenter( nextPos );
+						curLineIndices = nextLineIndices;
+					}
+				}
+				else if ( area.IsOnEdge( nextPos, curLine ) )
 				{
 					collisionRect.SetCenter( nextPos );
-					area.ChangeIndicesOnVertices( collisionRect.GetCenter(), curLineIndices );
 				}
 			}
+			break;
 
+		case PanicPlayer::MoveMode::OutSide:
+			{
+				/*
+				* 1. Can't Move at Border
+				* 2. Can Ride Edge
+				* 3. If first time, curPos is Edge nextPos is not Edge, curPos is StartPoint, Start tracking
+				* 4. If have some curve, record vector
+				* 5. 
+				*/
+			}
+			break;
 		}
-		break;
-	case PanicPlayer::MoveMode::OutSide:
-		break;
 	}
 }
