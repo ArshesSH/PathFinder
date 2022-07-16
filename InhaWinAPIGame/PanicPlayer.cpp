@@ -53,10 +53,7 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 		MovePos( dt, dirDown, area );
 	}
 
-	if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
-	{
-		moveMode = MoveMode::OutSide;
-	}
+
 }
 
 void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
@@ -73,6 +70,15 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 	{
 		moveTime = 0.0f;
 		const Vec2<int> vel = dir * speed;
+		const Vec2<int> curPos = collisionRect.GetCenter();
+		const Vec2<int> nextPos = curPos + vel;
+
+		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
+		{
+			//check if nextpos is in border
+			// if so, set move state to out
+
+		}
 
 		switch ( moveMode )
 		{
@@ -86,8 +92,7 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 					5. If Get Two lines, Find next pos is in two lines
 					6. If So, Move
 					*/
-				const Vec2<int> curPos = collisionRect.GetCenter();
-				const Vec2<int> nextPos = curPos + vel;
+
 				auto curLine = area.GetLineFromIndices( curLineIndices );
 
 				//for Debug
@@ -139,6 +144,7 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 				* 4. If have some curve, record vector
 				* 5. 
 				*/
+
 			}
 			break;
 		}

@@ -55,6 +55,7 @@ private:
 
 	Vec2<int> relativeTopLeft;
 	Vec2<int> relativeBottomRight;
+	bool onSpacebar;
 
 	//Debug
 	std::pair<Gdiplus::Point, Gdiplus::Point> curVertices;
