@@ -28,9 +28,14 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 	const std::wstring firstVertexStr = L"FirstVertex: {" + std::to_wstring( curVertices.first.X ) + L", " + std::to_wstring( curVertices.first.Y ) + L"}";
 	const std::wstring secondVertexStr = L"SecondVertex: {" + std::to_wstring( curVertices.second.X ) + L", " + std::to_wstring( curVertices.second.Y ) + L"}";
 	const std::wstring playerPosStr = L"PlayerPos: {" + std::to_wstring( collisionRect.GetCenterX() ) + L", " + std::to_wstring( collisionRect.GetCenterY() ) + L"}";
+
 	Surface::DrawString( gfx, firstVertexStr, { 0,20 }, Gdiplus::Color( 255, 255, 255, 255 ) );
 	Surface::DrawString( gfx, secondVertexStr, { 0,40 }, Gdiplus::Color( 255, 255, 255, 255 ) );
 	Surface::DrawString( gfx, playerPosStr, { 0,60 }, Gdiplus::Color( 255, 255, 255, 255 ) );
+
+	const int debugVal = 0;
+	const std::wstring etcDebugStr = L"Desired Debug : " + std::to_wstring( debugVal );
+	Surface::DrawString( gfx, etcDebugStr, { 300, 20 }, Gdiplus::Color( 255, 255, 0, 255 ) );
 }
 
 
@@ -52,8 +57,6 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 	{
 		MovePos( dt, dirDown, area );
 	}
-
-
 }
 
 void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
@@ -72,12 +75,25 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 		const Vec2<int> vel = dir * speed;
 		const Vec2<int> curPos = collisionRect.GetCenter();
 		const Vec2<int> nextPos = curPos + vel;
+		auto curLine = area.GetLineFromIndices( curLineIndices );
 
+		// On Space
 		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
 		{
-			//check if nextpos is in border
-			// if so, set move state to out
+			if ( trackingNodes.empty() )
+			{
+				if ( area.IsOnEdge( curPos, curLine ) )
+				{
 
+				}
+			}
+		}
+		else
+		{
+			if ( moveMode == MoveMode::Inside )
+			{
+				// do return sequence
+			}
 		}
 
 		switch ( moveMode )
@@ -92,8 +108,6 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 					5. If Get Two lines, Find next pos is in two lines
 					6. If So, Move
 					*/
-
-				auto curLine = area.GetLineFromIndices( curLineIndices );
 
 				//for Debug
 				curVertices = curLine;
@@ -135,7 +149,7 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 			}
 			break;
 
-		case PanicPlayer::MoveMode::OutSide:
+		case PanicPlayer::MoveMode::Inside:
 			{
 				/*
 				* 1. Can't Move at Border

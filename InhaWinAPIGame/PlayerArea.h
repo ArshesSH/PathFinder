@@ -36,6 +36,20 @@ public:
 				pos.y <= bottom;
 		}
 	}
+	bool IsOnInside( const Vec2<int>& pos, const std::pair<Gdiplus::Point, Gdiplus::Point>& curLine )
+	{
+		// Check Vectors dir
+		// Check Point is on right side of vector
+
+		const Vec2<int> line = { curLine.second.X - curLine.first.X, curLine.second.Y - curLine.first.Y };
+		const auto crossed = Vec2<int>::GetCrossProduct( line, pos );
+		
+		if ( crossed > 0 )
+		{
+			return true;
+		}
+		return false;
+	}
 
 	std::pair<int, int> GetPrevIndices( const std::pair<int, int>& curIndices )
 	{
