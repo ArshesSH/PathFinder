@@ -32,6 +32,16 @@ void Game::ComposeFrame(HDC hdc)
 			}
 		}
 		break;
+	case Game::SceneType::SceneTest:
+		{
+			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
+				[this]( HDC hdc )
+				{
+					testTriangulationScene.Draw( hdc );
+				}
+			);
+		}
+		break;
 	case Game::SceneType::SceneResult:
 		{
 		}
@@ -52,6 +62,13 @@ void Game::UpdateModel()
 			float dt = ft.Mark();
 			RefreshScreen();
 			stage.Update( dt, *this );
+		}
+		break;
+	case Game::SceneType::SceneTest:
+		{
+			float dt = ft.Mark();
+			RefreshScreen();
+			testTriangulationScene.Update(dt, *this);
 		}
 		break;
 	case Game::SceneType::SceneResult:

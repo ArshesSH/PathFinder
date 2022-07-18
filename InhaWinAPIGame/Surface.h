@@ -24,6 +24,7 @@ namespace Surface
 	void DrawFillRect(Gdiplus::Graphics& graphics, Gdiplus::Color color, Gdiplus::RectF rectF );
 
 	void DrawPolygon(Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Gdiplus::PointF& points, int pointCnt );
+	void DrawPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Gdiplus::Point& points, int pointCnt );
 	void DrawFillPolygon(Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt );
 	void DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::Point& points, int pointCnt );
 

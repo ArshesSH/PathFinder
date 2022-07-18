@@ -40,6 +40,14 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 
 void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 {
+	if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
+	{
+		moveMode = MoveMode::Inside;
+	}
+	else
+	{
+		moveMode = MoveMode::Edge;
+	}
 	if ( GetAsyncKeyState( VK_LEFT ) & 0x8001 )
 	{
 		MovePos( dt, dirLeft, area );
@@ -56,6 +64,8 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 	{
 		MovePos( dt, dirDown, area );
 	}
+
+
 }
 
 void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )
@@ -76,27 +86,7 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 		const Vec2<int> nextPos = curPos + vel;
 		auto curLine = area.polygon.GetLineFromIndices( curLineIndices );
 
-		// On Space
-		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
-		{
-			if ( !isStartTracking )
-			{
-				if ( area.polygon.IsOnEdge( curPos, curLine ) &&
-					area.polygon.IsOnInside( nextPos, curLine ) )
-				{
-					isStartTracking = true;
-					//trackingVertices.push_back( curPos );
-				}
-			}
-			else
-			{
-				// If Player 
-				if ( area.polygon.IsOnEdge( nextPos ) )
-				{
-
-				}
-			}
-		}
+		TrackingMode( dir, curPos, nextPos, curLine, area );
 
 		switch ( moveMode )
 		{
@@ -153,14 +143,11 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 
 		case PanicPlayer::MoveMode::Inside:
 			{
-				/*
-				* 1. Can't Move at Border
-				* 2. Can Ride Edge
-				* 3. If first time, curPos is Edge nextPos is not Edge, curPos is StartPoint, Start tracking
-				* 4. If have some curve, record vector
-				* 5. 
-				*/
-
+				if ( dir != GetOppositeDir( lastDir ) )
+				{
+					collisionRect.SetCenter( nextPos );
+					lastDir = dir;
+				}
 			}
 			break;
 		}

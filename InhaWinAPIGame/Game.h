@@ -5,6 +5,10 @@
 #include "FrameTimer.h"
 #include "SceneStage.h"
 #include "DrawManager.h"
+
+// Test Things
+#include "TestTriangulationScene.h"
+
 class Game
 {
 public:
@@ -12,6 +16,7 @@ public:
 	{
 		SceneStart,
 		SceneStage,
+		SceneTest,
 		SceneResult
 	};
 public:
@@ -35,7 +40,13 @@ private:
 
 	bool isScreenChanged = true;
 	float time = 0.0f;
-	SceneType sceneType = SceneType::SceneStage;
+	SceneType sceneType = SceneType::SceneTest;
 
 	bool isFinishedResult = false;
+
+
+
+
+	// for Test
+	TestTriangulationScene testTriangulationScene;
 };

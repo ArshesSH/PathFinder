@@ -72,6 +72,14 @@ void Surface::DrawPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, fl
 	graphics.DrawPolygon( &pen, &points, pointCnt );
 }
 
+void Surface::DrawPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Gdiplus::Point& points, int pointCnt )
+{
+	using namespace Gdiplus;
+
+	Pen pen( color, penWidth );
+	graphics.DrawPolygon( &pen, &points, pointCnt );
+}
+
 void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt )
 {
 	using namespace Gdiplus;
