@@ -5,7 +5,7 @@
 
 PlayerArea::PlayerArea(const std::vector<Gdiplus::Point>& vertices)
 	:
-	vertices(vertices),
+	polygon(vertices),
 	drawVertices(vertices)
 {
 }
@@ -17,12 +17,12 @@ PlayerArea::PlayerArea( const Gdiplus::Rect& rect )
 	const int right = rect.GetRight();
 	const int bottom = rect.GetBottom();
 
-	vertices.emplace_back( left, top );
-	vertices.emplace_back( right, top );
-	vertices.emplace_back( right, bottom );
-	vertices.emplace_back( left, bottom );
+	polygon.vertices.emplace_back( left, top );
+	polygon.vertices.emplace_back( right, top );
+	polygon.vertices.emplace_back( right, bottom );
+	polygon.vertices.emplace_back( left, bottom );
 
-	drawVertices = vertices;
+	drawVertices = polygon.vertices;
 }
 
 void PlayerArea::Update( float dt, Scene& scene )
@@ -37,15 +37,10 @@ void PlayerArea::Draw( Gdiplus::Graphics& gfx )
 
 void PlayerArea::MoveToRelativeCoord( const Vec2<int>& amount )
 {
-	drawVertices = vertices;
-	for (size_t i = 0; i < vertices.size(); ++i)
+	drawVertices = polygon.vertices;
+	for (size_t i = 0; i < polygon.size(); ++i)
 	{
-		drawVertices[i] = vertices[i] + Gdiplus::Point( amount.x, amount.y );
+		drawVertices[i] = polygon.vertices[i] + Gdiplus::Point( amount.x, amount.y );
 	}
 }
 
-std::pair<Gdiplus::Point, Gdiplus::Point> PlayerArea::GetLineFromIndices( const std::pair<int, int>& indices ) const
-{
-	assert( indices.first >= 0 && indices.second < (int)vertices.size() );
-	return { vertices[indices.first], vertices[indices.second] };
-}

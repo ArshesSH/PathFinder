@@ -74,15 +74,15 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 		const Vec2<int> vel = dir * speed;
 		const Vec2<int> curPos = collisionRect.GetCenter();
 		const Vec2<int> nextPos = curPos + vel;
-		auto curLine = area.GetLineFromIndices( curLineIndices );
+		auto curLine = area.polygon.GetLineFromIndices( curLineIndices );
 
 		// On Space
 		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
 		{
 			if ( !isStartTracking )
 			{
-				if ( area.IsOnEdge( curPos, curLine ) &&
-					area.IsOnInside( nextPos, curLine ) )
+				if ( area.polygon.IsOnEdge( curPos, curLine ) &&
+					area.polygon.IsOnInside( nextPos, curLine ) )
 				{
 					isStartTracking = true;
 					//trackingVertices.push_back( curPos );
@@ -91,7 +91,7 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 			else
 			{
 				// If Player 
-				if ( area.IsOnEdge( nextPos ) )
+				if ( area.polygon.IsOnEdge( nextPos ) )
 				{
 
 				}
@@ -114,37 +114,37 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 				//for Debug
 				curVertices = curLine;
 
-				if ( area.IsOnFirstVertex( curPos, curLine ) )
+				if ( area.polygon.IsOnFirstVertex( curPos, curLine ) )
 				{
-					const auto prevLineIndices = area.GetPrevIndices( curLineIndices );
-					const auto prevLine = area.GetLineFromIndices( prevLineIndices );
+					const auto prevLineIndices = area.polygon.GetPrevIndices( curLineIndices );
+					const auto prevLine = area.polygon.GetLineFromIndices( prevLineIndices );
 
-					if ( area.IsOnEdge( nextPos, curLine ) )
+					if ( area.polygon.IsOnEdge( nextPos, curLine ) )
 					{
 						collisionRect.SetCenter( nextPos );
 					}
-					else if ( area.IsOnEdge( nextPos, prevLine ) )
+					else if ( area.polygon.IsOnEdge( nextPos, prevLine ) )
 					{
 						collisionRect.SetCenter( nextPos );
 						curLineIndices = prevLineIndices;
 					}
 				}
-				else if ( area.IsOnSecondVertex( curPos, curLine ) )
+				else if ( area.polygon.IsOnSecondVertex( curPos, curLine ) )
 				{
-					const auto nextLineIndices = area.GetNextIndices( curLineIndices );
-					const auto nextLine = area.GetLineFromIndices( nextLineIndices );
+					const auto nextLineIndices = area.polygon.GetNextIndices( curLineIndices );
+					const auto nextLine = area.polygon.GetLineFromIndices( nextLineIndices );
 
-					if ( area.IsOnEdge( nextPos, curLine ) )
+					if ( area.polygon.IsOnEdge( nextPos, curLine ) )
 					{
 						collisionRect.SetCenter( nextPos );
 					}
-					else if ( area.IsOnEdge( nextPos, nextLine ) )
+					else if ( area.polygon.IsOnEdge( nextPos, nextLine ) )
 					{
 						collisionRect.SetCenter( nextPos );
 						curLineIndices = nextLineIndices;
 					}
 				}
-				else if ( area.IsOnEdge( nextPos, curLine ) )
+				else if ( area.polygon.IsOnEdge( nextPos, curLine ) )
 				{
 					collisionRect.SetCenter( nextPos );
 				}
