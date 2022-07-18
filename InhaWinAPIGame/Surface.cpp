@@ -88,6 +88,15 @@ void Surface::DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color
 	graphics.FillPolygon( &brush, &points, pointCnt );
 }
 
+void Surface::ClipingPath( Gdiplus::Graphics& graphics, const Gdiplus::GraphicsPath& path )
+{
+	using namespace Gdiplus;
+	graphics.SetClip( &path, CombineMode::CombineModeXor );
+
+	//Pen pen( {255,255,255,255}, 1 );
+	//graphics.DrawPath( &pen, &path );
+}
+
 
 void Surface::DrawImageNonChroma( Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
 	const Vec2<int>& imageStart, const Vec2<int>& imageEnd )

@@ -16,6 +16,7 @@ public:
 	void MoveToRelativeCoord( const Vec2<int>& amount );
 	std::pair<Gdiplus::Point, Gdiplus::Point> GetLineFromIndices( const std::pair<int, int>& indices ) const;
 
+	// Check each line
 	bool IsOnEdge( const Vec2<int>& pos, const std::pair<Gdiplus::Point, Gdiplus::Point>& curLine ) const
 	{
 		if ( IsHorizontal( curLine ) )
@@ -35,6 +36,20 @@ public:
 				pos.y >= top &&
 				pos.y <= bottom;
 		}
+	}
+	// Check all line
+	bool IsOnEdge( const Vec2<int>& pos )
+	{
+		for ( int i = 0; i < vertices.size(); ++i )
+		{
+			const auto curLine = GetLineFromIndices( { GetSafeIndex( i ), GetSafeIndex( i + 1 ) } );
+
+			if ( !IsOnEdge( pos, curLine ) )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	bool IsOnInside( const Vec2<int>& pos, const std::pair<Gdiplus::Point, Gdiplus::Point>& curLine )
 	{
@@ -86,9 +101,6 @@ public:
 		}
 		return i;
 	}
-	
-
-private:
 
 private:
 	const Gdiplus::Color color{ 255, 0, 255, 0 };

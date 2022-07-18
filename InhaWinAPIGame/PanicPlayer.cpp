@@ -19,7 +19,6 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 {
 	Surface::DrawImageChroma( gfx, pImage.get(), relativeTopLeft, relativeBottomRight, { 0,0 }, imageEnd );
 
-
 	// Debug
 	const std::wstring lineIndices = L"Indices (" + std::to_wstring( curLineIndices.first ) + L", "
 		+ std::to_wstring( curLineIndices.second ) + L")";
@@ -80,19 +79,22 @@ void PanicPlayer::MovePos( float dt, const Vec2<int>& dir, PlayerArea& area )
 		// On Space
 		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
 		{
-			if ( trackingNodes.empty() )
+			if ( !isStartTracking )
 			{
-				if ( area.IsOnEdge( curPos, curLine ) )
+				if ( area.IsOnEdge( curPos, curLine ) &&
+					area.IsOnInside( nextPos, curLine ) )
+				{
+					isStartTracking = true;
+					//trackingVertices.push_back( curPos );
+				}
+			}
+			else
+			{
+				// If Player 
+				if ( area.IsOnEdge( nextPos ) )
 				{
 
 				}
-			}
-		}
-		else
-		{
-			if ( moveMode == MoveMode::Inside )
-			{
-				// do return sequence
 			}
 		}
 

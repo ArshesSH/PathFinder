@@ -26,6 +26,13 @@ public:
 private:
 	void MoveObjectToRelativeCoord( const Vec2<int> amount );
 	void MovePos( float dt, const Vec2<int>& dir, PlayerArea& area );
+	void Tracking( const Vec2<int>& curDir)
+	{
+		if ( lastDir != curDir )
+		{
+
+		}
+	}
 private:
 	// Image Setting
 	static constexpr wchar_t imageName[] = L"Images/awsom.bmp";
@@ -38,6 +45,7 @@ private:
 	const Vec2<int> dirUp = { 0,-1 };
 	const Vec2<int> dirRight = { 1, 0 };
 	const Vec2<int> dirDown = { 0, 1 };
+	Vec2<int> lastDir = {0, 0};
 
 	// Player status
 	Vec2<int> dir;
@@ -48,7 +56,9 @@ private:
 	// Player Move Node Setting
 	MoveMode moveMode = MoveMode::Edge;
 	std::pair<int, int> curLineIndices = {0,1};
-	std::vector<Vec2<int>> trackingNodes;
+	std::vector<Gdiplus::Point> trackingVertices;
+
+	bool isStartTracking = false;
 
 	// Player Drawing Setting
 	Vec2<int> relativeTopLeft;

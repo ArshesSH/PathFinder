@@ -29,8 +29,7 @@ void SceneStage::Draw( HDC hdc )
 		worldWidth + worldBorderThick,
 		worldHeight + worldBorderThick }
 	);
-	Surface::DrawImageNonChroma( graphics, pBackImage.get(), sceneTopLeft, sceneBottomRight, { 0,0 }, imageEnd );
-	
-	playerArea.Draw( graphics );
 	player.Draw( graphics );
+	playerArea.Draw( graphics );
+	Surface::DrawImageNonChroma( graphics, pBackImage.get(), sceneTopLeft, sceneBottomRight, { 0,0 }, imageEnd );
 }

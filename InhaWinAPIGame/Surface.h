@@ -27,6 +27,8 @@ namespace Surface
 	void DrawFillPolygon(Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::PointF& points, int pointCnt );
 	void DrawFillPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Gdiplus::Point& points, int pointCnt );
 
+	void ClipingPath( Gdiplus::Graphics& graphics, const Gdiplus::GraphicsPath& path );
+
 	void DrawImageNonChroma(Gdiplus::Graphics& graphics, Gdiplus::Image* image, const Vec2<float>& topLeft, const Vec2<float>& bottomRight,
 		const Vec2<int>& imageStart, const Vec2<int>& imageEnd );
 

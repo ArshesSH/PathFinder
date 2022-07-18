@@ -73,6 +73,10 @@ public:
 	{
 		return x == rhs.x && y == rhs.y;
 	}
+	bool operator!=( const Vec2& rhs ) const
+	{
+		return x != rhs.x || y != rhs.y;
+	}
 
 	T GetLength() const
 	{
