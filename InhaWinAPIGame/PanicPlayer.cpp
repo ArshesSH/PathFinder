@@ -21,10 +21,7 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 
 	if ( isStartTracking )
 	{
-		for ( int i = 0; i < (int)trackingVertices.size(); ++i )
-		{
-			
-		}
+		Surface::DrawLines( gfx, { 255,255,0,0 }, 5, trackingVertices.vertices );
 	}
 
 	// Debug

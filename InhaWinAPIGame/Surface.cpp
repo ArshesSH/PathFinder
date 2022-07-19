@@ -64,6 +64,21 @@ void Surface::DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, G
 	graphics.FillRectangle( &brush, rectF );
 }
 
+void Surface::DrawLine( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth,
+	const Gdiplus::Point& v1, const Gdiplus::Point& v2 )
+{
+	using namespace Gdiplus;
+	Pen pen( color, penWidth );
+	graphics.DrawLine( &pen, v1, v2 );
+}
+
+void Surface::DrawLines( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const std::vector<Gdiplus::Point>& vertices )
+{
+	using namespace Gdiplus;
+	Pen pen( color, penWidth );
+	graphics.DrawLines( &pen, &vertices[0], (int)vertices.size() );
+}
+
 void Surface::DrawPolygon( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Gdiplus::PointF& points, int pointCnt )
 {
 	using namespace Gdiplus;
