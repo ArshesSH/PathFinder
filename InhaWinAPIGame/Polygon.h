@@ -70,6 +70,22 @@ namespace ArshesSH
 			return { vertices[indices.first], vertices[indices.second] };
 		}
 
+		void GetLineInform( const Vec2<int>& pos, std::pair<int, int>& indices, std::pair<Gdiplus::Point, Gdiplus::Point>& line )
+		{
+			for ( int i = 0; i < vertices.size(); ++i )
+			{
+				const std::pair<int, int> curIdx = { GetSafeIndex( i ), GetSafeIndex( i + 1 ) };
+				const auto curLine = GetLineFromIndices( curIdx );
+
+				if ( IsOnEdge( pos, curLine ) )
+				{
+					indices = curIdx;
+					line = curLine;
+					return;
+				}
+			}
+		}
+
 		template <typename F>
 		std::pair<int, int> GetIndicesFromLine( const std::pair<V, V>& line, F pred ) const
 		{
@@ -130,13 +146,14 @@ namespace ArshesSH
 		template <typename V2, typename F>
 		bool IsOnEdge( const V2& pos, std::pair<int, int>& indices, F pred )
 		{
-			for ( int i = 0; i < vertices.size(); ++i )
+			for ( int i = 0; i < (int)vertices.size(); ++i )
 			{
-				const auto curLine = GetLineFromIndices( { GetSafeIndex( i ), GetSafeIndex( i + 1 ) } );
+				const std::pair<int, int> curIdx = { GetSafeIndex( i ), GetSafeIndex( i + 1 ) };
+				const auto curLine = GetLineFromIndices( curIdx );
 
 				if ( IsOnEdge( pos, curLine ) )
 				{
-					indices = GetIndicesFromLine( curLine, pred );
+					indices = curIdx;
 					return true;
 				}
 			}
@@ -158,40 +175,41 @@ namespace ArshesSH
 			return false;
 		}
 
-
 		bool IsOnInside( const Vec2<int>& pos, const std::pair<V, V>& curLine )
 		{
 			// Check Vectors dir
 			// Check Point is on right side of vector
-
-			const Vec2<int> line = { curLine.second.X - curLine.first.X, curLine.second.Y - curLine.first.Y };
+			const int x = (curLine.second.X - curLine.first.X);
+			const int y = (curLine.second.Y - curLine.first.Y);
+			const Vec2<int> line = { x, y };
 			const auto crossed = Vec2<int>::GetCrossProduct( line, pos );
-
 			if ( crossed > 0 )
 			{
 				return true;
 			}
 			return false;
 		}
-
-		bool IsPointInTrianle( const V& p, const V& a, const V& b, const V& c ) const
+		bool IsOnOutside( const Vec2<int>& pos, std::pair<V, V>& curLine )
 		{
-			const auto ab = b - a;
-			const auto bc = c - b;
-			const auto ca = a - c;
-			const auto ap = p - a;
-			const auto bp = p - b;
-			const auto cp = p - c;
-
-			const auto cross1 = CrossProduct( ab, ap );
-			const auto cross2 = CrossProduct( bc, bp );
-			const auto cross3 = CrossProduct( ca, cp );
-
-			if ( cross1 > 0 || cross2 > 0 || cross3 > 0 )
+			const Vec2<int> line = { curLine.second.X - curLine.first.X, curLine.second.Y - curLine.first.Y };
+			const auto crossed = Vec2<int>::GetCrossProduct( line, pos );
+			if ( crossed < 0 )
 			{
-				return false;
+				return true;
 			}
-			return true;
+			return false;
+		}
+		bool IsOnOutside( const Vec2<int>& pos )
+		{
+			for ( int i = 1; i < vertices.size(); ++i )
+			{
+				const auto curLine = GetLineFromIndices( { GetSafeIndex( i - 1 ), GetSafeIndex( i ) } );
+				if ( IsOnOutside( pos, curLine ) )
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		auto size() const
@@ -211,22 +229,58 @@ namespace ArshesSH
 
 		void InsertAt( const std::pair<int, int>& startIndices, const std::pair<int, int>& endIndices, const Polygon& insertPoly )
 		{
-			const auto a = vertices.begin();
-			const auto startIt = vertices.cbegin() + startIndices.second;
-			const auto endIt = vertices.cbegin() + endIndices.second;
+			auto startIdx = startIndices.second;
+			auto endIdx = endIndices.second;
 
-			//if ( startIt == endIt )
-			//{
-			//	vertices.erase( startIt );
-			//}
-			//else
+			auto startIt = vertices.cbegin() + startIdx;
+			auto endIt = vertices.cbegin() + endIdx;
+
+			if ( startIdx > endIdx )
+			{
+				vertices.erase( startIt, vertices.cend() );
+				vertices.erase( vertices.cbegin(), endIt );
+				vertices.insert( vertices.cbegin() + endIdx, insertPoly.vertices.rbegin(), insertPoly.vertices.rend() );
+			}
+			else
 			{
 				vertices.erase( startIt, endIt );
+				vertices.insert( vertices.cbegin() + startIdx, insertPoly.vertices.cbegin(), insertPoly.vertices.cend() );
 			}
-
-			vertices.insert( vertices.cbegin() + startIndices.second, insertPoly.vertices.cbegin(), insertPoly.vertices.cend() );
 		}
 
+		float GetArea()
+		{
+			float area = 0;
+			for ( int i = 0, j = int(vertices.size() - 1); i < (int)vertices.size(); ++i )
+			{
+				area += CrossProduct( vertices[j], vertices[i] );
+				j = i;
+			}
+			return area / 2;
+		}
+
+		// Abandoned
+		/*
+		
+		bool IsPointInTriangle( const V& p, const V& a, const V& b, const V& c ) const
+		{
+			const auto ab = b - a;
+			const auto bc = c - b;
+			const auto ca = a - c;
+			const auto ap = p - a;
+			const auto bp = p - b;
+			const auto cp = p - c;
+
+			const auto cross1 = CrossProduct( ab, ap );
+			const auto cross2 = CrossProduct( bc, bp );
+			const auto cross3 = CrossProduct( ca, cp );
+
+			if ( cross1 > 0 || cross2 > 0 || cross3 > 0 )
+			{
+				return false;
+			}
+			return true;
+		}
 		std::vector<int> GetTriangulateList()
 		{
 			std::vector<int> triangles;
@@ -297,6 +351,7 @@ namespace ArshesSH
 			}
 			return triangles;
 		}
+		*/
 
 	private:
 		int CrossProduct( V lhs, V rhs ) const

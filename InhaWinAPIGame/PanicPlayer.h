@@ -37,26 +37,30 @@ private:
 				if ( area.polygon.IsOnEdge( curPos, curLine ) &&
 					area.polygon.IsOnInside( nextPos, curLine ) )
 				{
+					auto a = area.polygon.IsOnInside( nextPos, curLine );
 					isStartTracking = true;
+					moveMode = MoveMode::Inside;
 					trackingVertices.vertices.push_back( { curPos.x, curPos.y } );
 					trackingStartIndices = curLineIndices;
-
 				}
 			}
 			else
 			{
+				auto IsPointEqual = []( Gdiplus::Point a, Gdiplus::Point b ) { return a.X == b.X && a.Y == b.Y; };
 				// Finish Tracking when hit edge
-				if ( area.polygon.IsOnEdge( nextPos, trackingEndIndices,
-					[]( Gdiplus::Point a, Gdiplus::Point b ) { return a.X == b.X && a.Y == b.Y; } ) )
+				if ( area.polygon.IsOnEdge( nextPos, trackingEndIndices, IsPointEqual ) )
 				{
 					isStartTracking = false;
 					trackingVertices.vertices.push_back( { nextPos.x, nextPos.y } );
 					FinishTracking(area.polygon);
+					area.polygon.IsOnEdge( curPos, curLineIndices, IsPointEqual );
+					moveMode = MoveMode::Edge;
 				}
 				else if ( trackingVertices.IsOnPath( nextPos ) )
 				{
 					trackingVertices.IsOnPath( nextPos );
 					isStartTracking = false;
+					moveMode = MoveMode::Edge;
 				}
 				else
 				{
@@ -88,7 +92,6 @@ private:
 			trackingVertices = reversedVertices;
 			std::swap( trackingStartIndices, trackingEndIndices );
 		}
-
 		areaPoly.InsertAt( trackingStartIndices, trackingEndIndices, trackingVertices );
 		trackingVertices.vertices.clear();
 	}

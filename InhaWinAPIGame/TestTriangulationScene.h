@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Surface.h"
 #include "Polygon.h"
+#include <string>
 
 class TestTriangulationScene : Scene
 {
@@ -36,8 +37,6 @@ public:
 		//testPolygon.vertices.push_back( { 500,0 } );
 		//testPolygon.vertices.push_back( { 500,500 } );
 		//testPolygon.vertices.push_back( { 0,500 } );
-
-		triangleIndicies = testPolygon.GetTriangulateList();
 	}
 	void Update( float dt, class Game& game ) override
 	{
@@ -48,19 +47,8 @@ public:
 		Gdiplus::Graphics graphics( hdc );
 		Surface::DrawFillPolygon( graphics, { 255,255,0,255 }, testPolygon.vertices[0], int( testPolygon.size() ) );
 		
-		for ( int i = 0; i < triangleIndicies.size(); i+=3 )
-		{
-			const int a = triangleIndicies[i];
-			const int b = triangleIndicies[i + 1];
-			const int c = triangleIndicies[i + 2];
-
-			const auto va = testPolygon.vertices[a];
-			const auto vb = testPolygon.vertices[b];
-			const auto vc = testPolygon.vertices[c];
-
-			const std::vector<Gdiplus::Point> triangle = { va, vb, vc };
-			Surface::DrawPolygon( graphics, { 255,0,255,255 }, 1, triangle[0], int( triangle.size() ) );
-		}
+		const std::wstring sizeStr = L"size = " + std::to_wstring( testPolygon.GetArea() );
+		Surface::DrawString( graphics, sizeStr, { 0,0 }, { 255,255,255,255 } );
 	}
 
 private:
@@ -70,5 +58,4 @@ private:
 	static const int worldHeight = 500;
 
 	ArshesSH::Polygon<Gdiplus::Point> testPolygon;
-	std::vector<int> triangleIndicies;
 };

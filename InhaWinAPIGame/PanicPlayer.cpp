@@ -40,14 +40,6 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 
 void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 {
-	if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
-	{
-		moveMode = MoveMode::Inside;
-	}
-	else
-	{
-		moveMode = MoveMode::Edge;
-	}
 	if ( GetAsyncKeyState( VK_LEFT ) & 0x8001 )
 	{
 		MovePos( dt, dirLeft, area );
@@ -64,8 +56,6 @@ void PanicPlayer::ControlPlayer(float dt, PlayerArea& area)
 	{
 		MovePos( dt, dirDown, area );
 	}
-
-
 }
 
 void PanicPlayer::MoveObjectToRelativeCoord( const Vec2<int> amount )

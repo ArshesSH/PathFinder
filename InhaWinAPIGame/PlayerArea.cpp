@@ -43,4 +43,3 @@ void PlayerArea::MoveToRelativeCoord( const Vec2<int>& amount )
 		drawVertices[i] = polygon.vertices[i] + Gdiplus::Point( amount.x, amount.y );
 	}
 }
-

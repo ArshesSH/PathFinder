@@ -40,7 +40,7 @@ private:
 
 	bool isScreenChanged = true;
 	float time = 0.0f;
-	SceneType sceneType = SceneType::SceneTest;
+	SceneType sceneType = SceneType::SceneStage;
 
 	bool isFinishedResult = false;
 
