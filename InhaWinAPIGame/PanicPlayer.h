@@ -35,9 +35,8 @@ private:
 			if ( !isStartTracking )
 			{
 				if ( area.polygon.IsOnEdge( curPos, curLine ) &&
-					area.polygon.IsOnInside( nextPos, curLine ) )
+					area.polygon.IsOnInside( dir, curLine ) )
 				{
-					auto a = area.polygon.IsOnInside( nextPos, curLine );
 					isStartTracking = true;
 					moveMode = MoveMode::Inside;
 					trackingVertices.vertices.push_back( { curPos.x, curPos.y } );

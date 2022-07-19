@@ -19,6 +19,14 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 {
 	Surface::DrawImageChroma( gfx, pImage.get(), relativeTopLeft, relativeBottomRight, { 0,0 }, imageEnd );
 
+	if ( isStartTracking )
+	{
+		for ( int i = 0; i < (int)trackingVertices.size(); ++i )
+		{
+			
+		}
+	}
+
 	// Debug
 	const std::wstring lineIndices = L"Indices (" + std::to_wstring( curLineIndices.first ) + L", "
 		+ std::to_wstring( curLineIndices.second ) + L")";
