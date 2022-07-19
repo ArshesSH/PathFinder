@@ -57,9 +57,8 @@ private:
 				}
 				else if ( trackingVertices.IsOnPath( nextPos ) )
 				{
-					trackingVertices.IsOnPath( nextPos );
 					isStartTracking = false;
-					moveMode = MoveMode::Edge;
+					BreakTracking();
 				}
 				else
 				{
@@ -96,7 +95,9 @@ private:
 	}
 	void BreakTracking()
 	{
-
+		collisionRect.SetCenter( { trackingVertices.vertices[0].X, trackingVertices.vertices[0].Y } );
+		trackingVertices.vertices.clear();
+		moveMode = MoveMode::Edge;
 	}
 	void GoBack()
 	{
@@ -162,7 +163,6 @@ private:
 	Vec2<int> sceneTopLeft;
 	Vec2<int> relativeTopLeft;
 	Vec2<int> relativeBottomRight;
-
 
 	//Debug
 	std::pair<Gdiplus::Point, Gdiplus::Point> curVertices;
