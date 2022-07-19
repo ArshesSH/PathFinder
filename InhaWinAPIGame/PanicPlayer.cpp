@@ -12,7 +12,8 @@ PanicPlayer::PanicPlayer( const Vec2<int> pos, int width, int height )
 
 void PanicPlayer::Update( float dt, Scene& scene )
 {
-	MoveObjectToRelativeCoord( (Vec2<int>)scene.GetSceneTopLeft() );
+	sceneTopLeft = scene.GetSceneTopLeft();
+	MoveObjectToRelativeCoord( sceneTopLeft );
 }
 
 void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
@@ -21,7 +22,26 @@ void PanicPlayer::Draw( Gdiplus::Graphics& gfx )
 
 	if ( isStartTracking )
 	{
-		Surface::DrawLines( gfx, { 255,255,0,0 }, 5, trackingVertices.vertices );
+		int i = 1;
+		Gdiplus::Point v2 = {
+			trackingVertices.vertices[0].X + sceneTopLeft.x,
+			trackingVertices.vertices[0].Y + sceneTopLeft.y
+		};
+		for ( ; i < int( trackingVertices.size() ); ++i )
+		{
+			const Gdiplus::Point v1 = {
+				trackingVertices.vertices[i - 1].X + sceneTopLeft.x,
+				trackingVertices.vertices[i - 1].Y + sceneTopLeft.y
+			};
+			v2 = {
+			trackingVertices.vertices[i].X + sceneTopLeft.x,
+			trackingVertices.vertices[i].Y + sceneTopLeft.y
+			};
+			Surface::DrawLine( gfx, { 255,255,0,0 }, 1, v1, v2 );
+		}
+		const auto center = collisionRect.GetCenter() + sceneTopLeft;
+		const Gdiplus::Point pos = { center.x, center.y };
+		Surface::DrawLine( gfx,{ 255,255,0,0 }, 1, v2, pos );
 	}
 
 	// Debug

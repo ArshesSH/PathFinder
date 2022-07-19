@@ -159,6 +159,7 @@ private:
 	std::pair<int, int> trackingEndIndices;
 
 	// Player Drawing Setting
+	Vec2<int> sceneTopLeft;
 	Vec2<int> relativeTopLeft;
 	Vec2<int> relativeBottomRight;
 
