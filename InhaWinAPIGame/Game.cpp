@@ -22,7 +22,7 @@ void Game::ComposeFrame(HDC hdc)
 			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
 				[this]( HDC hdc )
 				{
-					stage.Draw( hdc );
+					sceneAStar.Draw( hdc );
 				}
 			);
 
@@ -37,7 +37,7 @@ void Game::ComposeFrame(HDC hdc)
 			drawManager.DrawMain( hdc, screenRect, isScreenChanged,
 				[this]( HDC hdc )
 				{
-					testTriangulationScene.Draw( hdc );
+					//sceneAStar.Draw( hdc );
 				}
 			);
 		}
@@ -61,14 +61,14 @@ void Game::UpdateModel()
 		{
 			float dt = ft.Mark();
 			RefreshScreen();
-			stage.Update( dt, *this );
+			//sceneAStar.Update( dt, *this );
 		}
 		break;
 	case Game::SceneType::SceneTest:
 		{
 			float dt = ft.Mark();
 			RefreshScreen();
-			testTriangulationScene.Update(dt, *this);
+			//testTriangulationScene.Update(dt, *this);
 		}
 		break;
 	case Game::SceneType::SceneResult:
@@ -93,6 +93,14 @@ void Game::RefreshScreen()
 		oldScreenSize.right = screenRect.right;
 		oldScreenSize.bottom = screenRect.bottom;
 	}
+}
+Vec2<int> Game::GetMousePos()
+{
+	return mousePos;
+}
+void Game::SetMousePos( const Vec2<int>& pos )
+{
+	mousePos = pos;
 }
 bool Game::IsInitialGame() const
 {

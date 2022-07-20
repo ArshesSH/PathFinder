@@ -13,15 +13,20 @@ namespace Surface
 {
 	void DrawString(Gdiplus::Graphics& graphics, const std::wstring& str, const Vec2<float>& pos, Gdiplus::Color color, float fontSize = 24.0f,
 		const std::wstring& fontType = L"Consolas", const Gdiplus::FontStyle& fontStyle = Gdiplus::FontStyleRegular );
+	void DrawString( Gdiplus::Graphics& graphics, const std::wstring& str, float x, float y, Gdiplus::Color color, float fontSize = 24.0f,
+		const std::wstring& fontType = L"Consolas", const Gdiplus::FontStyle& fontStyle = Gdiplus::FontStyleRegular );
 
 	void DrawRect(Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height );
 	void DrawRect(Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF );
+	void DrawRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, int topLeftX, int topLeftY, int width, int height );
 
 	void DrawArc(Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height, float startAngle, float sweepAngle );
 	void DrawArc(Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, Gdiplus::RectF rectF, float startAngle, float sweepAngle );
 
 	void DrawFillRect(Gdiplus::Graphics& graphics, Gdiplus::Color color, const Vec2<float>& topLeft, float width, float height );
+	void DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Vec2<int>& topLeft, int width, int height );
 	void DrawFillRect(Gdiplus::Graphics& graphics, Gdiplus::Color color, Gdiplus::RectF rectF );
+	void DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, int topLeftX, int topLeftY, int width, int height );
 
 	void DrawLine( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth,
 		const Gdiplus::Point& v1, const Gdiplus::Point& v2 );

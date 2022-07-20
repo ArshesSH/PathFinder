@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AStar.h" />
+    <ClInclude Include="AStarScene.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="Surface.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestTriangulationScene.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec2W.h" />
     <ClInclude Include="Vec3.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="DrawManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStarScene.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DynamicActor.cpp" />
     <ClCompile Include="FileManager.cpp" />

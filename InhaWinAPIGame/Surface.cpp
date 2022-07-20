@@ -10,7 +10,20 @@ void Surface::DrawString( Gdiplus::Graphics& graphics, const std::wstring& str, 
 	Font font( &fontFamily, fontSize, fontStyle, UnitPixel );
 	PointF pointF( pos.x, pos.y );
 
-	graphics.DrawString( str.c_str(), str.size(), &font, pointF, &brush );
+	graphics.DrawString( str.c_str(), (int)str.size(), &font, pointF, &brush );
+}
+
+void Surface::DrawString( Gdiplus::Graphics& graphics, const std::wstring& str, float x, float y,
+	Gdiplus::Color color, float fontSize, const std::wstring& fontType, const Gdiplus::FontStyle& fontStyle )
+{
+	using namespace Gdiplus;
+
+	SolidBrush brush( color );
+	FontFamily fontFamily( fontType.c_str() );
+	Font font( &fontFamily, fontSize, fontStyle, UnitPixel );
+	PointF pointF( x, y );
+
+	graphics.DrawString( str.c_str(), (int)str.size(), &font, pointF, &brush );
 }
 
 void Surface::DrawRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height)
@@ -28,6 +41,15 @@ void Surface::DrawRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, float
 
 	Pen pen( color, penWidth );
 	graphics.DrawRectangle( &pen, rectF );
+}
+
+void Surface::DrawRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, int topLeftX, int topLeftY, int width, int height )
+{
+	using namespace Gdiplus;
+
+	Pen pen( color, penWidth );
+	Gdiplus::Rect r( { topLeftX, topLeftY }, { width, height } );
+	graphics.DrawRectangle( &pen, r );
 }
 
 void Surface::DrawArc( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth, const Vec2<float>& topLeft, float width, float height, float startAngle, float sweepAngle )
@@ -56,12 +78,30 @@ void Surface::DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, c
 	graphics.FillRectangle( &brush, r );
 }
 
+void Surface::DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, const Vec2<int>& topLeft, int width, int height )
+{
+	using namespace Gdiplus;
+
+	SolidBrush brush( color );
+	Gdiplus::Rect r( { topLeft.x, topLeft.y }, { width, height } );
+	graphics.FillRectangle( &brush, r );
+}
+
 void Surface::DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, Gdiplus::RectF rectF )
 {
 	using namespace Gdiplus;
 
 	SolidBrush brush( color );
 	graphics.FillRectangle( &brush, rectF );
+}
+
+void Surface::DrawFillRect( Gdiplus::Graphics& graphics, Gdiplus::Color color, int topLeftX, int topLeftY, int width, int height )
+{
+	using namespace Gdiplus;
+
+	SolidBrush brush( color );
+	Gdiplus::Rect r( { topLeftX, topLeftY }, { width, height } );
+	graphics.FillRectangle( &brush, r );
 }
 
 void Surface::DrawLine( Gdiplus::Graphics& graphics, Gdiplus::Color color, float penWidth,

@@ -3,11 +3,10 @@
 #include "framework.h"
 
 #include "FrameTimer.h"
-#include "SceneStage.h"
 #include "DrawManager.h"
 
+#include "AStarScene.h"
 // Test Things
-#include "TestTriangulationScene.h"
 
 class Game
 {
@@ -26,6 +25,9 @@ public:
 
 	void RefreshScreen();
 
+	Vec2<int> GetMousePos();
+	void SetMousePos( const Vec2<int>& pos );
+
 	bool IsInitialGame() const;
 	bool IsGameFinished() const;
 	bool IsScreenChanged() const;
@@ -35,18 +37,13 @@ public:
 private:
 	RECT oldScreenSize = screenRect;
 	FrameTimer ft;
-	SceneStage stage;
 	DrawManager drawManager;
+	AStarScene sceneAStar;
 
 	bool isScreenChanged = true;
 	float time = 0.0f;
 	SceneType sceneType = SceneType::SceneStage;
 
 	bool isFinishedResult = false;
-
-
-
-
-	// for Test
-	TestTriangulationScene testTriangulationScene;
+	Vec2<int> mousePos;
 };

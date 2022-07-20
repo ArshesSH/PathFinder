@@ -180,6 +180,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             EndPaint(hWnd, &ps);
         }
         break;
+    case WM_MOUSEMOVE:
+        {
+            game.SetMousePos( { LOWORD( lParam ), HIWORD( lParam ) } );
+        }
+        break;
+    case WM_LBUTTONDOWN:
+        {
+
+        }
+        break;
     case WM_DESTROY:
         KillTimer( hWnd, 0 );
         PostQuitMessage(0);
