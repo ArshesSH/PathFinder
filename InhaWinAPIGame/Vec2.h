@@ -80,7 +80,7 @@ public:
 
 	T GetLength() const
 	{
-		return std::sqrt( GetLengthSq() );
+		return (T)std::sqrt( GetLengthSq() );
 	}
 
 	T GetLengthSq() const

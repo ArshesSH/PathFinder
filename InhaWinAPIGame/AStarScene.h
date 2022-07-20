@@ -12,12 +12,9 @@ public:
 	void Draw( HDC hdc ) override;
 
 private:
-
-private:
-	static constexpr int worldWidth = 400;
-	static constexpr int worldHeight = 400;
-	static constexpr int tileSize = 40;
-
+	static constexpr int worldWidth = 1000;
+	static constexpr int worldHeight = 800;
+	static constexpr int tileSize = 50;
 
 	TileMap map;
 };

@@ -187,7 +187,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_LBUTTONDOWN:
         {
-
+            game.SetLeftClick();
+        }
+        break;
+    case WM_MBUTTONDOWN:
+        {
+            game.SetMiddleClick();
+        }
+        break;
+    case WM_RBUTTONDOWN:
+        {
+            game.SetRightClick();
+        }
+        break;
+    case WM_LBUTTONUP:
+    case WM_MBUTTONUP:
+    case WM_RBUTTONUP:
+        {
+            game.SetNoClick();
         }
         break;
     case WM_DESTROY:

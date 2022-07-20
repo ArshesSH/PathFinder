@@ -61,7 +61,7 @@ void Game::UpdateModel()
 		{
 			float dt = ft.Mark();
 			RefreshScreen();
-			//sceneAStar.Update( dt, *this );
+			sceneAStar.Update( dt, *this );
 		}
 		break;
 	case Game::SceneType::SceneTest:
