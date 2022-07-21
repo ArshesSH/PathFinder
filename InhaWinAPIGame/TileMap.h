@@ -23,14 +23,25 @@ public:
 	{
 	}
 
-	void Update( const Vec2<int>& mousePos_in, const Vec2<int>& sceneTopLeft_in )
+	void Update( const Vec2<int>& mousePos_in, const Vec2<int>& sceneTopLeft_in, float dt )
 	{
 		mousePos = mousePos_in;
 		sceneTopLeft = sceneTopLeft_in;
 
-		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
+		time += dt;
+
+		if ( GetAsyncKeyState( VK_SPACE ) )
 		{
- 			aStar.FindRouteOnce();
+			isStartFind = true;
+		}
+		else
+		{
+			isStartFind = false;
+		}
+
+		if ( isStartFind )
+		{
+			aStar.FindRouteOnce();
 		}
 	}
 
@@ -169,7 +180,8 @@ private:
 
 	Vec2<int> mousePos;
 	Vec2<int> sceneTopLeft;
-	bool isSpacebar = false;
+	bool isStartFind = false;
 
 	AStar aStar;
+	float time = 0.0f;
 };

@@ -184,7 +184,7 @@ public:
 	}
 
 
-	void FindRouteOnce()
+	bool FindRouteOnce()
 	{
 		if ( isSrcSet && isDestSet )
 		{
@@ -196,36 +196,11 @@ public:
 				startNode.fVal = startNode.hVal;
 				startNode.state = Node::NodeState::Opened;
 
-				//curPos = opendPosList[0];
-				//curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
-
 				isInited = true;
 			}
 
 			curPos = opendPosList[0];
 			curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
-
-			//auto it = std::find_if( opendPosList.begin() + 1, opendPosList.end(),
-			//	[&]( const Vec2<int>& pos )
-			//	{
-			//		const auto& itNode = nodes[GetIndexFromVec2( pos )];
-			//		if ( itNode.fVal <= curNode.fVal && itNode.hVal <= curNode.hVal )
-			//		{
-			//			curNode = itNode;
-			//			return true;
-			//		}
-			//		return false;
-			//	}
-			//);
-			//if ( it != opendPosList.end() )
-			//{
-			//	curPos = *it;
-			//	UtilSH::remove_element( opendPosList, std::distance( opendPosList.begin(), it ) );
-			//}
-			//else
-			//{
-			//	UtilSH::remove_element( opendPosList, 0 );
-			//}
 
 			int idx = 0;
 			for ( int i = 0; i < (int)opendPosList.size() - 1; i++ )
@@ -257,8 +232,7 @@ public:
 				route.push_back( srcPos );
 				std::reverse( route.begin(), route.end() );
 
-
-				return;
+				return true;
 			}
 
 			// Do perpendicular
@@ -269,7 +243,9 @@ public:
 			{
 				FindRouteAtDirs( curPos, diagonalDirs );
 			}
+			return false;
 		}
+		return true;
 	}
 
 	auto Size() const
@@ -386,11 +362,11 @@ private:
 				}
 				else
 				{
-					maxVal = distVecX;
-					minVal = distVecY;
+					maxVal = distVecY;
+					minVal = distVecX;
 				}
 				
-				heuristic = ((maxVal - minVal) * perpendicularWeight) + (minVal * diagonalWeight);
+				heuristic = (std::abs(maxVal - minVal) * perpendicularWeight) + (minVal * diagonalWeight);
 
 
 			}

@@ -10,7 +10,8 @@ AStarScene::AStarScene()
 void AStarScene::Update( float dt, Game& game )
 {
 	UpdateSceneRect( game );
-	map.Update( game.GetMousePos(), sceneTopLeft );
+
+	map.Update( game.GetMousePos(), sceneTopLeft, dt );
 
 	if ( game.IsLeftClicked() )
 	{
