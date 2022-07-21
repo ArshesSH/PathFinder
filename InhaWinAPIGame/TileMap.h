@@ -9,9 +9,6 @@
 class TileMap
 {
 public:
-
-
-public:
 	TileMap( int tileSize, int tileRow, int tileCol )
 		:
 		tileSize(tileSize),
@@ -40,24 +37,21 @@ public:
 		
 		if ( GetAsyncKeyState( VK_SPACE ) )
 		{
-			aStar.FindRouteOnce();
 			isFindStart = true;
 		}
+		if ( isFindStart )
+		{
+			time += dt;
 
-
-		//if ( isFindStart )
-		//{
-		//	time += dt;
-
-		//	if ( time >= searchDrawDelay )
-		//	{
-		//		if ( aStar.FindRouteOnce() )
-		//		{
-		//			isFindStart = false;
-		//		}
-		//		time = 0.0f;
-		//	}
-		//}
+			if ( time >= searchDrawDelay )
+			{
+				if ( aStar.FindPathOnce() )
+				{
+					isFindStart = false;
+				}
+				time = 0.0f;
+			}
+		}
 	}
 
 	void Draw( Gdiplus::Graphics& gfx )
@@ -121,10 +115,6 @@ public:
 		const auto pos = FindTileFromPos();
 		const std::wstring posStr = L"Coord : (" + std::to_wstring(pos.x) + L"," + std::to_wstring(pos.y) + L")";
 		Surface::DrawString( gfx, posStr, { 0,0 }, White );
-
-		const auto closedParentVec = aStar.CurClosedParentPos();
-		const std::wstring closedStr = L"closedParent : (" + std::to_wstring( closedParentVec.x ) + L"," + std::to_wstring( closedParentVec.y ) + L")";
-		Surface::DrawString( gfx, closedStr, { 0,20 }, White );
 	}
 
 	void SetSrcPos()
@@ -183,7 +173,6 @@ private:
 	
 private:
 	static constexpr float searchDrawDelay = 0.001f;
-
 	const int tileSize;
 	const int tileRow;
 	const int tileCol;
