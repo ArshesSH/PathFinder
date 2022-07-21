@@ -28,20 +28,34 @@ public:
 		mousePos = mousePos_in;
 		sceneTopLeft = sceneTopLeft_in;
 
-		time += dt;
-
+		if ( GetAsyncKeyState( VK_RETURN ) )
+		{
+			aStar.ResetNodes();
+		}
+		
+		if ( GetAsyncKeyState( VK_LSHIFT ) )
+		{
+			aStar.ResetExceptObstacles();
+		}
+		
 		if ( GetAsyncKeyState( VK_SPACE ) )
 		{
 			isStartFind = true;
 		}
-		else
-		{
-			isStartFind = false;
-		}
+
 
 		if ( isStartFind )
 		{
-			aStar.FindRouteOnce();
+			time += dt;
+
+			if ( time >= searchDrawDelay )
+			{
+				if ( aStar.FindRouteOnce() )
+				{
+					isStartFind = false;
+				}
+				time = 0.0f;
+			}
 		}
 	}
 
@@ -81,12 +95,12 @@ public:
 				break;
 			case AStar::Node::NodeState::Dest:
 				{
-					c = Magenta;
+					c = Purple;
 				}
 				break;
 			case AStar::Node::NodeState::Route:
 				{
-					c = Pink;
+					c = LightPink;
 				}
 				break;
 			}
@@ -104,7 +118,7 @@ public:
 		// Debug Things
 		const auto pos = FindTileFromPos();
 		const std::wstring posStr = L"Coord : (" + std::to_wstring(pos.x) + L"," + std::to_wstring(pos.y) + L")";
-		Surface::DrawString( gfx, posStr, { 0,0 }, Magenta );
+		Surface::DrawString( gfx, posStr, { 0,0 }, White );
 
 
 	}
@@ -164,6 +178,8 @@ private:
 	}
 	
 private:
+	static constexpr float searchDrawDelay = 0.1f;
+
 	const int tileSize;
 	const int tileRow;
 	const int tileCol;
@@ -174,9 +190,10 @@ private:
 	const Gdiplus::Color Red = { 255,255,0,0 };
 	const Gdiplus::Color Green = { 255,0,255,0 };
 	const Gdiplus::Color Blue = { 255,0,0,255 };
-	const Gdiplus::Color Gray = { 255,144,144,144 };
+	const Gdiplus::Color Gray = { 255,125,125,125 };
 	const Gdiplus::Color Magenta = { 255,255,0,255 };
-	const Gdiplus::Color Pink = { 255,255,96,148 };
+	const Gdiplus::Color Purple = { 255,230,50,230 };
+	const Gdiplus::Color LightPink = { 255,255,144,255 };
 
 	Vec2<int> mousePos;
 	Vec2<int> sceneTopLeft;

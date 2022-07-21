@@ -13,7 +13,7 @@ public:
 
 private:
 	static constexpr int tileSize = 50;
-	static constexpr int tileRow = 10;
-	static constexpr int tileCol = 8;
+	static constexpr int tileRow = 14;
+	static constexpr int tileCol = 14;
 	TileMap map;
 };

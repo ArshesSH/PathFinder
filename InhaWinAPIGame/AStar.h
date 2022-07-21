@@ -23,7 +23,15 @@ public:
 			Dest,
 			Route
 		};
-
+	public:
+		void ResetNode()
+		{
+			state = NodeState::Empty;
+			parentIdx = { -1, -1 };
+			gVal = 0;
+			hVal = 0;
+			fVal = 0;
+		}
 	public:
 		NodeState state = NodeState::Empty;
 		Vec2<int> parentIdx = {-1, -1};
@@ -68,7 +76,6 @@ public:
 			nodes[idx].state = Node::NodeState::Source;
 			isSrcSet = true;
 		}
-
 	}
 	void SetDestPos( const Vec2<int>& destPos_in )
 	{
@@ -105,18 +112,37 @@ public:
 	}
 	void SetToEmpty( const Vec2<int>& pos )
 	{
-		nodes[GetIndexFromVec2( pos )].state = Node::NodeState::Empty;
+		nodes[GetIndexFromVec2( pos )].ResetNode();
 	}
 	void ResetNodes()
 	{
-		for ( auto n : nodes )
+		for ( auto& n : nodes )
 		{
-			n.state = Node::NodeState::Empty;
+			n.ResetNode();
 		}
+		opendPosList.clear();
+		closedPosList.clear();
 		isSrcSet = false;
 		isDestSet = false;
+		isInited = false;
 	}
-	
+
+	void ResetExceptObstacles()
+	{
+		for ( auto& n : nodes )
+		{
+			if ( n.state != Node::NodeState::Obstacle )
+			{
+				n.ResetNode();
+			}
+		}
+		opendPosList.clear();
+		closedPosList.clear();
+		isSrcSet = false;
+		isDestSet = false;
+		isInited = false;
+	}
+
 	std::vector<Vec2<int>> FindRoute()
 	{
 		if ( isSrcSet && isDestSet )
@@ -271,16 +297,36 @@ private:
 			const Vec2<int> nextPos = curPos + dir;
 			if ( CanMove( nextPos, dir ) )
 			{
-				Node nextNode = CalcValAtNode( curPos, dir, nextPos );
+				Node newNode = CalcValAtNode( curPos, dir, nextPos );
 				const auto& curNode = nodes[GetIndexFromVec2( curPos )];
 				const int dist = curNode.gVal + GetDirWeight( dir );
 				const auto it = std::find( opendPosList.cbegin(), opendPosList.cend(), nextPos );
+				const auto nextIdx = GetIndexFromVec2( nextPos );
 
-				if( dist < nextNode.gVal || it == opendPosList.cend() )
+				if ( dist < nodes[nextIdx].gVal )
 				{
-					nodes[GetIndexFromVec2( nextPos )] = nextNode;
+					nodes[nextIdx] = newNode;
+					if ( it != opendPosList.cend() )
+					{
+						opendPosList[it - opendPosList.begin()] = nextPos;
+					}
+					else
+					{
+						opendPosList.push_back( nextPos );
+					}
+				}
+				else if ( it == opendPosList.cend() )
+				{
+					nodes[nextIdx] = newNode;
 					opendPosList.push_back( nextPos );
 				}
+
+
+				//if( dist < nodes[nextIdx].gVal || it == opendPosList.cend() )
+				//{
+				//	nodes[nextIdx] = newNode;
+				//	opendPosList.push_back( nextPos );
+				//}
 			}
 		}
 	}
@@ -315,19 +361,6 @@ private:
 		const int idx = GetIndexFromVec2( pos );
 		bool canMove = IsInside( pos ) &&
 			!(nodes[idx].state == Node::NodeState::Obstacle ||nodes[idx].state == Node::NodeState::Closed);
-
-		/*switch ( findMode )
-		{
-		case AStar::FindMode::Diagonal:
-			{
-				const Vec2<int> wallX = { pos.x - dir.x, pos.y };
-				const Vec2<int> wallY = { pos.x, pos.y - dir.y };
-
-				canMove |= !(nodes[GetIndexFromVec2( wallX )].state == Node::NodeState::Obstacle ||
-					nodes[GetIndexFromVec2( wallY )].state == Node::NodeState::Obstacle);
-			}
-			break;
-		}*/
 		return canMove;
 	}
 
