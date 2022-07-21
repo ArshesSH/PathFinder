@@ -30,9 +30,8 @@ public:
 
 		if ( GetAsyncKeyState( VK_SPACE ) & 0x8001 )
 		{
-			aStar.FindRoute();
+ 			aStar.FindRouteOnce();
 		}
-
 	}
 
 	void Draw( Gdiplus::Graphics& gfx )
@@ -74,6 +73,11 @@ public:
 					c = Magenta;
 				}
 				break;
+			case AStar::Node::NodeState::Route:
+				{
+					c = Pink;
+				}
+				break;
 			}
 			const int xPos = (x * tileSize) + sceneTopLeft.x;
 			const int yPos = (y * tileSize) + sceneTopLeft.y;
@@ -83,10 +87,15 @@ public:
 			DrawInforms( gfx, xPos, yPos, gh.first, gh.second, gh.first + gh.second );
 		}
 
-		// Debug
+		const std::wstring guideStr = L"LButton: Src Pos\nRButton: Dest Pos\nMButton: Obstacle\nSpaceBar: Find Path";
+		Surface::DrawString( gfx, guideStr, { 10,30 }, White );
+
+		// Debug Things
 		const auto pos = FindTileFromPos();
-		const std::wstring posStr = std::to_wstring( pos.x ) + L"," + std::to_wstring( pos.y );
+		const std::wstring posStr = L"Coord : (" + std::to_wstring(pos.x) + L"," + std::to_wstring(pos.y) + L")";
 		Surface::DrawString( gfx, posStr, { 0,0 }, Magenta );
+
+
 	}
 
 	void SetSrcPos()
@@ -156,6 +165,7 @@ private:
 	const Gdiplus::Color Blue = { 255,0,0,255 };
 	const Gdiplus::Color Gray = { 255,144,144,144 };
 	const Gdiplus::Color Magenta = { 255,255,0,255 };
+	const Gdiplus::Color Pink = { 255,255,96,148 };
 
 	Vec2<int> mousePos;
 	Vec2<int> sceneTopLeft;

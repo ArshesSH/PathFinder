@@ -3,8 +3,8 @@
 
 AStarScene::AStarScene()
 	:
-	Scene( worldWidth, worldHeight ),
-	map( tileSize, 20, 16 )
+	map( tileSize, tileRow, tileCol ),
+	Scene( tileRow * tileSize, tileCol * tileSize )
 {}
 
 void AStarScene::Update( float dt, Game& game )

@@ -20,7 +20,8 @@ public:
 			Closed,
 			Obstacle,
 			Source,
-			Dest
+			Dest,
+			Route
 		};
 
 	public:
@@ -124,28 +125,31 @@ public:
 			auto& startNode = nodes[GetIndexFromVec2( srcPos )];
 			startNode.hVal = CalcH( srcPos, destPos );
 			startNode.fVal = startNode.hVal;
+			startNode.state = Node::NodeState::Opened;
 			
 			for ( Vec2<int> curPos = opendPosList[0]; !opendPosList.empty(); )
 			{
-				Node curNode = nodes[GetIndexFromVec2( curPos )];
-				//auto it = std::find_if( opendPosList.begin(), opendPosList.end(),
-				//	[&]( const Vec2<int>& pos )
-				//	{
-				//		const auto& itNode = nodes[GetIndexFromVec2( pos )];
-				//		return itNode.fVal <= curNode.fVal && itNode.hVal <= curNode.hVal;
-				//	}
-				//);
-				//curPos = *it;
-				//UtilSH::remove_element( opendPosList, std::distance( opendPosList.begin(), it ) );
-
-				for ( int i = 1; i < (int)opendPosList.size(); ++i )
-				{
-					const auto& openNode = nodes[GetIndexFromVec2( opendPosList[i] )];
-					if ( openNode.fVal <= curNode.fVal && openNode.hVal <= curNode.hVal )
+				Node curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
+				auto it = std::find_if( opendPosList.begin(), opendPosList.end(),
+					[&]( const Vec2<int>& pos )
 					{
-						curNode = openNode;
-						curPos = opendPosList[i];
+						const auto& itNode = nodes[GetIndexFromVec2( pos )];
+						if ( itNode.fVal <= curNode.fVal && itNode.hVal <= curNode.hVal )
+						{
+							curNode = itNode;
+							return true;
+						}
+						return false;
 					}
+				);
+				if ( it != opendPosList.end() )
+				{
+					curPos = *it;
+					UtilSH::remove_element( opendPosList, std::distance( opendPosList.begin(), it ) );
+				}
+				else
+				{
+					UtilSH::remove_element( opendPosList, 0 );
 				}
 
 				closedPosList.push_back( curPos );
@@ -155,10 +159,13 @@ public:
 				if ( curPos == destPos )
 				{
 					std::vector<Vec2<int>> route;
+					nodes[GetIndexFromVec2( destPos )].state = Node::NodeState::Dest;
 					for ( Vec2<int> curPos = destPos; curPos != srcPos; curPos = nodes[GetIndexFromVec2(curPos)].parentIdx )
 					{
 						route.push_back(curPos);
+						nodes[GetIndexFromVec2( curPos )].state = Node::NodeState::Route;
 					}
+					nodes[GetIndexFromVec2( srcPos )].state = Node::NodeState::Source;
 					route.push_back( srcPos );
 					std::reverse( route.begin(), route.end() );
 					return route;
@@ -172,6 +179,95 @@ public:
 				{
 					FindRouteAtDirs( curPos, diagonalDirs );
 				}
+			}
+		}
+	}
+
+
+	void FindRouteOnce()
+	{
+		if ( isSrcSet && isDestSet )
+		{
+			if ( isInited == false )
+			{
+				opendPosList.push_back( srcPos );
+				auto& startNode = nodes[GetIndexFromVec2( srcPos )];
+				startNode.hVal = CalcH( srcPos, destPos );
+				startNode.fVal = startNode.hVal;
+				startNode.state = Node::NodeState::Opened;
+
+				//curPos = opendPosList[0];
+				//curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
+
+				isInited = true;
+			}
+
+			curPos = opendPosList[0];
+			curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
+
+			//auto it = std::find_if( opendPosList.begin() + 1, opendPosList.end(),
+			//	[&]( const Vec2<int>& pos )
+			//	{
+			//		const auto& itNode = nodes[GetIndexFromVec2( pos )];
+			//		if ( itNode.fVal <= curNode.fVal && itNode.hVal <= curNode.hVal )
+			//		{
+			//			curNode = itNode;
+			//			return true;
+			//		}
+			//		return false;
+			//	}
+			//);
+			//if ( it != opendPosList.end() )
+			//{
+			//	curPos = *it;
+			//	UtilSH::remove_element( opendPosList, std::distance( opendPosList.begin(), it ) );
+			//}
+			//else
+			//{
+			//	UtilSH::remove_element( opendPosList, 0 );
+			//}
+
+			int idx = 0;
+			for ( int i = 0; i < (int)opendPosList.size() - 1; i++ )
+			{
+				const auto& curOpenNode = nodes[GetIndexFromVec2( opendPosList[i] )];
+				if ( curOpenNode.fVal <= curNode.fVal && curOpenNode.hVal <= curNode.hVal )
+				{
+					curNode = curOpenNode;
+					curPos = opendPosList[i];
+					idx = i;
+				}
+			}
+			UtilSH::remove_element( opendPosList, idx );
+
+			closedPosList.push_back( curPos );
+			nodes[GetIndexFromVec2( curPos )].state = Node::NodeState::Closed;
+
+			// Finsh
+			if ( curPos == destPos )
+			{
+				std::vector<Vec2<int>> route;
+				for ( Vec2<int> curPos = destPos; curPos != srcPos; curPos = nodes[GetIndexFromVec2( curPos )].parentIdx )
+				{
+					route.push_back( curPos );
+					nodes[GetIndexFromVec2( curPos )].state = Node::NodeState::Route;
+				}
+				nodes[GetIndexFromVec2( destPos )].state = Node::NodeState::Dest;
+				nodes[GetIndexFromVec2( srcPos )].state = Node::NodeState::Source;
+				route.push_back( srcPos );
+				std::reverse( route.begin(), route.end() );
+
+
+				return;
+			}
+
+			// Do perpendicular
+			FindRouteAtDirs( curPos, perpendicularDirs );
+
+			// Do Diagnoal
+			if ( findMode == FindMode::Diagonal )
+			{
+				FindRouteAtDirs( curPos, diagonalDirs );
 			}
 		}
 	}
@@ -267,17 +363,36 @@ private:
 	int CalcH( const Vec2<int>& pos, const Vec2<int>& dest ) const
 	{
 		int heuristic = -1;
-		auto destVec = (dest - pos) * perpendicularWeight;
+		auto distVec = (dest - pos);
+		
 		switch ( findMode )
 		{
 		case AStar::FindMode::Perpendicular:
 			{
-				heuristic = std::abs( destVec.x ) + std::abs( destVec.y );
+				heuristic = (std::abs( distVec.x ) + std::abs( distVec.y )) * perpendicularWeight;
 			}
 			break;
 		case AStar::FindMode::Diagonal:
 			{
-				heuristic = destVec.GetLength();
+				const int distVecX = std::abs( distVec.x );
+				const int distVecY = std::abs( distVec.y );
+
+				int maxVal;
+				int minVal;
+				if ( distVecX > distVecY )
+				{
+					maxVal = distVecX;
+					minVal = distVecY;
+				}
+				else
+				{
+					maxVal = distVecX;
+					minVal = distVecY;
+				}
+				
+				heuristic = ((maxVal - minVal) * perpendicularWeight) + (minVal * diagonalWeight);
+
+
 			}
 			break;
 		}
@@ -292,6 +407,7 @@ private:
 	int GetDirWeight( const Vec2<int>& dir ) const
 	{
 		return IsPerpendicular( dir ) ? perpendicularWeight : diagonalWeight;
+		//return (int)(Vec2<float>( dir ).GetLength() * perpendicularWeight);
 	}
 
 private:
@@ -325,4 +441,9 @@ private:
 	std::vector<Node> nodes;
 	std::vector<Vec2<int>> opendPosList;
 	std::vector<Vec2<int>> closedPosList;
+
+
+	bool isInited = false;
+	Vec2<int> curPos;
+	Node curNode;
 };
