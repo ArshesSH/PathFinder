@@ -40,23 +40,24 @@ public:
 		
 		if ( GetAsyncKeyState( VK_SPACE ) )
 		{
-			isStartFind = true;
+			aStar.FindRouteOnce();
+			isFindStart = true;
 		}
 
 
-		if ( isStartFind )
-		{
-			time += dt;
+		//if ( isFindStart )
+		//{
+		//	time += dt;
 
-			if ( time >= searchDrawDelay )
-			{
-				if ( aStar.FindRouteOnce() )
-				{
-					isStartFind = false;
-				}
-				time = 0.0f;
-			}
-		}
+		//	if ( time >= searchDrawDelay )
+		//	{
+		//		if ( aStar.FindRouteOnce() )
+		//		{
+		//			isFindStart = false;
+		//		}
+		//		time = 0.0f;
+		//	}
+		//}
 	}
 
 	void Draw( Gdiplus::Graphics& gfx )
@@ -112,15 +113,18 @@ public:
 			DrawInforms( gfx, xPos, yPos, gh.first, gh.second, gh.first + gh.second );
 		}
 
-		const std::wstring guideStr = L"LButton: Src Pos\nRButton: Dest Pos\nMButton: Obstacle\nSpaceBar: Find Path";
-		Surface::DrawString( gfx, guideStr, { 10,30 }, White );
+		const std::wstring guideStr =
+			L"LButton: Src Pos\nRButton: Dest Pos\nMButton: Obstacle\nSpaceBar: Find Path\nEnter: Remove All\nShift: Remove Except Obstacles\nSetting Src or Dest can remove Obstacles";
+		Surface::DrawString( gfx, guideStr, { 10,40 }, White, 15 );
 
 		// Debug Things
 		const auto pos = FindTileFromPos();
 		const std::wstring posStr = L"Coord : (" + std::to_wstring(pos.x) + L"," + std::to_wstring(pos.y) + L")";
 		Surface::DrawString( gfx, posStr, { 0,0 }, White );
 
-
+		const auto closedParentVec = aStar.CurClosedParentPos();
+		const std::wstring closedStr = L"closedParent : (" + std::to_wstring( closedParentVec.x ) + L"," + std::to_wstring( closedParentVec.y ) + L")";
+		Surface::DrawString( gfx, closedStr, { 0,20 }, White );
 	}
 
 	void SetSrcPos()
@@ -178,7 +182,7 @@ private:
 	}
 	
 private:
-	static constexpr float searchDrawDelay = 0.1f;
+	static constexpr float searchDrawDelay = 0.001f;
 
 	const int tileSize;
 	const int tileRow;
@@ -197,7 +201,7 @@ private:
 
 	Vec2<int> mousePos;
 	Vec2<int> sceneTopLeft;
-	bool isStartFind = false;
+	bool isFindStart = false;
 
 	AStar aStar;
 	float time = 0.0f;

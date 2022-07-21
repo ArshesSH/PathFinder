@@ -62,12 +62,12 @@ public:
 		srcPos = srcPos_in;
 
 		const auto idx = GetIndexFromVec2( srcPos );
-		if ( nodes[idx].state == Node::NodeState::Source )
+		/*if ( nodes[idx].state == Node::NodeState::Source )
 		{
 			SetToEmpty( srcPos );
 			isSrcSet = false;
 		}
-		else
+		else*/
 		{
 			if ( IsInside( lastPos ) )
 			{
@@ -83,12 +83,12 @@ public:
 		destPos = destPos_in;
 
 		const auto idx = GetIndexFromVec2( destPos );
-		if ( nodes[idx].state == Node::NodeState::Dest )
-		{
-			SetToEmpty( destPos );
-			isDestSet = false;
-		}
-		else
+		//if ( nodes[idx].state == Node::NodeState::Dest )
+		//{
+		//	SetToEmpty( destPos );
+		//	isDestSet = false;
+		//}
+		//else
 		{
 			if ( IsInside( lastPos ) )
 			{
@@ -101,15 +101,11 @@ public:
 	void SetObstaclePos(const Vec2<int>& pos)
 	{
 		const auto idx = GetIndexFromVec2( pos );
-		if ( nodes[idx].state == Node::NodeState::Obstacle )
-		{
-			SetToEmpty( pos );
-		}
-		else
 		{
 			nodes[idx].state = Node::NodeState::Obstacle;
 		}
 	}
+
 	void SetToEmpty( const Vec2<int>& pos )
 	{
 		nodes[GetIndexFromVec2( pos )].ResetNode();
@@ -132,6 +128,22 @@ public:
 		for ( auto& n : nodes )
 		{
 			if ( n.state != Node::NodeState::Obstacle )
+			{
+				n.ResetNode();
+			}
+		}
+		opendPosList.clear();
+		closedPosList.clear();
+		isSrcSet = false;
+		isDestSet = false;
+		isInited = false;
+	}
+
+	void ResetExceptObstacleAndPos()
+	{
+		for ( auto& n : nodes )
+		{
+			if ( n.state != Node::NodeState::Obstacle && n.state != Node::NodeState::Source && n.state != Node::NodeState::Dest )
 			{
 				n.ResetNode();
 			}
@@ -209,7 +221,6 @@ public:
 		}
 	}
 
-
 	bool FindRouteOnce()
 	{
 		if ( isSrcSet && isDestSet )
@@ -224,7 +235,6 @@ public:
 
 				isInited = true;
 			}
-
 			curPos = opendPosList[0];
 			curNode = nodes[GetIndexFromVec2( opendPosList[0] )];
 
@@ -289,6 +299,12 @@ public:
 		return { node.gVal, node.hVal };
 	}
 
+
+	Vec2<int> CurClosedParentPos() const
+	{
+		return *(closedPosList.begin() + closedPosList.size() - 1);
+	}
+
 private:
 	inline void FindRouteAtDirs( const Vec2<int>& curPos, const std::vector<Vec2<int>>& dirs )
 	{
@@ -320,13 +336,6 @@ private:
 					nodes[nextIdx] = newNode;
 					opendPosList.push_back( nextPos );
 				}
-
-
-				//if( dist < nodes[nextIdx].gVal || it == opendPosList.cend() )
-				//{
-				//	nodes[nextIdx] = newNode;
-				//	opendPosList.push_back( nextPos );
-				//}
 			}
 		}
 	}
