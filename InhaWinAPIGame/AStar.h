@@ -162,7 +162,7 @@ public:
 
 		const auto idx = GetIndexFromVec2( srcPos );
 		{
-			if ( IsInside( lastPos ) )
+			if ( IsInside( lastPos ))
 			{
 				SetToEmpty( lastPos );
 			}
@@ -240,6 +240,19 @@ public:
 		isSrcSet = false;
 		isDestSet = false;
 		isInited = false;
+	}
+
+	bool CanTracking() const
+	{
+		return isSrcSet && isDestSet;
+	}
+	bool IsSrcSet() const
+	{
+		return isSrcSet;
+	}
+	auto GetSrcPos() const
+	{
+		return srcPos;
 	}
 
 	//std::vector<Vec2<int>> FindPath()
@@ -344,7 +357,9 @@ public:
 				nodes[GetIndexFromVec2( srcPos )].SetStateSource();
 				nodes[GetIndexFromVec2( destPos )].SetStateDest();
 				route.push_back( srcPos );
-				std::reverse( route.begin(), route.end() );
+				//std::reverse( route.begin(), route.end() );
+				isSrcSet = false;
+				isSrcSet = false;
 				return true;
 			}
 
@@ -362,7 +377,6 @@ public:
 	{
 		return route;
 	}
-
 	auto Size() const
 	{
 		return nodes.size();
@@ -371,13 +385,11 @@ public:
 	{
 		return nodes[i].GetState();
 	}
-
 	std::pair<int, int> GetGH( int i )
 	{
 		const auto& node = nodes[i];
 		return { node.GetG(), node.GetG() };
 	}
-
 	Vec2<int> CurClosedParentPos() const
 	{
 		return *(closedPosList.begin() + closedPosList.size() - 1);
@@ -490,8 +502,6 @@ private:
 				}
 				
 				heuristic = (std::abs(maxVal - minVal) * perpendicularWeight) + (minVal * diagonalWeight);
-
-
 			}
 			break;
 		}

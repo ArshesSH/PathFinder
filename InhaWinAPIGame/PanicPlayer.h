@@ -23,6 +23,28 @@ public:
 	void Draw( Gdiplus::Graphics& gfx ) override;
 	void ControlPlayer( float dt, PlayerArea& area );
 
+	auto GetPos() const
+	{
+		return collisionRect.GetCenter();
+	}
+
+	void SetPos( const Vec2<int>& pos )
+	{
+		collisionRect.SetCenter( pos );
+	}
+	void Move( float dt, const Vec2<int> targetPos )
+	{
+		moveTime += dt;
+
+		if ( moveTime >= movePeriod )
+		{
+			moveTime = 0.0f;
+			const Vec2<int> curPos = collisionRect.GetCenter();
+			const Vec2<int> nextPos = targetPos;
+			collisionRect.SetCenter( nextPos );
+		}
+	}
+
 private:
 	void MoveObjectToRelativeCoord( const Vec2<int> amount );
 	void MovePos( float dt, const Vec2<int>& dir, PlayerArea& area );

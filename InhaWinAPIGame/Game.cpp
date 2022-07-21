@@ -68,7 +68,6 @@ void Game::UpdateModel()
 		{
 			float dt = ft.Mark();
 			RefreshScreen();
-			//testTriangulationScene.Update(dt, *this);
 		}
 		break;
 	case Game::SceneType::SceneResult:

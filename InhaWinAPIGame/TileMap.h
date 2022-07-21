@@ -35,23 +35,45 @@ public:
 			aStar.ResetExceptObstacles();
 		}
 		
-		if ( GetAsyncKeyState( VK_SPACE ) )
-		{
-			isFindStart = true;
-		}
-		if ( isFindStart )
-		{
-			time += dt;
+		//if ( GetAsyncKeyState( VK_SPACE ) )
+		//{
+		//	if ( aStar.CanTracking() )
+		//	{
+		//		isFindStart = true;
+		//	}
+		//}
 
-			if ( time >= searchDrawDelay )
-			{
-				if ( aStar.FindPathOnce() )
-				{
-					isFindStart = false;
-				}
-				time = 0.0f;
-			}
-		}
+		//if ( isFindStart )
+		//{
+		//	time += dt;
+
+		//	if ( time >= searchDrawDelay )
+		//	{
+		//		if ( aStar.FindPathOnce() )
+		//		{
+		//			path = aStar.GetRoute();
+		//			isFindStart = false;
+		//		}
+		//		time = 0.0f;
+		//	}
+		//}
+	}
+
+	bool FindPathOnce()
+	{
+		return aStar.FindPathOnce();
+	}
+	bool CanTracking() const
+	{
+		return aStar.CanTracking();
+	}
+	void SetFindStart()
+	{
+		isFindStart = true;
+	}
+	auto GetRoute()
+	{
+		return aStar.GetRoute();
 	}
 
 	void Draw( Gdiplus::Graphics& gfx )
@@ -142,6 +164,19 @@ public:
 		}
 	}
 
+	auto GetRawPath() const
+	{
+		return path;
+	}
+	bool IsSrcSet() const
+	{
+		return aStar.IsSrcSet();
+	}
+	auto GetSrcTilePos() const
+	{
+		return GridToTile( aStar.GetSrcPos() );
+	}
+
 private:
 	void DrawRect( Gdiplus::Graphics& gfx, int x, int y, Gdiplus::Color innerColor )
 	{
@@ -171,6 +206,11 @@ private:
 		return pos.x >= 0 && pos.x < width&& pos.y >= 0 && pos.y < height;
 	}
 	
+	Vec2<int> GridToTile( const Vec2<int>& pos ) const
+	{
+		return pos * tileSize;
+	}
+
 private:
 	static constexpr float searchDrawDelay = 0.001f;
 	const int tileSize;
@@ -193,5 +233,8 @@ private:
 	bool isFindStart = false;
 
 	AStar aStar;
+	std::vector<Vec2<int>> path;
 	float time = 0.0f;
+
+	bool isFindEnd = false;
 };
