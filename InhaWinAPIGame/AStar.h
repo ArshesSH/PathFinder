@@ -197,6 +197,7 @@ public:
 	{
 		nodes[GetIndexFromVec2( pos )].ResetNode();
 	}
+
 	void ResetNodes()
 	{
 		for ( auto& n : nodes )
@@ -255,63 +256,6 @@ public:
 		return srcPos;
 	}
 
-	//std::vector<Vec2<int>> FindPath()
-	//{
-	//	// Initilize First
-	//	openedPosList.push_back( srcPos );
-	//	const int srcIdx = GetIndexFromVec2( srcPos );
-	//	nodes[srcIdx].SetStateOpened();
-	//	nodes[srcIdx].SetH( CalcH( srcPos, destPos ) );
-
-	//	// Start Find Path
-	//	for ( ; !openedPosList.empty(); )
-	//	{
-	//		auto curPos = openedPosList[0];
-	//		
-
-	//		int opendIdx = 0;
-	//		auto curIdx = GetIndexFromVec2( curPos );
-	//		for ( int i = 1; i < openedPosList.size(); ++i )
-	//		{
-	//			const auto& node = nodes[GetIndexFromVec2( openedPosList[i] )];
-	//			if ( node.GetF() < nodes[curIdx].GetF() ||
-	//				(node.GetF() == nodes[curIdx].GetF() &&
-	//					node.GetH() < nodes[curIdx].GetH()) )
-	//			{
-	//				curPos = openedPosList[i];
-	//				opendIdx = i;
-	//			}
-	//		}
-	//		curIdx = GetIndexFromVec2( curPos );
-	//		UtilSH::remove_element( openedPosList, opendIdx );
-	//		
-	//		AddToClosedList( curPos, curIdx );
-
-	//		if ( curPos == destPos )
-	//		{
-	//			std::vector<Vec2<int>> route;
-
-	//			nodes[GetIndexFromVec2( destPos )].SetStateDest();
-	//			for ( Vec2<int> curPos = destPos; curPos != srcPos; curPos = nodes[GetIndexFromVec2( curPos )].GetParentIdx() )
-	//			{
-	//				route.push_back( curPos );
-	//				nodes[GetIndexFromVec2( curPos )].SetStateRoute();
-	//			}
-	//			nodes[GetIndexFromVec2( srcPos )].SetStateSource();
-	//			route.push_back( srcPos );
-	//			std::reverse( route.begin(), route.end() );
-	//			return route;
-	//		}
-
-	//		FindPathAtDirs( curPos, perpendicularDirs );
-
-	//		if ( findMode == FindMode::Diagonal )
-	//		{
-	//			FindPathAtDirs( curPos, diagonalDirs );
-	//		}
-	//	}
-	//}
-
 	bool FindPathOnce()
 	{
 		if ( !isInited )
@@ -339,6 +283,7 @@ public:
 						node.GetH() < nodes[curIdx].GetH()) )
 				{
 					curPos = openedPosList[i];
+					curIdx = GetIndexFromVec2( curPos );
 					opendIdx = i;
 				}
 			}
@@ -349,6 +294,7 @@ public:
 
 			if ( curPos == destPos )
 			{
+				route.clear();
 				for ( Vec2<int> curPos = destPos; curPos != srcPos; curPos = nodes[GetIndexFromVec2( curPos )].GetParentIdx() )
 				{
 					route.push_back( curPos );
@@ -357,7 +303,8 @@ public:
 				nodes[GetIndexFromVec2( srcPos )].SetStateSource();
 				nodes[GetIndexFromVec2( destPos )].SetStateDest();
 				route.push_back( srcPos );
-				//std::reverse( route.begin(), route.end() );
+				openedPosList.clear();
+				closedPosList.clear();
 				isSrcSet = false;
 				isSrcSet = false;
 				return true;

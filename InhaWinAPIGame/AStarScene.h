@@ -40,6 +40,7 @@ private:
 	TileMap map;
 
 	static constexpr int playerSize = 40;
+	static constexpr int halfPlayerSize = playerSize / 2;
 	PanicPlayer player;
 	std::vector<Vec2<int>> route;
 	bool isFindStart = false;
