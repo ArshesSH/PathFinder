@@ -13,23 +13,9 @@ public:
 	void Draw( HDC hdc ) override;
 
 
-	int GetHalfTileSize() const
-	{
-		return halfTileSize;
-	}
+	int GetHalfTileSize() const;
 
-	void MovePlayer(float dt)
-	{
-		const auto& tilePos = route.back() * tileSize;
-		if ( player.GetPos() == tilePos )
-		{
-			route.pop_back();
-		}
-		else
-		{
-			player.Move( dt, tilePos );
-		}
-	}
+	void MovePlayer( float dt );
 
 private:
 	static constexpr int tileSize = 50;

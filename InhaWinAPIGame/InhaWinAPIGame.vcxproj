@@ -186,6 +186,7 @@
     <ClInclude Include="DrawManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarScene.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DynamicActor.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneStage.cpp" />
     <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="InhaWinAPIGame.rc" />

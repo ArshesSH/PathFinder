@@ -69,3 +69,21 @@ void AStarScene::Draw( HDC hdc )
 		player.Draw( graphics );
 	}
 }
+
+int AStarScene::GetHalfTileSize() const
+{
+	return halfTileSize;
+}
+
+void AStarScene::MovePlayer( float dt )
+{
+	const auto& tilePos = route.back() * tileSize;
+	if ( player.GetPos() == tilePos )
+	{
+		route.pop_back();
+	}
+	else
+	{
+		player.Move( dt, tilePos );
+	}
+}
